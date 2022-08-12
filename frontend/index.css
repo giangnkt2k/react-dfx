@@ -22,7 +22,9 @@ button {
 }
 
 .App-logo {
-    height: 14vmin;
+    margin-top: 5px;
+    margin-bottom: 5px;
+    height: 55px;
     pointer-events: none;
     transform: scale(1);
     animation: pulse 3s infinite;

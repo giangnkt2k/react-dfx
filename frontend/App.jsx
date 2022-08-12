@@ -17,36 +17,11 @@ import * as counter from "../.dfx/local/canisters/counter"
 import { Counter } from "./components/Counter"
 import { Transfer } from "./components/Transfer"
 import { Profile } from "./components/Profile"
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
+import ResponsiveAppBar from "./components/layouts/navBar"
 function App() {
 
   return (
     <div className="App">
-
-      <div className="auth-section">
-        <ConnectButton />
-      </div>
-      <ConnectDialog />
-
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p className="slogan">
-          React Template
-        </p>
-        <p className="twitter">by <a href="https://twitter.com/miamaruq">@miamaruq</a></p>
-      </header>
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-      <p className="examples-title">
-        Examples
-      </p>
-      <div className="examples">
-        <Counter />
-        <Profile />
-        <Transfer />
-      </div>
 
     </div>
   )
@@ -68,6 +43,8 @@ const client = createClient({
 
 export default () => (
   <Connect2ICProvider client={client}>
-    <App />
+    <ResponsiveAppBar>
+      <App />
+    </ResponsiveAppBar>
   </Connect2ICProvider>
 )

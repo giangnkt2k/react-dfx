@@ -1,55 +1,66 @@
-import React from "react"
-import logo from "./assets/dfinity.svg"
+import React from "react";
 /*
  * Connect2ic provides essential utilities for IC app development
  */
-import { createClient } from "@connect2ic/core"
-import { defaultProviders } from "@connect2ic/core/providers"
-import { ConnectButton, ConnectDialog, Connect2ICProvider } from "@connect2ic/react"
-import "@connect2ic/core/style.css"
+import { createClient } from "@connect2ic/core";
+import { defaultProviders } from "@connect2ic/core/providers";
+import "@connect2ic/core/style.css";
+import { Connect2ICProvider } from "@connect2ic/react";
 /*
  * Import canister definitions like this:
  */
-import * as counter from "../.dfx/local/canisters/counter"
+import * as counter from "../.dfx/local/canisters/counter";
+import { useEffect } from "react";
+
+// react-router components
+import { Routes, Route, Navigate, useLocation } from "react-router-dom";
+
+// @mui material components
+import { ThemeProvider } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+// Material Kit 2 React themes
+import theme from "assets/theme";
+import Presentation from "layouts/pages/presentation";
+
+// Material Kit 2 React routes
+import routes from "routes";
 /*
  * Some examples to get you started
  */
-import { Counter } from "./components/Counter"
-import { Transfer } from "./components/Transfer"
-import { Profile } from "./components/Profile"
-import Button from '@mui/material/Button';
-import Stack from '@mui/material/Stack';
 function App() {
 
+  // const { pathname } = useLocation();
+  // // Setting page scroll to 0 when changing the route
+  // useEffect(() => {
+  //   document.documentElement.scrollTop = 0;
+  //   document.scrollingElement.scrollTop = 0;
+  // }, [pathname]);
+
+  // const getRoutes = (allRoutes) =>
+  //   allRoutes.map((route) => {
+  //     if (route.collapse) {
+  //       return getRoutes(route.collapse);
+  //     }
+
+  //     if (route.route) {
+  //       return <Route exact path={route.route} element={route.component} key={route.key} />;
+  //     }
+
+  //     return null;
+  //   });
+
   return (
-    <div className="App">
-
-      <div className="auth-section">
-        <ConnectButton />
-      </div>
-      <ConnectDialog />
-
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p className="slogan">
-          React Template
-        </p>
-        <p className="twitter">by <a href="https://twitter.com/miamaruq">@miamaruq</a></p>
-      </header>
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-      <p className="examples-title">
-        Examples
-      </p>
-      <div className="examples">
-        <Counter />
-        <Profile />
-        <Transfer />
-      </div>
-
-    </div>
-  )
+    // <ThemeProvider theme={theme}>
+    //   <CssBaseline />
+    //   <Routes>
+    //     {getRoutes(routes)}
+    //     <Route path="/presentation" element={<Presentation />} />
+    //     <Route path="*" element={<Navigate to="/presentation" />} />
+    //   </Routes>
+    // </ThemeProvider>
+    <></>
+  );
 }
 
 const client = createClient({

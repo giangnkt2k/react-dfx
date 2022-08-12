@@ -1,3 +1,4 @@
+import React from 'react';
 const featuresOneCode = `// @mui material components
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";

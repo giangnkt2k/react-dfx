@@ -15,7 +15,7 @@ Coded by www.creative-tim.com
 */
 
 import { Fragment, useState, useEffect } from "react";
-
+import React from 'react';
 // react-router components
 import { Link } from "react-router-dom";
 

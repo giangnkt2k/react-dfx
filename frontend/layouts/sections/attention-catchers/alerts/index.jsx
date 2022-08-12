@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 // Sections components
 import BaseLayout from "layouts/sections/components/BaseLayout";
 import View from "layouts/sections/components/View";
-
+import React from 'react';
 // ALerts page components
 import SimpleAlerts from "layouts/sections/attention-catchers/alerts/components/SimpleAlerts";
 

@@ -15,7 +15,7 @@ Coded by www.creative-tim.com
 
 // Material Kit 2 React pages
 import AboutUs from "pages/LandingPages/AboutUs";
-
+import React from 'react';
 export default function AboutUsPage() {
   return <AboutUs />;
 }

@@ -1,4 +1,5 @@
 /* eslint-disable no-template-curly-in-string */
+import React from 'react';
 const bgImage =
   "`${linearGradient(rgba(gradients.dark.main, 0.5), rgba(gradients.dark.state, 0.5))}, url(${bgImage})`";
 

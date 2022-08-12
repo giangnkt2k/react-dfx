@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 // Sections components
 import BaseLayout from "layouts/sections/components/BaseLayout";
 import View from "layouts/sections/components/View";
-
+import React from 'react';
 // Tooltips and popovers page components
 import Popovers from "layouts/sections/attention-catchers/tooltips-popovers/components/Popovers";
 import Tooltips from "layouts/sections/attention-catchers/tooltips-popovers/components/Tooltips";

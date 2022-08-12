@@ -15,7 +15,7 @@ Coded by www.creative-tim.com
 
 // Material Kit 2 React pages
 import ContactUs from "pages/LandingPages/ContactUs";
-
+import React from 'react';
 export default function ContactUsPage() {
   return <ContactUs />;
 }

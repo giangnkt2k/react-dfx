@@ -98,9 +98,9 @@ export default defineConfig({
       isDev ? "development" : "production",
     ),
   },
-  build: {
-    rollupOptions: {
-      input: './frontend/main.jsx'
-    }
-  }
+  // build: {
+  //   rollupOptions: {
+  //     input: './frontend/main.jsx'
+  //   }
+  // }
 })

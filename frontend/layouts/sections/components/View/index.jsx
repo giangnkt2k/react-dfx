@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 import { useState, useEffect } from "react";
-
+import React from 'react';
 // prop-types is a library for type checking of props
 import PropTypes from "prop-types";
 

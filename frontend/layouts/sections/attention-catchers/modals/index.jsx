@@ -16,7 +16,7 @@ Coded by www.creative-tim.com
 // Sections components
 import BaseLayout from "layouts/sections/components/BaseLayout";
 import View from "layouts/sections/components/View";
-
+import React from 'react';
 // Modals page components
 import SimpleModal from "layouts/sections/attention-catchers/modals/components/SimpleModal";
 

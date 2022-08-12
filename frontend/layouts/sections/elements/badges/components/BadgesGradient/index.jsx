@@ -17,7 +17,7 @@ Coded by www.creative-tim.com
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
-
+import React from 'react';
 // Material Kit 2 React components
 import MKBox from "components/MKBox";
 import MKBadge from "components/MKBadge";

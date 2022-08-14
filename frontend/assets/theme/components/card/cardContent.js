@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 React Helper Functions
-import pxToRem from "assets/theme/functions/pxToRem";
+import pxToRem from "assets/theme/functions/pxToRem"
 
 export default {
   styleOverrides: {
@@ -24,4 +24,4 @@ export default {
       padding: `${pxToRem(8)} ${pxToRem(24)} ${pxToRem(24)}`,
     },
   },
-};
+}

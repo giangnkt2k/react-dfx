@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 const paginationSimpleCode = `// @mui material components
 import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
@@ -31,6 +31,6 @@ function PaginationSimple() {
   );
 }
 
-export default PaginationSimple;`;
+export default PaginationSimple;`
 
-export default paginationSimpleCode;
+export default paginationSimpleCode

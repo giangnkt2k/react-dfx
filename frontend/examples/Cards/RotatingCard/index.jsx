@@ -13,25 +13,29 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
+import { useState } from "react"
 
 // prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
-import React from 'react';
+import PropTypes from "prop-types"
+import React from "react"
 // @mui material components
-import Card from "@mui/material/Card";
+import Card from "@mui/material/Card"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
+import MKBox from "components/MKBox"
 
 function RotatingCard({ children }) {
-  const [rotate, setRotate] = useState(false);
+  const [rotate, setRotate] = useState(false)
 
-  const rotate0 = () => setRotate(false);
-  const rotate180 = () => setRotate(true);
+  const rotate0 = () => setRotate(false)
+  const rotate180 = () => setRotate(true)
 
   return (
-    <MKBox sx={{ perspective: "50rem" }} onMouseEnter={rotate180} onMouseLeave={rotate0}>
+    <MKBox
+      sx={{ perspective: "50rem" }}
+      onMouseEnter={rotate180}
+      onMouseLeave={rotate0}
+    >
       <Card
         sx={{
           backgroundColor: "transparent",
@@ -45,12 +49,12 @@ function RotatingCard({ children }) {
         {children}
       </Card>
     </MKBox>
-  );
+  )
 }
 
 // Typechecking props for the RotatingCard
 RotatingCard.propTypes = {
   children: PropTypes.node.isRequired,
-};
+}
 
-export default RotatingCard;
+export default RotatingCard

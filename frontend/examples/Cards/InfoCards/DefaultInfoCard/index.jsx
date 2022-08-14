@@ -14,18 +14,29 @@ Coded by www.creative-tim.com
 */
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
-import React from 'react';
+import PropTypes from "prop-types"
+import React from "react"
 // @mui material components
-import Icon from "@mui/material/Icon";
+import Icon from "@mui/material/Icon"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
-function DefaultInfoCard({ color, icon, title, description, direction, small }) {
+function DefaultInfoCard({
+  color,
+  icon,
+  title,
+  description,
+  direction,
+  small,
+}) {
   return (
-    <MKBox lineHeight={1} p={direction === "center" ? 2 : 0} textAlign={direction}>
+    <MKBox
+      lineHeight={1}
+      p={direction === "center" ? 2 : 0}
+      textAlign={direction}
+    >
       {typeof icon === "string" ? (
         <MKTypography
           display="block"
@@ -58,7 +69,7 @@ function DefaultInfoCard({ color, icon, title, description, direction, small }) 
         {description}
       </MKTypography>
     </MKBox>
-  );
+  )
 }
 
 // Setting default props for the DefaultInfoCard
@@ -66,7 +77,7 @@ DefaultInfoCard.defaultProps = {
   color: "info",
   direction: "left",
   small: false,
-};
+}
 
 // Typechecking props for the DefaultInfoCard
 DefaultInfoCard.propTypes = {
@@ -85,6 +96,6 @@ DefaultInfoCard.propTypes = {
   description: PropTypes.string.isRequired,
   direction: PropTypes.oneOf(["left", "right", "center"]),
   small: PropTypes.bool,
-};
+}
 
-export default DefaultInfoCard;
+export default DefaultInfoCard

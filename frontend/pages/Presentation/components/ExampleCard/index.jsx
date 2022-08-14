@@ -12,16 +12,16 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // @mui material components
-import Tooltip from "@mui/material/Tooltip";
+import Tooltip from "@mui/material/Tooltip"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
 function ExampleCard({ image, name, count, pro, ...rest }) {
   const imageTemplate = (
@@ -39,7 +39,8 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
         transition: "transform 200ms ease-out",
 
         "&:hover": {
-          transform: "perspective(999px) rotateX(7deg) translate3d(0px, -4px, 5px)",
+          transform:
+            "perspective(999px) rotateX(7deg) translate3d(0px, -4px, 5px)",
         },
       }}
       {...rest}
@@ -54,7 +55,13 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
             xmlns="http://www.w3.org/2000/svg"
             xmlnsXlink="http://www.w3.org/1999/xlink"
           >
-            <g id="lock-black" stroke="none" strokeWidth="1" fill="none" fillRule="evenodd">
+            <g
+              id="lock-black"
+              stroke="none"
+              strokeWidth="1"
+              fill="none"
+              fillRule="evenodd"
+            >
               <circle id="Oval" fill="#1F2937" cx="12" cy="12" r="12" />
               <g
                 id="padlock"
@@ -77,7 +84,7 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
         opacity={pro ? 0.6 : 1}
       />
     </MKBox>
-  );
+  )
 
   return (
     <MKBox position="relative">
@@ -96,14 +103,18 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
             </MKTypography>
           )}
           {count > 0 && (
-            <MKTypography variant="button" fontWeight="regular" color="secondary">
+            <MKTypography
+              variant="button"
+              fontWeight="regular"
+              color="secondary"
+            >
               {count} {count === 1 ? "Example" : "Examples"}
             </MKTypography>
           )}
         </MKBox>
       ) : null}
     </MKBox>
-  );
+  )
 }
 
 // Setting default props for the ExampleCard
@@ -111,7 +122,7 @@ ExampleCard.defaultProps = {
   name: "",
   count: 0,
   pro: false,
-};
+}
 
 // Typechecking props for the ExampleCard
 ExampleCard.propTypes = {
@@ -119,6 +130,6 @@ ExampleCard.propTypes = {
   name: PropTypes.string,
   count: PropTypes.number,
   pro: PropTypes.bool,
-};
+}
 
-export default ExampleCard;
+export default ExampleCard

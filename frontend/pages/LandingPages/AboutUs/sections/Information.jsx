@@ -12,17 +12,17 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
+import MKBox from "components/MKBox"
 
 // Material Kit 2 React examples
-import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
-import CenteredBlogCard from "examples/Cards/BlogCards/CenteredBlogCard";
+import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard"
+import CenteredBlogCard from "examples/Cards/BlogCards/CenteredBlogCard"
 
 function Information() {
   return (
@@ -85,7 +85,7 @@ function Information() {
         </Grid>
       </Container>
     </MKBox>
-  );
+  )
 }
 
-export default Information;
+export default Information

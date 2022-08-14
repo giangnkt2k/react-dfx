@@ -12,26 +12,26 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // Sections components
-import BaseLayout from "layouts/sections/components/BaseLayout";
-import View from "layouts/sections/components/View";
+import BaseLayout from "layouts/sections/components/BaseLayout"
+import View from "layouts/sections/components/View"
 
 // Buttons page components
-import ButtonsGradient from "layouts/sections/elements/buttons/components/ButtonsGradient";
-import ButtonsContained from "layouts/sections/elements/buttons/components/ButtonsContained";
-import ButtonsOutlined from "layouts/sections/elements/buttons/components/ButtonsOutlined";
-import ButtonsSizes from "layouts/sections/elements/buttons/components/ButtonsSizes";
-import ButtonsIconLeft from "layouts/sections/elements/buttons/components/ButtonsIconLeft";
-import ButtonsIconRight from "layouts/sections/elements/buttons/components/ButtonsIconRight";
+import ButtonsGradient from "layouts/sections/elements/buttons/components/ButtonsGradient"
+import ButtonsContained from "layouts/sections/elements/buttons/components/ButtonsContained"
+import ButtonsOutlined from "layouts/sections/elements/buttons/components/ButtonsOutlined"
+import ButtonsSizes from "layouts/sections/elements/buttons/components/ButtonsSizes"
+import ButtonsIconLeft from "layouts/sections/elements/buttons/components/ButtonsIconLeft"
+import ButtonsIconRight from "layouts/sections/elements/buttons/components/ButtonsIconRight"
 
 // Buttons page components code
-import buttonsGradientCode from "layouts/sections/elements/buttons/components/ButtonsGradient/code";
-import buttonsContainedCode from "layouts/sections/elements/buttons/components/ButtonsContained/code";
-import buttonsOutlinedCode from "layouts/sections/elements/buttons/components/ButtonsOutlined/code";
-import buttonsSizesCode from "layouts/sections/elements/buttons/components/ButtonsSizes/code";
-import buttonsIconLeftCode from "layouts/sections/elements/buttons/components/ButtonsIconLeft/code";
-import buttonsIconRightCode from "layouts/sections/elements/buttons/components/ButtonsIconRight/code";
+import buttonsGradientCode from "layouts/sections/elements/buttons/components/ButtonsGradient/code"
+import buttonsContainedCode from "layouts/sections/elements/buttons/components/ButtonsContained/code"
+import buttonsOutlinedCode from "layouts/sections/elements/buttons/components/ButtonsOutlined/code"
+import buttonsSizesCode from "layouts/sections/elements/buttons/components/ButtonsSizes/code"
+import buttonsIconLeftCode from "layouts/sections/elements/buttons/components/ButtonsIconLeft/code"
+import buttonsIconRightCode from "layouts/sections/elements/buttons/components/ButtonsIconRight/code"
 
 function Buttons() {
   return (
@@ -61,7 +61,7 @@ function Buttons() {
         <ButtonsIconRight />
       </View>
     </BaseLayout>
-  );
+  )
 }
 
-export default Buttons;
+export default Buttons

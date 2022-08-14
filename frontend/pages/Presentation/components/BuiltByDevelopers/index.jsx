@@ -12,19 +12,19 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Icon from "@mui/material/Icon";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
+import Icon from "@mui/material/Icon"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
 function BuiltByDevelopers() {
   const bgImage =
-    "https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/desktop.jpg";
+    "https://raw.githubusercontent.com/creativetimofficial/public-assets/master/soft-ui-design-system/assets/img/desktop.jpg"
 
   return (
     <MKBox
@@ -34,10 +34,13 @@ function BuiltByDevelopers() {
       my={2}
       py={6}
       sx={{
-        backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
+        backgroundImage: ({
+          functions: { linearGradient, rgba },
+          palette: { gradients },
+        }) =>
           `${linearGradient(
             rgba(gradients.dark.main, 0.8),
-            rgba(gradients.dark.state, 0.8)
+            rgba(gradients.dark.state, 0.8),
           )}, url(${bgImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
@@ -52,9 +55,9 @@ function BuiltByDevelopers() {
             Complex Documentation
           </MKTypography>
           <MKTypography variant="body1" color="white" opacity={0.8} mb={2}>
-            From colors, cards, typography to complex elements, you will find the full
-            documentation. Play with the utility classes and you will create unlimited combinations
-            for our components.
+            From colors, cards, typography to complex elements, you will find
+            the full documentation. Play with the utility classes and you will
+            create unlimited combinations for our components.
           </MKTypography>
           <MKTypography
             component="a"
@@ -84,7 +87,7 @@ function BuiltByDevelopers() {
         </Grid>
       </Container>
     </MKBox>
-  );
+  )
 }
 
-export default BuiltByDevelopers;
+export default BuiltByDevelopers

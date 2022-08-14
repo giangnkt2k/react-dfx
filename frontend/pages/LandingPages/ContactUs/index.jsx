@@ -12,26 +12,26 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import Grid from "@mui/material/Grid";
+import Grid from "@mui/material/Grid"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKInput from "components/MKInput";
-import MKButton from "components/MKButton";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKInput from "components/MKInput"
+import MKButton from "components/MKButton"
+import MKTypography from "components/MKTypography"
 
 // Material Kit 2 React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import DefaultFooter from "examples/Footers/DefaultFooter";
+import DefaultNavbar from "examples/Navbars/DefaultNavbar"
+import DefaultFooter from "examples/Footers/DefaultFooter"
 
 // Routes
-import routes from "routes";
-import footerRoutes from "footer.routes";
+import routes from "routes"
+import footerRoutes from "footer.routes"
 
 // Image
-import bgImage from "assets/images/illustrations/illustration-reset.jpg";
+import bgImage from "assets/images/illustrations/illustration-reset.jpg"
 
 function ContactUs() {
   return (
@@ -95,10 +95,16 @@ function ContactUs() {
             </MKBox>
             <MKBox p={3}>
               <MKTypography variant="body2" color="text" mb={3}>
-                For further questions, including partnership opportunities, please email
-                hello@creative-tim.com or contact using our contact form.
+                For further questions, including partnership opportunities,
+                please email hello@creative-tim.com or contact using our contact
+                form.
               </MKTypography>
-              <MKBox width="100%" component="form" method="post" autocomplete="off">
+              <MKBox
+                width="100%"
+                component="form"
+                method="post"
+                autocomplete="off"
+              >
                 <Grid container spacing={3}>
                   <Grid item xs={12} md={6}>
                     <MKInput
@@ -129,7 +135,14 @@ function ContactUs() {
                     />
                   </Grid>
                 </Grid>
-                <Grid container item justifyContent="center" xs={12} mt={5} mb={2}>
+                <Grid
+                  container
+                  item
+                  justifyContent="center"
+                  xs={12}
+                  mt={5}
+                  mb={2}
+                >
                   <MKButton type="submit" variant="gradient" color="info">
                     Send Message
                   </MKButton>
@@ -143,7 +156,7 @@ function ContactUs() {
         <DefaultFooter content={footerRoutes} />
       </MKBox>
     </>
-  );
+  )
 }
 
-export default ContactUs;
+export default ContactUs

@@ -12,20 +12,20 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // Sections components
-import BaseLayout from "layouts/sections/components/BaseLayout";
-import View from "layouts/sections/components/View";
+import BaseLayout from "layouts/sections/components/BaseLayout"
+import View from "layouts/sections/components/View"
 
 // Badges page components
-import BadgesGradient from "layouts/sections/elements/badges/components/BadgesGradient";
-import BadgesSimple from "layouts/sections/elements/badges/components/BadgesSimple";
-import BadgesSimpleRounded from "layouts/sections/elements/badges/components/BadgesSimpleRounded";
+import BadgesGradient from "layouts/sections/elements/badges/components/BadgesGradient"
+import BadgesSimple from "layouts/sections/elements/badges/components/BadgesSimple"
+import BadgesSimpleRounded from "layouts/sections/elements/badges/components/BadgesSimpleRounded"
 
 // Badges page components code
-import badgesGradientCode from "layouts/sections/elements/badges/components/BadgesGradient/code";
-import badgesSimpleCode from "layouts/sections/elements/badges/components/BadgesSimple/code";
-import badgesSimpleRoundedCode from "layouts/sections/elements/badges/components/BadgesSimpleRounded/code";
+import badgesGradientCode from "layouts/sections/elements/badges/components/BadgesGradient/code"
+import badgesSimpleCode from "layouts/sections/elements/badges/components/BadgesSimple/code"
+import badgesSimpleRoundedCode from "layouts/sections/elements/badges/components/BadgesSimpleRounded/code"
 
 function Badges() {
   return (
@@ -46,7 +46,7 @@ function Badges() {
         <BadgesSimpleRounded />
       </View>
     </BaseLayout>
-  );
+  )
 }
 
-export default Badges;
+export default Badges

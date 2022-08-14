@@ -14,15 +14,15 @@ Coded by www.creative-tim.com
 */
 
 // prop-types is library for typechecking of props
-import PropTypes from "prop-types";
-import React from 'react';
+import PropTypes from "prop-types"
+import React from "react"
 // @mui material components
-import Icon from "@mui/material/Icon";
+import Icon from "@mui/material/Icon"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKAvatar from "components/MKAvatar";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKAvatar from "components/MKAvatar"
+import MKTypography from "components/MKTypography"
 
 function DefaultReviewCard({ color, image, name, date, review, rating }) {
   const ratings = {
@@ -96,7 +96,7 @@ function DefaultReviewCard({ color, image, name, date, review, rating }) {
       <Icon key={4}>star</Icon>,
       <Icon key={5}>star</Icon>,
     ],
-  };
+  }
 
   return (
     <MKBox
@@ -121,7 +121,9 @@ function DefaultReviewCard({ color, image, name, date, review, rating }) {
           display="block"
           variant={image ? "button" : "h6"}
           fontWeight="bold"
-          color={color === "transparent" || color === "light" ? "dark" : "white"}
+          color={
+            color === "transparent" || color === "light" ? "dark" : "white"
+          }
           mb={0.5}
         >
           {name}
@@ -130,7 +132,9 @@ function DefaultReviewCard({ color, image, name, date, review, rating }) {
           variant={image ? "caption" : "button"}
           fontWeight="regular"
           lineHeight={1}
-          color={color === "transparent" || color === "light" ? "text" : "white"}
+          color={
+            color === "transparent" || color === "light" ? "text" : "white"
+          }
           sx={{ display: "flex", alignItems: "center" }}
         >
           <Icon>schedule</Icon>&nbsp;
@@ -160,14 +164,14 @@ function DefaultReviewCard({ color, image, name, date, review, rating }) {
         {ratings[rating]}
       </MKTypography>
     </MKBox>
-  );
+  )
 }
 
 // Setting default values for the props of DefaultReviewCard
 DefaultReviewCard.defaultProps = {
   color: "transparent",
   image: "",
-};
+}
 
 // Typechecking props for the DefaultReviewCard
 DefaultReviewCard.propTypes = {
@@ -187,6 +191,6 @@ DefaultReviewCard.propTypes = {
   date: PropTypes.string.isRequired,
   review: PropTypes.string.isRequired,
   rating: PropTypes.oneOf([1, 2, 3, 4, 5]).isRequired,
-};
+}
 
-export default DefaultReviewCard;
+export default DefaultReviewCard

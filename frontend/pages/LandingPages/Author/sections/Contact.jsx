@@ -12,19 +12,19 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKInput from "components/MKInput";
-import MKButton from "components/MKButton";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKInput from "components/MKInput"
+import MKButton from "components/MKButton"
+import MKTypography from "components/MKTypography"
 
 // Images
-import bgImage from "assets/images/examples/blog2.jpg";
+import bgImage from "assets/images/examples/blog2.jpg"
 
 function Contact() {
   return (
@@ -53,7 +53,7 @@ function Contact() {
                   }) =>
                     `${linearGradient(
                       rgba(gradients.dark.main, 0.8),
-                      rgba(gradients.dark.state, 0.8)
+                      rgba(gradients.dark.state, 0.8),
                     )}, url(${bgImage})`,
                   backgroundSize: "cover",
                 }}
@@ -69,8 +69,14 @@ function Contact() {
                     <MKTypography variant="h3" color="white" mb={1}>
                       Contact Information
                     </MKTypography>
-                    <MKTypography variant="body2" color="white" opacity={0.8} mb={3}>
-                      Fill up the form and our Team will get back to you within 24 hours.
+                    <MKTypography
+                      variant="body2"
+                      color="white"
+                      opacity={0.8}
+                      mb={3}
+                    >
+                      Fill up the form and our Team will get back to you within
+                      24 hours.
                     </MKTypography>
                     <MKBox display="flex" p={1}>
                       <MKTypography variant="button" color="white">
@@ -118,17 +124,49 @@ function Contact() {
                       </MKTypography>
                     </MKBox>
                     <MKBox mt={3}>
-                      <MKButton variant="text" color="white" size="large" iconOnly>
-                        <i className="fab fa-facebook" style={{ fontSize: "1.25rem" }} />
+                      <MKButton
+                        variant="text"
+                        color="white"
+                        size="large"
+                        iconOnly
+                      >
+                        <i
+                          className="fab fa-facebook"
+                          style={{ fontSize: "1.25rem" }}
+                        />
                       </MKButton>
-                      <MKButton variant="text" color="white" size="large" iconOnly>
-                        <i className="fab fa-twitter" style={{ fontSize: "1.25rem" }} />
+                      <MKButton
+                        variant="text"
+                        color="white"
+                        size="large"
+                        iconOnly
+                      >
+                        <i
+                          className="fab fa-twitter"
+                          style={{ fontSize: "1.25rem" }}
+                        />
                       </MKButton>
-                      <MKButton variant="text" color="white" size="large" iconOnly>
-                        <i className="fab fa-dribbble" style={{ fontSize: "1.25rem" }} />
+                      <MKButton
+                        variant="text"
+                        color="white"
+                        size="large"
+                        iconOnly
+                      >
+                        <i
+                          className="fab fa-dribbble"
+                          style={{ fontSize: "1.25rem" }}
+                        />
                       </MKButton>
-                      <MKButton variant="text" color="white" size="large" iconOnly>
-                        <i className="fab fa-instagram" style={{ fontSize: "1.25rem" }} />
+                      <MKButton
+                        variant="text"
+                        color="white"
+                        size="large"
+                        iconOnly
+                      >
+                        <i
+                          className="fab fa-instagram"
+                          style={{ fontSize: "1.25rem" }}
+                        />
                       </MKButton>
                     </MKBox>
                   </MKBox>
@@ -197,7 +235,7 @@ function Contact() {
         </Grid>
       </Container>
     </MKBox>
-  );
+  )
 }
 
-export default Contact;
+export default Contact

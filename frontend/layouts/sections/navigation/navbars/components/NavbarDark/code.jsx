@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react"
 const navbarDarkCode = `// Material Kit 2 React components
 import MKBox from "components/MKBox";
 
@@ -28,6 +28,6 @@ function NavbarDark() {
   );
 }
 
-export default NavbarDark;`;
+export default NavbarDark;`
 
-export default navbarDarkCode;
+export default navbarDarkCode

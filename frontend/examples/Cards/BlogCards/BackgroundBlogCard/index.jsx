@@ -14,19 +14,19 @@ Coded by www.creative-tim.com
 */
 
 // react-router components
-import { Link } from "react-router-dom";
-import React from 'react';
+import { Link } from "react-router-dom"
+import React from "react"
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // @mui material components
-import Card from "@mui/material/Card";
-import MuiLink from "@mui/material/Link";
-import Icon from "@mui/material/Icon";
+import Card from "@mui/material/Card"
+import MuiLink from "@mui/material/Link"
+import Icon from "@mui/material/Icon"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
 function BackgroundBlogCard({ image, title, description, action }) {
   const cardActionStyles = {
@@ -43,13 +43,19 @@ function BackgroundBlogCard({ image, title, description, action }) {
       {
         transform: `translateX(6px)`,
       },
-  };
+  }
 
   return (
     <Card
       sx={{
-        backgroundImage: ({ palette: { black }, functions: { linearGradient, rgba } }) =>
-          `${linearGradient(rgba(black.main, 0.5), rgba(black.main, 0.5))}, url(${image})`,
+        backgroundImage: ({
+          palette: { black },
+          functions: { linearGradient, rgba },
+        }) =>
+          `${linearGradient(
+            rgba(black.main, 0.5),
+            rgba(black.main, 0.5),
+          )}, url(${image})`,
         backgroundSize: "cover",
       }}
     >
@@ -102,7 +108,7 @@ function BackgroundBlogCard({ image, title, description, action }) {
         </MKBox>
       </MKBox>
     </Card>
-  );
+  )
 }
 
 // Typechecking props for the BackgroundBlogCard
@@ -115,6 +121,6 @@ BackgroundBlogCard.propTypes = {
     route: PropTypes.string.isRequired,
     label: PropTypes.string.isRequired,
   }).isRequired,
-};
+}
 
-export default BackgroundBlogCard;
+export default BackgroundBlogCard

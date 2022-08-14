@@ -12,9 +12,9 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 const imagesPrefix =
-  "https://raw.githubusercontent.com/creativetimofficial/public-assets/master/material-design-system/presentation/pages";
+  "https://raw.githubusercontent.com/creativetimofficial/public-assets/master/material-design-system/presentation/pages"
 
 export default [
   {
@@ -38,4 +38,4 @@ export default [
     name: "Author Page",
     route: "/pages/landing-pages/author",
   },
-];
+]

@@ -13,21 +13,21 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
-import React from 'react';
+import { useState } from "react"
+import React from "react"
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Popover from "@mui/material/Popover";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
+import Stack from "@mui/material/Stack"
+import Popover from "@mui/material/Popover"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKButton from "components/MKButton";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKButton from "components/MKButton"
+import MKTypography from "components/MKTypography"
 
 function Popovers() {
-  const [popover, setPopover] = useState(null);
+  const [popover, setPopover] = useState(null)
   const [popoverOrigin, setPopoverOrigin] = useState({
     anchorOrigin: {
       vertical: "top",
@@ -37,13 +37,18 @@ function Popovers() {
       vertical: "bottom",
       horizontal: "center",
     },
-  });
+  })
 
-  const togglePopover = ({ currentTarget }) => setPopover(currentTarget);
-  const closePopover = () => setPopover(null);
+  const togglePopover = ({ currentTarget }) => setPopover(currentTarget)
+  const closePopover = () => setPopover(null)
 
   const popoverTemplate = (
-    <Popover open={Boolean(popover)} anchorEl={popover} onClose={closePopover} {...popoverOrigin}>
+    <Popover
+      open={Boolean(popover)}
+      anchorEl={popover}
+      onClose={closePopover}
+      {...popoverOrigin}
+    >
       <MKBox bgColor="white" py={1.5} px={2} lineHeight={0.8}>
         <MKTypography variant="caption" color="text">
           That&apos;s the main thing people are controlled
@@ -51,7 +56,7 @@ function Popovers() {
         </MKTypography>
       </MKBox>
     </Popover>
-  );
+  )
 
   return (
     <MKBox component="section" py={12}>
@@ -62,7 +67,7 @@ function Popovers() {
               variant="gradient"
               color="info"
               onClick={(event) => {
-                togglePopover(event);
+                togglePopover(event)
                 setPopoverOrigin({
                   anchorOrigin: {
                     vertical: "top",
@@ -72,7 +77,7 @@ function Popovers() {
                     vertical: "bottom",
                     horizontal: "center",
                   },
-                });
+                })
               }}
             >
               popover on top
@@ -81,7 +86,7 @@ function Popovers() {
               variant="gradient"
               color="info"
               onClick={(event) => {
-                togglePopover(event);
+                togglePopover(event)
                 setPopoverOrigin({
                   anchorOrigin: {
                     vertical: "center",
@@ -91,7 +96,7 @@ function Popovers() {
                     vertical: "center",
                     horizontal: "left",
                   },
-                });
+                })
               }}
             >
               popover on right
@@ -100,7 +105,7 @@ function Popovers() {
               variant="gradient"
               color="info"
               onClick={(event) => {
-                togglePopover(event);
+                togglePopover(event)
                 setPopoverOrigin({
                   anchorOrigin: {
                     vertical: "center",
@@ -110,7 +115,7 @@ function Popovers() {
                     vertical: "center",
                     horizontal: "right",
                   },
-                });
+                })
               }}
             >
               popover on left
@@ -119,7 +124,7 @@ function Popovers() {
               variant="gradient"
               color="info"
               onClick={(event) => {
-                togglePopover(event);
+                togglePopover(event)
                 setPopoverOrigin({
                   anchorOrigin: {
                     vertical: "bottom",
@@ -129,7 +134,7 @@ function Popovers() {
                     vertical: "top",
                     horizontal: "center",
                   },
-                });
+                })
               }}
             >
               popover on bottom
@@ -139,7 +144,7 @@ function Popovers() {
         {popoverTemplate}
       </Container>
     </MKBox>
-  );
+  )
 }
 
-export default Popovers;
+export default Popovers

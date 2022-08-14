@@ -12,27 +12,27 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import { styled } from "@mui/material/styles";
-import LinearProgress from "@mui/material/LinearProgress";
+import { styled } from "@mui/material/styles"
+import LinearProgress from "@mui/material/LinearProgress"
 
 export default styled(LinearProgress)(({ theme, ownerState }) => {
-  const { palette, functions } = theme;
-  const { color, value, variant } = ownerState;
+  const { palette, functions } = theme
+  const { color, value, variant } = ownerState
 
-  const { text, gradients } = palette;
-  const { linearGradient } = functions;
+  const { text, gradients } = palette
+  const { linearGradient } = functions
 
   // background value
-  let backgroundValue;
+  let backgroundValue
 
   if (variant === "gradient") {
     backgroundValue = gradients[color]
       ? linearGradient(gradients[color].main, gradients[color].state)
-      : linearGradient(gradients.info.main, gradients.info.state);
+      : linearGradient(gradients.info.main, gradients.info.state)
   } else {
-    backgroundValue = palette[color] ? palette[color].main : palette.info.main;
+    backgroundValue = palette[color] ? palette[color].main : palette.info.main
   }
 
   return {
@@ -43,5 +43,5 @@ export default styled(LinearProgress)(({ theme, ownerState }) => {
       width: `${value}%`,
       color: text.main,
     },
-  };
-});
+  }
+})

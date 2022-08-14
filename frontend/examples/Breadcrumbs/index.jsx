@@ -14,17 +14,17 @@ Coded by www.creative-tim.com
 */
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
-import React from 'react';
+import PropTypes from "prop-types"
+import React from "react"
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 // @mui material components
-import MuiBreadcrumbs from "@mui/material/Breadcrumbs";
+import MuiBreadcrumbs from "@mui/material/Breadcrumbs"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
 function Breadcrumbs({ routes, ...rest }) {
   return (
@@ -52,16 +52,16 @@ function Breadcrumbs({ routes, ...rest }) {
             <MKTypography key={label} variant="button" fontWeight="regular">
               {label}
             </MKTypography>
-          )
+          ),
         )}
       </MuiBreadcrumbs>
     </MKBox>
-  );
+  )
 }
 
 // Typechecking props for the Breadcrumbs
 Breadcrumbs.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
-};
+}
 
-export default Breadcrumbs;
+export default Breadcrumbs

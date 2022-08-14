@@ -13,25 +13,25 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { useState } from "react";
-import React from 'react';
+import { useState } from "react"
+import React from "react"
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // @mui material components
-import Fade from "@mui/material/Fade";
+import Fade from "@mui/material/Fade"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
+import MKBox from "components/MKBox"
 
 // Custom styles for the MKAlert
-import MKAlertRoot from "components/MKAlert/MKAlertRoot";
-import MKAlertCloseIcon from "components/MKAlert/MKAlertCloseIcon";
+import MKAlertRoot from "components/MKAlert/MKAlertRoot"
+import MKAlertCloseIcon from "components/MKAlert/MKAlertCloseIcon"
 
 function MKAlert({ color, dismissible, children, ...rest }) {
-  const [alertStatus, setAlertStatus] = useState("mount");
+  const [alertStatus, setAlertStatus] = useState("mount")
 
-  const handleAlertStatus = () => setAlertStatus("fadeOut");
+  const handleAlertStatus = () => setAlertStatus("fadeOut")
 
   // The base template for the alert
   const alertTemplate = (mount = true) => (
@@ -47,31 +47,33 @@ function MKAlert({ color, dismissible, children, ...rest }) {
           {children}
         </MKBox>
         {dismissible ? (
-          <MKAlertCloseIcon onClick={mount ? handleAlertStatus : null}>&times;</MKAlertCloseIcon>
+          <MKAlertCloseIcon onClick={mount ? handleAlertStatus : null}>
+            &times;
+          </MKAlertCloseIcon>
         ) : null}
       </MKAlertRoot>
     </Fade>
-  );
+  )
 
   switch (true) {
     case alertStatus === "mount":
-      return alertTemplate();
+      return alertTemplate()
     case alertStatus === "fadeOut":
-      setTimeout(() => setAlertStatus("unmount"), 400);
-      return alertTemplate(false);
+      setTimeout(() => setAlertStatus("unmount"), 400)
+      return alertTemplate(false)
     default:
-      alertTemplate();
-      break;
+      alertTemplate()
+      break
   }
 
-  return null;
+  return null
 }
 
 // Setting default values for the props of MKAlert
 MKAlert.defaultProps = {
   color: "info",
   dismissible: false,
-};
+}
 
 // Typechecking props of the MKAlert
 MKAlert.propTypes = {
@@ -87,6 +89,6 @@ MKAlert.propTypes = {
   ]),
   dismissible: PropTypes.bool,
   children: PropTypes.node.isRequired,
-};
+}
 
-export default MKAlert;
+export default MKAlert

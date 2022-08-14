@@ -28,4 +28,4 @@ export default {
     xl: 1200,
     xxl: 1400,
   },
-};
+}

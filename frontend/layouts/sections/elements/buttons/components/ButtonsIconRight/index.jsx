@@ -12,16 +12,16 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Icon from "@mui/material/Icon";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
+import Stack from "@mui/material/Stack"
+import Icon from "@mui/material/Icon"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKButton from "components/MKButton";
+import MKBox from "components/MKBox"
+import MKButton from "components/MKButton"
 
 function ButtonsIconRight() {
   return (
@@ -45,7 +45,7 @@ function ButtonsIconRight() {
         </Grid>
       </Container>
     </MKBox>
-  );
+  )
 }
 
-export default ButtonsIconRight;
+export default ButtonsIconRight

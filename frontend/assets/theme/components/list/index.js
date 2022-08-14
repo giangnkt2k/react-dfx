@@ -20,4 +20,4 @@ export default {
       paddingBottom: 0,
     },
   },
-};
+}

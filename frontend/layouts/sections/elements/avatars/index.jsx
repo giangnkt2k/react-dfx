@@ -14,16 +14,16 @@ Coded by www.creative-tim.com
 */
 
 // Sections components
-import BaseLayout from "layouts/sections/components/BaseLayout";
-import View from "layouts/sections/components/View";
-import React from 'react';
+import BaseLayout from "layouts/sections/components/BaseLayout"
+import View from "layouts/sections/components/View"
+import React from "react"
 // Avatars page components
-import AvatarGroup from "layouts/sections/elements/avatars/components/AvatarGroup";
-import AvatarSize from "layouts/sections/elements/avatars/components/AvatarSize";
+import AvatarGroup from "layouts/sections/elements/avatars/components/AvatarGroup"
+import AvatarSize from "layouts/sections/elements/avatars/components/AvatarSize"
 
 // Avatars page components code
-import avatarGroupCode from "layouts/sections/elements/avatars/components/AvatarGroup/code";
-import avatarSizeCode from "layouts/sections/elements/avatars/components/AvatarSize/code";
+import avatarGroupCode from "layouts/sections/elements/avatars/components/AvatarGroup/code"
+import avatarSizeCode from "layouts/sections/elements/avatars/components/AvatarSize/code"
 
 function Avatars() {
   return (
@@ -41,7 +41,7 @@ function Avatars() {
         <AvatarSize />
       </View>
     </BaseLayout>
-  );
+  )
 }
 
-export default Avatars;
+export default Avatars

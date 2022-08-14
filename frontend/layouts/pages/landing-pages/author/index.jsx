@@ -14,8 +14,8 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 React pages
-import Author from "pages/LandingPages/Author";
-import React from 'react';
+import Author from "pages/LandingPages/Author"
+import React from "react"
 export default function AuthorPage() {
-  return <Author />;
+  return <Author />
 }

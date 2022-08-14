@@ -13,26 +13,28 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { forwardRef } from "react";
-import React from 'react';
+import { forwardRef } from "react"
+import React from "react"
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // Custom styles for MKSocialButton
-import MKSocialButtonRoot from "components/MKSocialButton/MKSocialButtonRoot";
+import MKSocialButtonRoot from "components/MKSocialButton/MKSocialButtonRoot"
 
-const MKSocialButton = forwardRef(({ color, size, iconOnly, circular, children, ...rest }, ref) => (
-  <MKSocialButtonRoot
-    {...rest}
-    ref={ref}
-    variant="contained"
-    color="primary"
-    size={size}
-    ownerState={{ color, size, iconOnly, circular }}
-  >
-    {children}
-  </MKSocialButtonRoot>
-));
+const MKSocialButton = forwardRef(
+  ({ color, size, iconOnly, circular, children, ...rest }, ref) => (
+    <MKSocialButtonRoot
+      {...rest}
+      ref={ref}
+      variant="contained"
+      color="primary"
+      size={size}
+      ownerState={{ color, size, iconOnly, circular }}
+    >
+      {children}
+    </MKSocialButtonRoot>
+  ),
+)
 
 // Setting default values for the props of MKSocialButton
 MKSocialButton.defaultProps = {
@@ -40,7 +42,7 @@ MKSocialButton.defaultProps = {
   color: "facebook",
   iconOnly: false,
   circular: false,
-};
+}
 
 // Typechecking props for the MKSocialButton
 MKSocialButton.propTypes = {
@@ -62,6 +64,6 @@ MKSocialButton.propTypes = {
   iconOnly: PropTypes.bool,
   circular: PropTypes.bool,
   children: PropTypes.node.isRequired,
-};
+}
 
-export default MKSocialButton;
+export default MKSocialButton

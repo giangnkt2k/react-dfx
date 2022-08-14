@@ -20,12 +20,12 @@ Coded by www.creative-tim.com
  */
 
 // Material Kit 2 React Base Styles
-import colors from "assets/theme/base/colors";
+import colors from "assets/theme/base/colors"
 
 // Material Kit 2 React Helper Functions
-import pxToRem from "assets/theme/functions/pxToRem";
+import pxToRem from "assets/theme/functions/pxToRem"
 
-const { dark } = colors;
+const { dark } = colors
 
 const baseProperties = {
   fontFamily: '"Roboto", "Helvetica", "Arial", sans-serif',
@@ -43,19 +43,19 @@ const baseProperties = {
   fontSizeXL: pxToRem(20),
   fontSize2XL: pxToRem(24),
   fontSize3XL: pxToRem(30),
-};
+}
 
 const baseHeadingProperties = {
   color: dark.main,
   fontWeight: baseProperties.fontWeightBold,
-};
+}
 
 const baseDisplayProperties = {
   fontFamily: baseProperties.fontFamily,
   color: dark.main,
   fontWeight: baseProperties.fontWeightLight,
   lineHeight: 1.2,
-};
+}
 
 const typography = {
   fontFamily: baseProperties.fontFamily,
@@ -200,6 +200,6 @@ const typography = {
     md: 1.5,
     lg: 2,
   },
-};
+}
 
-export default typography;
+export default typography

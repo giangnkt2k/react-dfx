@@ -258,4 +258,4 @@ export default {
   tabs: {
     indicator: { boxShadow: "#ddd" },
   },
-};
+}

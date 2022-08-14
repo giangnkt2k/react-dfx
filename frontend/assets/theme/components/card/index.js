@@ -14,16 +14,16 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 React Base Styles
-import colors from "assets/theme/base/colors";
-import borders from "assets/theme/base/borders";
-import boxShadows from "assets/theme/base/boxShadows";
+import colors from "assets/theme/base/colors"
+import borders from "assets/theme/base/borders"
+import boxShadows from "assets/theme/base/boxShadows"
 
 // Material Kit 2 React Helper Function
-import rgba from "assets/theme/functions/rgba";
+import rgba from "assets/theme/functions/rgba"
 
-const { black, white } = colors;
-const { borderWidth, borderRadius } = borders;
-const { md } = boxShadows;
+const { black, white } = colors
+const { borderWidth, borderRadius } = borders
+const { md } = boxShadows
 
 export default {
   styleOverrides: {
@@ -41,4 +41,4 @@ export default {
       overflow: "visible",
     },
   },
-};
+}

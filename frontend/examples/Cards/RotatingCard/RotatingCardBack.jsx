@@ -12,20 +12,20 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 // @mui material components
-import MuiLink from "@mui/material/Link";
+import MuiLink from "@mui/material/Link"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
-import MKButton from "components/MKButton";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
+import MKButton from "components/MKButton"
 
 function RotatingCard({ color, image, title, description, action }) {
   return (
@@ -42,10 +42,19 @@ function RotatingCard({ color, image, title, description, action }) {
       left={0}
       zIndex={5}
       sx={{
-        backgroundImage: ({ palette: { gradients }, functions: { linearGradient, rgba } }) =>
+        backgroundImage: ({
+          palette: { gradients },
+          functions: { linearGradient, rgba },
+        }) =>
           `${linearGradient(
-            rgba(gradients[color] ? gradients[color].main : gradients.info.main, 0.85),
-            rgba(gradients[color] ? gradients[color].main : gradients.info.main, 0.85)
+            rgba(
+              gradients[color] ? gradients[color].main : gradients.info.main,
+              0.85,
+            ),
+            rgba(
+              gradients[color] ? gradients[color].main : gradients.info.main,
+              0.85,
+            ),
           )}, url(${image})`,
         backgroundSize: "cover",
         backfaceVisibility: "hidden",
@@ -74,7 +83,13 @@ function RotatingCard({ color, image, title, description, action }) {
                 {action.label}
               </MKButton>
             ) : (
-              <MKButton component={Link} to={action.route} color="white" size="small" fullWidth>
+              <MKButton
+                component={Link}
+                to={action.route}
+                color="white"
+                size="small"
+                fullWidth
+              >
                 {action.label}
               </MKButton>
             )}
@@ -82,13 +97,13 @@ function RotatingCard({ color, image, title, description, action }) {
         )}
       </MKBox>
     </MKBox>
-  );
+  )
 }
 
 // Setting default props for the RotatingCard
 RotatingCard.defaultProps = {
   color: "info",
-};
+}
 
 // Typechecking props for the RotatingCard
 RotatingCard.propTypes = {
@@ -113,6 +128,6 @@ RotatingCard.propTypes = {
       label: PropTypes.string.isRequired,
     }),
   ]).isRequired,
-};
+}
 
-export default RotatingCard;
+export default RotatingCard

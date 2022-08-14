@@ -12,15 +12,15 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
+import Stack from "@mui/material/Stack"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKProgress from "components/MKProgress";
+import MKBox from "components/MKBox"
+import MKProgress from "components/MKProgress"
 
 function ProgressSimple() {
   return (
@@ -39,7 +39,7 @@ function ProgressSimple() {
         </Grid>
       </Container>
     </MKBox>
-  );
+  )
 }
 
-export default ProgressSimple;
+export default ProgressSimple

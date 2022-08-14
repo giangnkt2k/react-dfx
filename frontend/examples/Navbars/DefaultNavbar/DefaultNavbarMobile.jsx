@@ -12,33 +12,41 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
-import { useState } from "react";
+import React from "react"
+import { useState } from "react"
 
 // react-router components
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 // prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // @mui material components
-import Collapse from "@mui/material/Collapse";
-import MuiLink from "@mui/material/Link";
+import Collapse from "@mui/material/Collapse"
+import MuiLink from "@mui/material/Link"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
 // Material Kit 2 React example components
-import DefaultNavbarDropdown from "examples/Navbars/DefaultNavbar/DefaultNavbarDropdown";
+import DefaultNavbarDropdown from "examples/Navbars/DefaultNavbar/DefaultNavbarDropdown"
 
 function DefaultNavbarMobile({ routes, open }) {
-  const [collapse, setCollapse] = useState("");
+  const [collapse, setCollapse] = useState("")
 
-  const handleSetCollapse = (name) => (collapse === name ? setCollapse(false) : setCollapse(name));
+  const handleSetCollapse = (name) =>
+    collapse === name ? setCollapse(false) : setCollapse(name)
 
   const renderNavbarItems = routes.map(
-    ({ name, icon, collapse: routeCollapses, href, route, collapse: navCollapse }) => (
+    ({
+      name,
+      icon,
+      collapse: routeCollapses,
+      href,
+      route,
+      collapse: navCollapse,
+    }) => (
       <DefaultNavbarDropdown
         key={name}
         name={name}
@@ -49,7 +57,9 @@ function DefaultNavbarMobile({ routes, open }) {
         route={route}
         collapse={Boolean(navCollapse)}
       >
-        <MKBox sx={{ height: "15rem", maxHeight: "15rem", overflowY: "scroll" }}>
+        <MKBox
+          sx={{ height: "15rem", maxHeight: "15rem", overflowY: "scroll" }}
+        >
           {routeCollapses &&
             routeCollapses.map((item) => (
               <MKBox key={item.name} px={2}>
@@ -81,7 +91,10 @@ function DefaultNavbarMobile({ routes, open }) {
                         fontWeight="regular"
                         py={0.625}
                         px={2}
-                        sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
+                        sx={({
+                          palette: { grey, dark },
+                          borders: { borderRadius },
+                        }) => ({
                           borderRadius: borderRadius.md,
                           cursor: "pointer",
                           transition: "all 300ms linear",
@@ -105,7 +118,10 @@ function DefaultNavbarMobile({ routes, open }) {
                     href={item.href ? item.href : ""}
                     target={item.href ? "_blank" : ""}
                     rel={item.href ? "noreferrer" : "noreferrer"}
-                    sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
+                    sx={({
+                      palette: { grey, dark },
+                      borders: { borderRadius },
+                    }) => ({
                       borderRadius: borderRadius.md,
                       cursor: "pointer",
                       transition: "all 300ms linear",
@@ -145,8 +161,8 @@ function DefaultNavbarMobile({ routes, open }) {
             ))}
         </MKBox>
       </DefaultNavbarDropdown>
-    )
-  );
+    ),
+  )
 
   return (
     <Collapse in={Boolean(open)} timeout="auto" unmountOnExit>
@@ -154,13 +170,13 @@ function DefaultNavbarMobile({ routes, open }) {
         {renderNavbarItems}
       </MKBox>
     </Collapse>
-  );
+  )
 }
 
 // Typechecking props for the DefaultNavbarMobile
 DefaultNavbarMobile.propTypes = {
   routes: PropTypes.arrayOf(PropTypes.object).isRequired,
   open: PropTypes.oneOfType([PropTypes.bool, PropTypes.object]).isRequired,
-};
+}
 
-export default DefaultNavbarMobile;
+export default DefaultNavbarMobile

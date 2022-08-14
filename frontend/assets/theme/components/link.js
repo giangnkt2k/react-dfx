@@ -18,4 +18,4 @@ export default {
     underline: "none",
     color: "inherit",
   },
-};
+}

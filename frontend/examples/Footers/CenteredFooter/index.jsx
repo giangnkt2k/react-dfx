@@ -14,28 +14,28 @@ Coded by www.creative-tim.com
 */
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
-import React from 'react';
+import PropTypes from "prop-types"
+import React from "react"
 // @mui material components
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
+import Link from "@mui/material/Link"
+import Grid from "@mui/material/Grid"
+import Stack from "@mui/material/Stack"
 
 // @mui icons
-import FacebookIcon from "@mui/icons-material/Facebook";
-import TwitterIcon from "@mui/icons-material/Twitter";
-import InstagramIcon from "@mui/icons-material/Instagram";
-import PinterestIcon from "@mui/icons-material/Pinterest";
-import GitHubIcon from "@mui/icons-material/GitHub";
+import FacebookIcon from "@mui/icons-material/Facebook"
+import TwitterIcon from "@mui/icons-material/Twitter"
+import InstagramIcon from "@mui/icons-material/Instagram"
+import PinterestIcon from "@mui/icons-material/Pinterest"
+import GitHubIcon from "@mui/icons-material/GitHub"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
 function CenteredFooter({ company, links, socials, light }) {
-  const { href, name } = company;
+  const { href, name } = company
 
-  const year = new Date().getFullYear();
+  const year = new Date().getFullYear()
 
   const renderLinks = links.map((link) => (
     <MKTypography
@@ -48,7 +48,7 @@ function CenteredFooter({ company, links, socials, light }) {
     >
       {link.name}
     </MKTypography>
-  ));
+  ))
 
   const renderSocials = socials.map((social) => (
     <MKTypography
@@ -61,7 +61,7 @@ function CenteredFooter({ company, links, socials, light }) {
     >
       {social.icon}
     </MKTypography>
-  ));
+  ))
 
   return (
     <MKBox component="footer" py={6}>
@@ -78,7 +78,14 @@ function CenteredFooter({ company, links, socials, light }) {
           </Stack>
         </Grid>
         <Grid item xs={12} lg={8}>
-          <Stack display="flex" direction="row" justifyContent="center" spacing={3} mt={1} mb={3}>
+          <Stack
+            display="flex"
+            direction="row"
+            justifyContent="center"
+            spacing={3}
+            mt={1}
+            mb={3}
+          >
             {renderSocials}
           </Stack>
         </Grid>
@@ -100,7 +107,7 @@ function CenteredFooter({ company, links, socials, light }) {
         </Grid>
       </Grid>
     </MKBox>
-  );
+  )
 }
 
 // Setting default values for the props of CenteredFooter
@@ -115,7 +122,10 @@ CenteredFooter.defaultProps = {
     { href: "https://www.creative-tim.com/license", name: "License" },
   ],
   socials: [
-    { icon: <FacebookIcon fontSize="small" />, link: "https://www.facebook.com/CreativeTim/" },
+    {
+      icon: <FacebookIcon fontSize="small" />,
+      link: "https://www.facebook.com/CreativeTim/",
+    },
     {
       icon: <TwitterIcon fontSize="small" />,
       link: "https://twitter.com/creativetim",
@@ -128,10 +138,13 @@ CenteredFooter.defaultProps = {
       icon: <PinterestIcon fontSize="small" />,
       link: "https://ro.pinterest.com/thecreativetim/",
     },
-    { icon: <GitHubIcon fontSize="small" />, link: "https://github.com/creativetimofficial" },
+    {
+      icon: <GitHubIcon fontSize="small" />,
+      link: "https://github.com/creativetimofficial",
+    },
   ],
   light: false,
-};
+}
 
 // Typechecking props for the CenteredFooter
 CenteredFooter.propTypes = {
@@ -139,6 +152,6 @@ CenteredFooter.propTypes = {
   links: PropTypes.arrayOf(PropTypes.object),
   socials: PropTypes.arrayOf(PropTypes.object),
   light: PropTypes.bool,
-};
+}
 
-export default CenteredFooter;
+export default CenteredFooter

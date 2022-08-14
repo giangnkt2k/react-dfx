@@ -12,16 +12,16 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // prop-types is a library for typechecking of props.
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // @mui material components
-import Icon from "@mui/material/Icon";
+import Icon from "@mui/material/Icon"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
 function RotatingCardFront({ color, image, icon, title, description }) {
   return (
@@ -35,10 +35,19 @@ function RotatingCardFront({ color, image, icon, title, description }) {
       position="relative"
       zIndex={2}
       sx={{
-        backgroundImage: ({ palette: { gradients }, functions: { linearGradient, rgba } }) =>
+        backgroundImage: ({
+          palette: { gradients },
+          functions: { linearGradient, rgba },
+        }) =>
           `${linearGradient(
-            rgba(gradients[color] ? gradients[color].main : gradients.info.main, 0.85),
-            rgba(gradients[color] ? gradients[color].main : gradients.info.main, 0.85)
+            rgba(
+              gradients[color] ? gradients[color].main : gradients.info.main,
+              0.85,
+            ),
+            rgba(
+              gradients[color] ? gradients[color].main : gradients.info.main,
+              0.85,
+            ),
           )}, url(${image})`,
         backgroundSize: "cover",
         backfaceVisibility: "hidden",
@@ -58,14 +67,14 @@ function RotatingCardFront({ color, image, icon, title, description }) {
         </MKTypography>
       </MKBox>
     </MKBox>
-  );
+  )
 }
 
 // Setting default props for the RotatingCardFront
 RotatingCardFront.defaultProps = {
   color: "info",
   icon: "",
-};
+}
 
 // Typechecking props for the RotatingCardFront
 RotatingCardFront.propTypes = {
@@ -83,6 +92,6 @@ RotatingCardFront.propTypes = {
   icon: PropTypes.node,
   title: PropTypes.node.isRequired,
   description: PropTypes.node.isRequired,
-};
+}
 
-export default RotatingCardFront;
+export default RotatingCardFront

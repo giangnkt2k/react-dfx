@@ -14,23 +14,23 @@ Coded by www.creative-tim.com
 */
 
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
-import React from 'react';
+import PropTypes from "prop-types"
+import React from "react"
 // @mui material components
-import Container from "@mui/material/Container";
-import Link from "@mui/material/Link";
-import Icon from "@mui/material/Icon";
+import Container from "@mui/material/Container"
+import Link from "@mui/material/Link"
+import Icon from "@mui/material/Icon"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
 // Material Kit 2 React base styles
-import typography from "assets/theme/base/typography";
+import typography from "assets/theme/base/typography"
 
 function SimpleFooter({ company, links, light }) {
-  const { href, name } = company;
-  const { size } = typography;
+  const { href, name } = company
+  const { size } = typography
 
   const renderLinks = () =>
     links.map((link, key) => (
@@ -42,12 +42,16 @@ function SimpleFooter({ company, links, light }) {
         lineHeight={1}
       >
         <Link href={link.href} target="_blank">
-          <MKTypography variant="button" fontWeight="regular" color={light ? "white" : "text"}>
+          <MKTypography
+            variant="button"
+            fontWeight="regular"
+            color={light ? "white" : "text"}
+          >
             {link.name}
           </MKTypography>
         </Link>
       </MKBox>
-    ));
+    ))
 
   return (
     <Container>
@@ -67,14 +71,23 @@ function SimpleFooter({ company, links, light }) {
           fontSize={size.sm}
         >
           &copy; {new Date().getFullYear()}, made with
-          <MKBox fontSize={size.md} color={light ? "white" : "text"} mb={-0.5} mx={0.25}>
+          <MKBox
+            fontSize={size.md}
+            color={light ? "white" : "text"}
+            mb={-0.5}
+            mx={0.25}
+          >
             <Icon color="inherit" fontSize="inherit">
               favorite
             </Icon>
           </MKBox>
           by
           <Link href={href} target="_blank">
-            <MKTypography variant="button" fontWeight="medium" color={light ? "white" : "dark"}>
+            <MKTypography
+              variant="button"
+              fontWeight="medium"
+              color={light ? "white" : "dark"}
+            >
               &nbsp;{name}&nbsp;
             </MKTypography>
           </Link>
@@ -101,7 +114,7 @@ function SimpleFooter({ company, links, light }) {
         </MKBox>
       </MKBox>
     </Container>
-  );
+  )
 }
 
 // Setting default values for the props of SimpleFooter
@@ -114,13 +127,13 @@ SimpleFooter.defaultProps = {
     { href: "https://www.creative-tim.com/license", name: "License" },
   ],
   light: false,
-};
+}
 
 // Typechecking props for the SimpleFooter
 SimpleFooter.propTypes = {
   company: PropTypes.objectOf(PropTypes.string),
   links: PropTypes.arrayOf(PropTypes.object),
   light: PropTypes.bool,
-};
+}
 
-export default SimpleFooter;
+export default SimpleFooter

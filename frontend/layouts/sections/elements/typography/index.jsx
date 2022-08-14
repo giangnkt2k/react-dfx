@@ -12,16 +12,16 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // Sections components
-import BaseLayout from "layouts/sections/components/BaseLayout";
-import View from "layouts/sections/components/View";
+import BaseLayout from "layouts/sections/components/BaseLayout"
+import View from "layouts/sections/components/View"
 
 // Typography page components
-import TypographyRoboto from "layouts/sections/elements/typography/components/TypographyRoboto";
+import TypographyRoboto from "layouts/sections/elements/typography/components/TypographyRoboto"
 
 // Typography page components code
-import typographyRobotoCode from "layouts/sections/elements/typography/components/TypographyRoboto/code";
+import typographyRobotoCode from "layouts/sections/elements/typography/components/TypographyRoboto/code"
 
 function Typography() {
   return (
@@ -36,7 +36,7 @@ function Typography() {
         <TypographyRoboto />
       </View>
     </BaseLayout>
-  );
+  )
 }
 
-export default Typography;
+export default Typography

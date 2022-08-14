@@ -20,12 +20,12 @@ Coded by www.creative-tim.com
  */
 
 // Material Kit 2 React Base Styles
-import colors from "assets/theme/base/colors";
+import colors from "assets/theme/base/colors"
 
 // Material Kit 2 React Helper Functions
-import pxToRem from "assets/theme/functions/pxToRem";
+import pxToRem from "assets/theme/functions/pxToRem"
 
-const { grey } = colors;
+const { grey } = colors
 
 export default {
   borderColor: grey[300],
@@ -48,4 +48,4 @@ export default {
     xxl: pxToRem(16),
     section: pxToRem(160),
   },
-};
+}

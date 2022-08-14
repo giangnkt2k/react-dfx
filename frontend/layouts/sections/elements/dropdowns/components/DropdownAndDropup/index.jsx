@@ -12,46 +12,46 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
-import { useState } from "react";
+import React from "react"
+import { useState } from "react"
 
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Icon from "@mui/material/Icon";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
+import Icon from "@mui/material/Icon"
+import Menu from "@mui/material/Menu"
+import MenuItem from "@mui/material/MenuItem"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKButton from "components/MKButton";
+import MKBox from "components/MKBox"
+import MKButton from "components/MKButton"
 
 function DropdownAndDropup() {
-  const [dropdown, setDropdown] = useState(null);
-  const [dropup, setDropup] = useState(null);
+  const [dropdown, setDropdown] = useState(null)
+  const [dropup, setDropup] = useState(null)
 
-  const openDropdown = ({ currentTarget }) => setDropdown(currentTarget);
-  const closeDropdown = () => setDropdown(null);
+  const openDropdown = ({ currentTarget }) => setDropdown(currentTarget)
+  const closeDropdown = () => setDropdown(null)
 
-  const openDropup = ({ currentTarget }) => setDropup(currentTarget);
-  const closeDropup = () => setDropup(null);
+  const openDropup = ({ currentTarget }) => setDropup(currentTarget)
+  const closeDropup = () => setDropup(null)
 
   // Styles
   const iconStyles = {
     ml: 1,
     fontWeight: "bold",
     transition: "transform 200ms ease-in-out",
-  };
+  }
 
   const dropdownIconStyles = {
     transform: dropdown ? "rotate(180deg)" : "rotate(0)",
     ...iconStyles,
-  };
+  }
 
   const dropupIconStyles = {
     transform: dropup ? "rotate(180deg)" : "rotate(0)",
     ...iconStyles,
-  };
+  }
 
   return (
     <MKBox component="section" py={12}>
@@ -61,7 +61,11 @@ function DropdownAndDropup() {
             <MKButton variant="gradient" color="info" onClick={openDropdown}>
               Dropdown <Icon sx={dropdownIconStyles}>expand_more</Icon>
             </MKButton>
-            <Menu anchorEl={dropdown} open={Boolean(dropdown)} onClose={closeDropdown}>
+            <Menu
+              anchorEl={dropdown}
+              open={Boolean(dropdown)}
+              onClose={closeDropdown}
+            >
               <MenuItem onClick={closeDropdown}>Action</MenuItem>
               <MenuItem onClick={closeDropdown}>Another action</MenuItem>
               <MenuItem onClick={closeDropdown}>Something else here</MenuItem>
@@ -92,7 +96,7 @@ function DropdownAndDropup() {
         </Grid>
       </Container>
     </MKBox>
-  );
+  )
 }
 
-export default DropdownAndDropup;
+export default DropdownAndDropup

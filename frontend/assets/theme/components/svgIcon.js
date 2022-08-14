@@ -14,7 +14,7 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 React helper functions
-import pxToRem from "assets/theme/functions/pxToRem";
+import pxToRem from "assets/theme/functions/pxToRem"
 
 export default {
   defaultProps: {
@@ -34,4 +34,4 @@ export default {
       fontSize: `${pxToRem(36)} !important`,
     },
   },
-};
+}

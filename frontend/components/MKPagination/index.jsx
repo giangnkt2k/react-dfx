@@ -13,30 +13,33 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { forwardRef, createContext, useContext } from "react";
-import React from 'react';
+import { forwardRef, createContext, useContext } from "react"
+import React from "react"
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
+import MKBox from "components/MKBox"
 
 // Custom styles for MKPagination
-import MKPaginationItemRoot from "components/MKPagination/MKPaginationItemRoot";
+import MKPaginationItemRoot from "components/MKPagination/MKPaginationItemRoot"
 
 // The Pagination main context
-const Context = createContext();
+const Context = createContext()
 
 const MKPagination = forwardRef(
-  ({ item, variant, color, size, active, children, placement, ...rest }, ref) => {
-    const context = item ? useContext(Context) : null;
-    const paginationSize = context ? context.size : null;
-    let placementValue = "flex-end";
+  (
+    { item, variant, color, size, active, children, placement, ...rest },
+    ref,
+  ) => {
+    const context = item ? useContext(Context) : null
+    const paginationSize = context ? context.size : null
+    let placementValue = "flex-end"
 
     if (placement === "left") {
-      placementValue = "flex-start";
+      placementValue = "flex-start"
     } else if (placement === "center") {
-      placementValue = "center";
+      placementValue = "center"
     }
 
     return (
@@ -64,9 +67,9 @@ const MKPagination = forwardRef(
           </MKBox>
         )}
       </Context.Provider>
-    );
-  }
-);
+    )
+  },
+)
 
 // Setting default values for the props of MKPagination
 MKPagination.defaultProps = {
@@ -76,7 +79,7 @@ MKPagination.defaultProps = {
   size: "medium",
   active: false,
   placement: "right",
-};
+}
 
 // Typechecking props for the MKPagination
 MKPagination.propTypes = {
@@ -97,6 +100,6 @@ MKPagination.propTypes = {
   active: PropTypes.bool,
   children: PropTypes.node.isRequired,
   placement: PropTypes.oneOf(["left", "right", "center"]),
-};
+}
 
-export default MKPagination;
+export default MKPagination

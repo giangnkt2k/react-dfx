@@ -12,16 +12,16 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // Sections components
-import BaseLayout from "layouts/sections/components/BaseLayout";
-import View from "layouts/sections/components/View";
+import BaseLayout from "layouts/sections/components/BaseLayout"
+import View from "layouts/sections/components/View"
 
 // ProgressBars page components
-import ProgressSimple from "layouts/sections/elements/progress-bars/components/ProgressSimple";
+import ProgressSimple from "layouts/sections/elements/progress-bars/components/ProgressSimple"
 
 // ProgressBars page components code
-import progressSimpleCode from "layouts/sections/elements/progress-bars/components/ProgressSimple/code";
+import progressSimpleCode from "layouts/sections/elements/progress-bars/components/ProgressSimple/code"
 
 function ProgressBars() {
   return (
@@ -36,7 +36,7 @@ function ProgressBars() {
         <ProgressSimple />
       </View>
     </BaseLayout>
-  );
+  )
 }
 
-export default ProgressBars;
+export default ProgressBars

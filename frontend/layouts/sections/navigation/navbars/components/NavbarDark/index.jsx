@@ -13,15 +13,15 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
+import MKBox from "components/MKBox"
 
 // Material Kit 2 React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
+import DefaultNavbar from "examples/Navbars/DefaultNavbar"
 
 // Routes
-import routes from "routes";
+import routes from "routes"
 
 function NavbarDark() {
   return (
@@ -40,7 +40,7 @@ function NavbarDark() {
         center
       />
     </MKBox>
-  );
+  )
 }
 
-export default NavbarDark;
+export default NavbarDark

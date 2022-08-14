@@ -12,23 +12,26 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // Sections components
-import BaseLayout from "layouts/sections/components/BaseLayout";
-import View from "layouts/sections/components/View";
+import BaseLayout from "layouts/sections/components/BaseLayout"
+import View from "layouts/sections/components/View"
 
 // PageHeaders page components
-import HeaderOne from "layouts/sections/page-sections/page-headers/components/HeaderOne";
+import HeaderOne from "layouts/sections/page-sections/page-headers/components/HeaderOne"
 
 // PageHeaders page components code
-import headerOneCode from "layouts/sections/page-sections/page-headers/components/HeaderOne/code";
+import headerOneCode from "layouts/sections/page-sections/page-headers/components/HeaderOne/code"
 
 function PageHeaders() {
   return (
     <BaseLayout
       title="Page Headers"
       breadcrumb={[
-        { label: "Page Sections", route: "/sections/page-sections/page-headers" },
+        {
+          label: "Page Sections",
+          route: "/sections/page-sections/page-headers",
+        },
         { label: "Page Headers" },
       ]}
     >
@@ -36,7 +39,7 @@ function PageHeaders() {
         <HeaderOne />
       </View>
     </BaseLayout>
-  );
+  )
 }
 
-export default PageHeaders;
+export default PageHeaders

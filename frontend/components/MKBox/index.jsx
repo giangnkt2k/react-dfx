@@ -13,23 +13,43 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 
-import { forwardRef } from "react";
-import React from 'react';
+import { forwardRef } from "react"
+import React from "react"
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // Custom styles for MKBox
-import MKBoxRoot from "components/MKBox/MKBoxRoot";
+import MKBoxRoot from "components/MKBox/MKBoxRoot"
 
 const MKBox = forwardRef(
-  ({ variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow, ...rest }, ref) => (
+  (
+    {
+      variant,
+      bgColor,
+      color,
+      opacity,
+      borderRadius,
+      shadow,
+      coloredShadow,
+      ...rest
+    },
+    ref,
+  ) => (
     <MKBoxRoot
       {...rest}
       ref={ref}
-      ownerState={{ variant, bgColor, color, opacity, borderRadius, shadow, coloredShadow }}
+      ownerState={{
+        variant,
+        bgColor,
+        color,
+        opacity,
+        borderRadius,
+        shadow,
+        coloredShadow,
+      }}
     />
-  )
-);
+  ),
+)
 
 // Setting default values for the props of MKBox
 MKBox.defaultProps = {
@@ -40,7 +60,7 @@ MKBox.defaultProps = {
   borderRadius: "none",
   shadow: "none",
   coloredShadow: "none",
-};
+}
 
 // Typechecking props for the MKBox
 MKBox.propTypes = {
@@ -61,6 +81,6 @@ MKBox.propTypes = {
     "dark",
     "none",
   ]),
-};
+}
 
-export default MKBox;
+export default MKBox

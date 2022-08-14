@@ -12,24 +12,24 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // react-router-dom components
-import { Link } from "react-router-dom";
+import { Link } from "react-router-dom"
 
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKBadge from "components/MKBadge";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKBadge from "components/MKBadge"
+import MKTypography from "components/MKTypography"
 
 // Presentation page components
-import ExampleCard from "pages/Presentation/components/ExampleCard";
+import ExampleCard from "pages/Presentation/components/ExampleCard"
 
 // Data
-import data from "pages/Presentation/sections/data/designBlocksData";
+import data from "pages/Presentation/sections/data/designBlocksData"
 
 function DesignBlocks() {
   const renderData = data.map(({ title, description, items }) => (
@@ -39,7 +39,13 @@ function DesignBlocks() {
           <MKTypography variant="h3" fontWeight="bold" mb={1}>
             {title}
           </MKTypography>
-          <MKTypography variant="body2" fontWeight="regular" color="secondary" mb={1} pr={2}>
+          <MKTypography
+            variant="body2"
+            fontWeight="regular"
+            color="secondary"
+            mb={1}
+            pr={2}
+          >
             {description}
           </MKTypography>
         </MKBox>
@@ -49,14 +55,19 @@ function DesignBlocks() {
           {items.map(({ image, name, count, route, pro }) => (
             <Grid item xs={12} md={4} sx={{ mb: 2 }} key={name}>
               <Link to={pro ? "/" : route}>
-                <ExampleCard image={image} name={name} count={count} pro={pro} />
+                <ExampleCard
+                  image={image}
+                  name={name}
+                  count={count}
+                  pro={pro}
+                />
               </Link>
             </Grid>
           ))}
         </Grid>
       </Grid>
     </Grid>
-  ));
+  ))
 
   return (
     <MKBox component="section" my={6} py={6}>
@@ -81,14 +92,14 @@ function DesignBlocks() {
             Huge collection of sections
           </MKTypography>
           <MKTypography variant="body1" color="text">
-            We have created multiple options for you to put together and customise into pixel
-            perfect pages.
+            We have created multiple options for you to put together and
+            customise into pixel perfect pages.
           </MKTypography>
         </Grid>
       </Container>
       <Container sx={{ mt: 6 }}>{renderData}</Container>
     </MKBox>
-  );
+  )
 }
 
-export default DesignBlocks;
+export default DesignBlocks

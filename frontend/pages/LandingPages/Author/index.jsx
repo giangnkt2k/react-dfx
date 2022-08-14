@@ -12,27 +12,27 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import Card from "@mui/material/Card";
+import Card from "@mui/material/Card"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
+import MKBox from "components/MKBox"
 
 // Material Kit 2 React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
+import DefaultNavbar from "examples/Navbars/DefaultNavbar"
 
 // Author page sections
-import Profile from "pages/LandingPages/Author/sections/Profile";
-import Posts from "pages/LandingPages/Author/sections/Posts";
-import Contact from "pages/LandingPages/Author/sections/Contact";
-import Footer from "pages/LandingPages/Author/sections/Footer";
+import Profile from "pages/LandingPages/Author/sections/Profile"
+import Posts from "pages/LandingPages/Author/sections/Posts"
+import Contact from "pages/LandingPages/Author/sections/Contact"
+import Footer from "pages/LandingPages/Author/sections/Footer"
 
 // Routes
-import routes from "routes";
+import routes from "routes"
 
 // Images
-import bgImage from "assets/images/city-profile.jpg";
+import bgImage from "assets/images/city-profile.jpg"
 
 function Author() {
   return (
@@ -53,10 +53,13 @@ function Author() {
           minHeight="25rem"
           width="100%"
           sx={{
-            backgroundImage: ({ functions: { linearGradient, rgba }, palette: { gradients } }) =>
+            backgroundImage: ({
+              functions: { linearGradient, rgba },
+              palette: { gradients },
+            }) =>
               `${linearGradient(
                 rgba(gradients.dark.main, 0.8),
-                rgba(gradients.dark.state, 0.8)
+                rgba(gradients.dark.state, 0.8),
               )}, url(${bgImage})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
@@ -70,7 +73,8 @@ function Author() {
             mx: { xs: 2, lg: 3 },
             mt: -8,
             mb: 4,
-            backgroundColor: ({ palette: { white }, functions: { rgba } }) => rgba(white.main, 0.8),
+            backgroundColor: ({ palette: { white }, functions: { rgba } }) =>
+              rgba(white.main, 0.8),
             backdropFilter: "saturate(200%) blur(30px)",
             boxShadow: ({ boxShadows: { xxl } }) => xxl,
           }}
@@ -82,7 +86,7 @@ function Author() {
         <Footer />
       </MKBox>
     </>
-  );
+  )
 }
 
-export default Author;
+export default Author

@@ -2,17 +2,22 @@ import { defineConfig } from "vite"
 import reactRefresh from "@vitejs/plugin-react-refresh"
 import path from "path"
 import dfxJson from "./dfx.json"
-import fs, { readdirSync } from 'fs'
+import fs, { readdirSync } from "fs"
 
 const isDev = process.env["DFX_NETWORK"] !== "ic"
 
 //jsconfig for direction file react
-const absolutePathAliases = {};
-const srcPath = path.resolve('./frontend/');
-const srcRootContent = readdirSync(srcPath, { withFileTypes: true }).map((dirent) => { console.log(dirent); return dirent.name.replace(/(\.jsx){1}(x?)/, '') });
+const absolutePathAliases = {}
+const srcPath = path.resolve("./frontend/")
+const srcRootContent = readdirSync(srcPath, { withFileTypes: true }).map(
+  (dirent) => {
+    console.log(dirent)
+    return dirent.name.replace(/(\.jsx){1}(x?)/, "")
+  },
+)
 srcRootContent.forEach((directory) => {
-  absolutePathAliases[directory] = path.join(srcPath, directory);
-});
+  absolutePathAliases[directory] = path.join(srcPath, directory)
+})
 ////
 
 let canisterIds
@@ -73,10 +78,10 @@ export default defineConfig({
     alias: {
       // Here we tell Vite the "fake" modules that we want to define
       ...aliases,
-      ...absolutePathAliases
+      ...absolutePathAliases,
     },
   },
-  root: '',
+  root: "",
   server: {
     fs: {
       allow: ["."],

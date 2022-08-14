@@ -12,16 +12,16 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // Sections components
-import BaseLayout from "layouts/sections/components/BaseLayout";
-import View from "layouts/sections/components/View";
+import BaseLayout from "layouts/sections/components/BaseLayout"
+import View from "layouts/sections/components/View"
 
 // Forms page components
-import FormSimple from "layouts/sections/input-areas/forms/components/FormSimple";
+import FormSimple from "layouts/sections/input-areas/forms/components/FormSimple"
 
 // Forms page components code
-import formSimpleCode from "layouts/sections/input-areas/forms/components/FormSimple/code";
+import formSimpleCode from "layouts/sections/input-areas/forms/components/FormSimple/code"
 
 function Forms() {
   return (
@@ -36,7 +36,7 @@ function Forms() {
         <FormSimple />
       </View>
     </BaseLayout>
-  );
+  )
 }
 
-export default Forms;
+export default Forms

@@ -12,17 +12,22 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import TextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
+import TextField from "@mui/material/TextField"
+import { styled } from "@mui/material/styles"
 
 export default styled(TextField)(({ theme, ownerState }) => {
-  const { palette, functions } = theme;
-  const { error, success, disabled } = ownerState;
+  const { palette, functions } = theme
+  const { error, success, disabled } = ownerState
 
-  const { grey, transparent, error: colorError, success: colorSuccess } = palette;
-  const { pxToRem } = functions;
+  const {
+    grey,
+    transparent,
+    error: colorError,
+    success: colorSuccess,
+  } = palette
+  const { pxToRem } = functions
 
   // styles for the input with error={true}
   const errorStyles = () => ({
@@ -41,7 +46,7 @@ export default styled(TextField)(({ theme, ownerState }) => {
     "& .MuiInputLabel-root.Mui-focused": {
       color: colorError.main,
     },
-  });
+  })
 
   // styles for the input with success={true}
   const successStyles = () => ({
@@ -60,12 +65,12 @@ export default styled(TextField)(({ theme, ownerState }) => {
     "& .MuiInputLabel-root.Mui-focused": {
       color: colorSuccess.main,
     },
-  });
+  })
 
   return {
     backgroundColor: disabled ? `${grey[200]} !important` : transparent.main,
     pointerEvents: disabled ? "none" : "auto",
     ...(error && errorStyles()),
     ...(success && successStyles()),
-  };
-});
+  }
+})

@@ -14,19 +14,19 @@ Coded by www.creative-tim.com
 */
 
 // react-router components
-import { Link } from "react-router-dom";
-import React from 'react';
+import { Link } from "react-router-dom"
+import React from "react"
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // @mui material components
-import Card from "@mui/material/Card";
-import MuiLink from "@mui/material/Link";
+import Card from "@mui/material/Card"
+import MuiLink from "@mui/material/Link"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
-import MKButton from "components/MKButton";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
+import MKButton from "components/MKButton"
 
 function CenteredBlogCard({ image, title, description, action }) {
   return (
@@ -58,7 +58,12 @@ function CenteredBlogCard({ image, title, description, action }) {
         />
       </MKBox>
       <MKBox p={3} mt={-1} textAlign="center">
-        <MKTypography display="inline" variant="h5" textTransform="capitalize" fontWeight="regular">
+        <MKTypography
+          display="inline"
+          variant="h5"
+          textTransform="capitalize"
+          fontWeight="regular"
+        >
           {title}
         </MKTypography>
         <MKBox mt={1} mb={3}>
@@ -91,7 +96,7 @@ function CenteredBlogCard({ image, title, description, action }) {
         )}
       </MKBox>
     </Card>
-  );
+  )
 }
 
 // Typechecking props for the CenteredBlogCard
@@ -114,6 +119,6 @@ CenteredBlogCard.propTypes = {
     ]),
     label: PropTypes.string.isRequired,
   }).isRequired,
-};
+}
 
-export default CenteredBlogCard;
+export default CenteredBlogCard

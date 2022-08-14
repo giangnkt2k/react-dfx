@@ -14,19 +14,19 @@ Coded by www.creative-tim.com
 */
 
 // react-router components
-import { Link } from "react-router-dom";
-import React from 'react';
+import { Link } from "react-router-dom"
+import React from "react"
 // prop-types is a library for typechecking of props
-import PropTypes from "prop-types";
+import PropTypes from "prop-types"
 
 // @mui material components
-import Card from "@mui/material/Card";
-import Icon from "@mui/material/Icon";
-import MuiLink from "@mui/material/Link";
+import Card from "@mui/material/Card"
+import Icon from "@mui/material/Icon"
+import MuiLink from "@mui/material/Link"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
 
 function TransparentBlogCard({ image, title, description, action }) {
   const cardActionStyles = {
@@ -43,7 +43,7 @@ function TransparentBlogCard({ image, title, description, action }) {
       {
         transform: `translateX(6px)`,
       },
-  };
+  }
 
   const imageTemplate = (
     <MKBox position="relative" borderRadius="lg">
@@ -73,7 +73,7 @@ function TransparentBlogCard({ image, title, description, action }) {
         }}
       />
     </MKBox>
-  );
+  )
 
   return (
     <Card
@@ -98,7 +98,12 @@ function TransparentBlogCard({ image, title, description, action }) {
             </MKTypography>
           </Link>
         ) : (
-          <MuiLink href={action.route} target="_blank" rel="noreferrer" sx={cardActionStyles}>
+          <MuiLink
+            href={action.route}
+            target="_blank"
+            rel="noreferrer"
+            sx={cardActionStyles}
+          >
             <MKTypography variant="h5" gutterBottom>
               {title}
             </MKTypography>
@@ -138,7 +143,7 @@ function TransparentBlogCard({ image, title, description, action }) {
         )}
       </MKBox>
     </Card>
-  );
+  )
 }
 
 // Typechecking props for the TransparentBlogCard
@@ -163,6 +168,6 @@ TransparentBlogCard.propTypes = {
       "text",
     ]).isRequired,
   }).isRequired,
-};
+}
 
-export default TransparentBlogCard;
+export default TransparentBlogCard

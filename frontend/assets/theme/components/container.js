@@ -14,20 +14,20 @@ Coded by www.creative-tim.com
 */
 
 // Material Kit 2 React base styles
-import breakpoints from "assets/theme/base/breakpoints";
+import breakpoints from "assets/theme/base/breakpoints"
 
 // Material Kit 2 React helper functions
-import pxToRem from "assets/theme/functions/pxToRem";
+import pxToRem from "assets/theme/functions/pxToRem"
 
 const {
   values: { sm, md, lg, xl, xxl },
-} = breakpoints;
+} = breakpoints
 
-const SM = `@media (min-width: ${sm}px)`;
-const MD = `@media (min-width: ${md}px)`;
-const LG = `@media (min-width: ${lg}px)`;
-const XL = `@media (min-width: ${xl}px)`;
-const XXL = `@media (min-width: ${xxl}px)`;
+const SM = `@media (min-width: ${sm}px)`
+const MD = `@media (min-width: ${md}px)`
+const LG = `@media (min-width: ${lg}px)`
+const XL = `@media (min-width: ${xl}px)`
+const XXL = `@media (min-width: ${xxl}px)`
 
 const sharedClasses = {
   paddingRight: `${pxToRem(24)} !important`,
@@ -36,7 +36,7 @@ const sharedClasses = {
   marginLeft: "auto !important",
   width: "100% !important",
   position: "relative",
-};
+}
 
 export default {
   [SM]: {
@@ -69,4 +69,4 @@ export default {
       maxWidth: "1320px !important",
     },
   },
-};
+}

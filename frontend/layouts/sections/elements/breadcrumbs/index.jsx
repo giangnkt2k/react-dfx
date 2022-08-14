@@ -12,23 +12,23 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
+import MKBox from "components/MKBox"
 
 // Material Kit 2 React examples
-import Breadcrumbs from "examples/Breadcrumbs";
+import Breadcrumbs from "examples/Breadcrumbs"
 
 // Sections components
-import BaseLayout from "layouts/sections/components/BaseLayout";
-import View from "layouts/sections/components/View";
+import BaseLayout from "layouts/sections/components/BaseLayout"
+import View from "layouts/sections/components/View"
 
 // Breadcrumbs page components code
-import breadcrumbsCode from "layouts/sections/elements/breadcrumbs/code";
+import breadcrumbsCode from "layouts/sections/elements/breadcrumbs/code"
 
 function BreadcrumbsEl() {
   return (
@@ -45,7 +45,9 @@ function BreadcrumbsEl() {
             <Grid container spacing={2} item xs={12} lg={10} mx="auto">
               <Grid item xs={12}>
                 <Breadcrumbs
-                  routes={[{ label: "Home", route: "/sections/elements/breadcrumbs" }]}
+                  routes={[
+                    { label: "Home", route: "/sections/elements/breadcrumbs" },
+                  ]}
                 />
               </Grid>
               <Grid item xs={12}>
@@ -60,7 +62,10 @@ function BreadcrumbsEl() {
                 <Breadcrumbs
                   routes={[
                     { label: "Home", route: "/sections/elements/breadcrumbs" },
-                    { label: "Library", route: "/sections/elements/breadcrumbs" },
+                    {
+                      label: "Library",
+                      route: "/sections/elements/breadcrumbs",
+                    },
                     { label: "Data" },
                   ]}
                 />
@@ -70,7 +75,7 @@ function BreadcrumbsEl() {
         </MKBox>
       </View>
     </BaseLayout>
-  );
+  )
 }
 
-export default BreadcrumbsEl;
+export default BreadcrumbsEl

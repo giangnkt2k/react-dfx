@@ -46,6 +46,7 @@ import footerRoutes from "footer.routes";
 // Images
 import bgImage from "assets/images/bg-presentation.jpg";
 
+import bgVideo from "assets/video/top-block-bg.mp4";
 function Presentation() {
   return (
     <>
@@ -70,6 +71,9 @@ function Presentation() {
           placeItems: "center",
         }}
       >
+        <video className='videoTag' autoPlay loop muted>
+          <source src={bgVideo} type='video/mp4' />
+        </video>
         <Container>
           <Grid container item xs={12} lg={7} justifyContent="center" mx="auto">
             <MKTypography

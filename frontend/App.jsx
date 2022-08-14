@@ -28,7 +28,6 @@ import routes from "routes";
  * Some examples to get you started
  */
 function App() {
-  console.log('asd')
   const { pathname } = useLocation();
   // Setting page scroll to 0 when changing the route
   useEffect(() => {

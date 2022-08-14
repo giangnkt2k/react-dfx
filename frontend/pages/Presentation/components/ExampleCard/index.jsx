@@ -22,7 +22,10 @@ import Tooltip from "@mui/material/Tooltip";
 // Material Kit 2 React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
-
+import Card from '@mui/material/Card';
+import CardContent from '@mui/material/CardContent';
+import CardMedia from '@mui/material/CardMedia';
+import { Button, CardActionArea, CardActions } from '@mui/material';
 function ExampleCard({ image, name, count, pro, ...rest }) {
   const imageTemplate = (
     <MKBox
@@ -81,27 +84,59 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
 
   return (
     <MKBox position="relative">
-      {pro ? (
-        <Tooltip title="Pro Element" placement="top">
-          {imageTemplate}
-        </Tooltip>
-      ) : (
-        imageTemplate
-      )}
-      {name || count > 0 ? (
-        <MKBox mt={1} ml={1} lineHeight={1}>
-          {name && (
-            <MKTypography variant="h6" fontWeight="bold">
-              {name}
-            </MKTypography>
-          )}
-          {count > 0 && (
-            <MKTypography variant="button" fontWeight="regular" color="secondary">
-              {count} {count === 1 ? "Example" : "Examples"}
-            </MKTypography>
-          )}
-        </MKBox>
-      ) : null}
+      <Card>
+        {pro ? (
+          <CardActionArea>
+            <MKBox
+              component="img"
+              src="https://mui.com/static/images/cards/contemplative-reptile.jpg"
+              alt={name}
+              width="100%"
+              height="140px"
+              my="auto"
+              opacity={pro ? 0.6 : 1}
+            />
+            <CardContent>
+              <MKTypography gutterBottom variant="h5" component="div">
+                {name}
+              </MKTypography>
+              <MKTypography variant="body2" color="text.secondary">
+                {count} {count === 1 ? "Example" : "Examples"}
+              </MKTypography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                Share
+              </Button>
+            </CardActions>
+          </CardActionArea>
+        ) : (
+          <CardActionArea>
+            <MKBox
+              component="img"
+              src={image}
+              alt={name}
+                width="100%"
+                height="140px"
+              my="auto"
+              opacity={pro ? 0.6 : 1}
+            />
+            <CardContent>
+              <MKTypography gutterBottom variant="h5" component="div">
+                {name}
+              </MKTypography>
+              <MKTypography variant="body2" color="text.secondary">
+                {count} {count === 1 ? "Example" : "Examples"}
+              </MKTypography>
+            </CardContent>
+            <CardActions>
+              <Button size="small" color="primary">
+                Share
+              </Button>
+            </CardActions>
+          </CardActionArea>
+        )}
+      </Card>
     </MKBox>
   );
 }

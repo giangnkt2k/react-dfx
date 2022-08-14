@@ -18,8 +18,8 @@ const imagesPrefix =
 
 export default [
   {
-    title: "Design Blocks",
-    description: "A selection of 45 page sections that fit perfectly in any combination",
+    title: "Products on auction",
+    description: "Below are the products being auctioned on the current floor",
     items: [
       {
         image: `${imagesPrefix}/headers.jpg`,

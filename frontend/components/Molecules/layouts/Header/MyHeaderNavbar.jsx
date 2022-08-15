@@ -37,10 +37,6 @@ import MKTypography from "components/MKTypography"
 import MKButton from "components/MKButton"
 import MKAvatar from "components/MKAvatar"
 
-// Material Kit 2 React example components
-import DefaultNavbarDropdown from "examples/Navbars/DefaultNavbar/DefaultNavbarDropdown"
-import DefaultNavbarMobile from "examples/Navbars/DefaultNavbar/DefaultNavbarMobile"
-
 // Material Kit 2 React base styles
 import breakpoints from "assets/theme/base/breakpoints"
 
@@ -48,444 +44,113 @@ import breakpoints from "assets/theme/base/breakpoints"
 import logoDau from "assets/images/logo-dau.png"
 
 function MyHeaderNavbar({
-  brand,
-  routes,
   transparent,
   light,
-  action,
+  actions,
+  subActions,
   sticky,
   relative,
   center,
 }) {
-  const [dropdown, setDropdown] = useState("")
-  const [dropdownEl, setDropdownEl] = useState("")
-  const [dropdownName, setDropdownName] = useState("")
-  const [nestedDropdown, setNestedDropdown] = useState("")
-  const [nestedDropdownEl, setNestedDropdownEl] = useState("")
-  const [nestedDropdownName, setNestedDropdownName] = useState("")
-  const [arrowRef, setArrowRef] = useState(null)
-  const [mobileNavbar, setMobileNavbar] = useState(false)
-  const [mobileView, setMobileView] = useState(false)
-
-  const openMobileNavbar = () => setMobileNavbar(!mobileNavbar)
-
-  useEffect(() => {
-    // A function that sets the display state for the DefaultNavbarMobile.
-    function displayMobileNavbar() {
-      if (window.innerWidth < breakpoints.values.lg) {
-        setMobileView(true)
-        setMobileNavbar(false)
-      } else {
-        setMobileView(false)
-        setMobileNavbar(false)
-      }
-    }
-
-    /** 
-     The event listener that's calling the displayMobileNavbar function when 
-     resizing the window.
-    */
-    window.addEventListener("resize", displayMobileNavbar)
-
-    // Call the displayMobileNavbar function to set the state with the initial value.
-    displayMobileNavbar()
-
-    // Remove event listener on cleanup
-    return () => window.removeEventListener("resize", displayMobileNavbar)
-  }, [])
-
-  const renderNavbarItems = routes.map(
-    ({ name, icon, href, route, collapse }) => (
-      <DefaultNavbarDropdown
-        key={name}
-        name={name}
-        icon={icon}
-        href={href}
-        route={route}
-        collapse={Boolean(collapse)}
-        onMouseEnter={({ currentTarget }) => {
-          if (collapse) {
-            setDropdown(currentTarget)
-            setDropdownEl(currentTarget)
-            setDropdownName(name)
-          }
-        }}
-        onMouseLeave={() => collapse && setDropdown(null)}
-        light={light}
-      />
+  const renderNavbarItem = actions.map(({ type, color, route, label, isBtn }) =>
+    type === "internal" ? (
+      <MKBox
+        mx={1}
+        p={1}
+        display="flex"
+        alignItems="center"
+        color={light ? "white" : "dark"}
+        opacity={light ? 1 : 0.6}
+        sx={{ cursor: "pointer", userSelect: "none" }}
+      >
+        {isBtn ? (
+          <MKButton
+            component={Link}
+            to={route}
+            variant={
+              color === "white" || color === "default"
+                ? "contained"
+                : "gradient"
+            }
+            color={color ? color : "info"}
+            size="small"
+          >
+            {label}
+          </MKButton>
+        ) : (
+          <MKTypography
+            variant="button"
+            fontWeight="regular"
+            textTransform="capitalize"
+            color={light ? "white" : "dark"}
+            sx={{ fontWeight: "100%", ml: 1, mr: 0.25 }}
+          >
+            {label}
+          </MKTypography>
+        )}
+      </MKBox>
+    ) : (
+      <MKBox
+        mx={1}
+        p={1}
+        display="flex"
+        alignItems="center"
+        color={light ? "white" : "dark"}
+        opacity={light ? 1 : 0.6}
+        sx={{ cursor: "pointer", userSelect: "none" }}
+      >
+        {isBtn ? (
+          <MKButton
+            component="a"
+            href={route}
+            target="_blank"
+            rel="noreferrer"
+            variant={
+              color === "white" || color === "default"
+                ? "contained"
+                : "gradient"
+            }
+            color={color ? color : "info"}
+            size="small"
+          >
+            {label}
+          </MKButton>
+        ) : (
+          <MKTypography
+            variant="button"
+            fontWeight="regular"
+            textTransform="capitalize"
+            color={light ? "white" : "dark"}
+            sx={{ fontWeight: "100%", ml: 1, mr: 0.25 }}
+          >
+            {label}
+          </MKTypography>
+        )}
+      </MKBox>
     ),
   )
-
-  // Render the routes on the dropdown menu
-  const renderRoutes = routes.map(
-    ({ name, collapse, columns, rowsPerColumn }) => {
-      let template
-
-      // Render the dropdown menu that should be display as columns
-      if (collapse && columns && name === dropdownName) {
-        const calculateColumns = collapse.reduce((resultArray, item, index) => {
-          const chunkIndex = Math.floor(index / rowsPerColumn)
-
-          if (!resultArray[chunkIndex]) {
-            resultArray[chunkIndex] = []
-          }
-
-          resultArray[chunkIndex].push(item)
-
-          return resultArray
-        }, [])
-
-        template = (
-          <Grid key={name} container spacing={3} py={1} px={1.5}>
-            {calculateColumns.map((cols, key) => {
-              const gridKey = `grid-${key}`
-              const dividerKey = `divider-${key}`
-
-              return (
-                <Grid
-                  key={gridKey}
-                  item
-                  xs={12 / columns}
-                  sx={{ position: "relative" }}
-                >
-                  {cols.map((col, index) => (
-                    <Fragment key={col.name}>
-                      <MKTypography
-                        display="block"
-                        variant="button"
-                        fontWeight="bold"
-                        textTransform="capitalize"
-                        py={1}
-                        px={0.5}
-                        mt={index !== 0 ? 2 : 0}
-                      >
-                        {col.name}
-                      </MKTypography>
-                      {col.collapse.map((item) => (
-                        <MKTypography
-                          key={item.name}
-                          component={item.route ? Link : MuiLink}
-                          to={item.route ? item.route : ""}
-                          href={
-                            item.href ? item.href : (e) => e.preventDefault()
-                          }
-                          target={item.href ? "_blank" : ""}
-                          rel={item.href ? "noreferrer" : "noreferrer"}
-                          minWidth="11.25rem"
-                          display="block"
-                          variant="button"
-                          color="text"
-                          textTransform="capitalize"
-                          fontWeight="regular"
-                          py={0.625}
-                          px={2}
-                          sx={({
-                            palette: { grey, dark },
-                            borders: { borderRadius },
-                          }) => ({
-                            borderRadius: borderRadius.md,
-                            cursor: "pointer",
-                            transition: "all 300ms linear",
-
-                            "&:hover": {
-                              backgroundColor: grey[200],
-                              color: dark.main,
-                            },
-                          })}
-                        >
-                          {item.name}
-                        </MKTypography>
-                      ))}
-                    </Fragment>
-                  ))}
-                  {key !== 0 && (
-                    <Divider
-                      key={dividerKey}
-                      orientation="vertical"
-                      sx={{
-                        position: "absolute",
-                        top: "50%",
-                        left: "-4px",
-                        transform: "translateY(-45%)",
-                        height: "90%",
-                      }}
-                    />
-                  )}
-                </Grid>
-              )
-            })}
-          </Grid>
-        )
-
-        // Render the dropdown menu that should be display as list items
-      } else if (collapse && name === dropdownName) {
-        template = collapse.map((item) => {
-          const linkComponent = {
-            component: MuiLink,
-            href: item.href,
-            target: "_blank",
-            rel: "noreferrer",
-          }
-
-          const routeComponent = {
-            component: Link,
-            to: item.route,
-          }
-
-          return (
-            <MKTypography
-              key={item.name}
-              {...(item.route ? routeComponent : linkComponent)}
-              display="flex"
-              justifyContent="space-between"
-              alignItems="center"
-              variant="button"
-              textTransform="capitalize"
-              minWidth={item.description ? "14rem" : "12rem"}
-              color={item.description ? "dark" : "text"}
-              fontWeight={item.description ? "bold" : "regular"}
-              py={item.description ? 1 : 0.625}
-              px={2}
-              sx={({ palette: { grey, dark }, borders: { borderRadius } }) => ({
-                borderRadius: borderRadius.md,
-                cursor: "pointer",
-                transition: "all 300ms linear",
-
-                "&:hover": {
-                  backgroundColor: grey[200],
-                  color: dark.main,
-
-                  "& *": {
-                    color: dark.main,
-                  },
-                },
-              })}
-              onMouseEnter={({ currentTarget }) => {
-                if (item.dropdown) {
-                  setNestedDropdown(currentTarget)
-                  setNestedDropdownEl(currentTarget)
-                  setNestedDropdownName(item.name)
-                }
-              }}
-              onMouseLeave={() => {
-                if (item.dropdown) {
-                  setNestedDropdown(null)
-                }
-              }}
-            >
-              {item.description ? (
-                <MKBox>
-                  {item.name}
-                  <MKTypography
-                    display="block"
-                    variant="button"
-                    color="text"
-                    fontWeight="regular"
-                    sx={{ transition: "all 300ms linear" }}
-                  >
-                    {item.description}
-                  </MKTypography>
-                </MKBox>
-              ) : (
-                item.name
-              )}
-              {item.collapse && (
-                <Icon
-                  fontSize="small"
-                  sx={{
-                    fontWeight: "normal",
-                    verticalAlign: "middle",
-                    mr: -0.5,
-                  }}
-                >
-                  keyboard_arrow_right
-                </Icon>
-              )}
-            </MKTypography>
-          )
-        })
-      }
-
-      return template
-    },
-  )
-
-  // Routes dropdown menu
-  const dropdownMenu = (
-    <Popper
-      anchorEl={dropdown}
-      popperRef={null}
-      open={Boolean(dropdown)}
-      placement="top-start"
-      transition
-      style={{ zIndex: 10 }}
-      modifiers={[
-        {
-          name: "arrow",
-          enabled: true,
-          options: {
-            element: arrowRef,
-          },
-        },
-      ]}
-      onMouseEnter={() => setDropdown(dropdownEl)}
-      onMouseLeave={() => {
-        if (!nestedDropdown) {
-          setDropdown(null)
-          setDropdownName("")
-        }
-      }}
+  const renderNavbarSubItem = subActions.map(({ label, color }) => (
+    <MKBox
+      mx={1}
+      pr={1}
+      pl={1}
+      display="flex"
+      alignItems="center"
+      color={light ? "white" : "dark"}
+      opacity={light ? 1 : 0.6}
+      sx={{ cursor: "pointer", userSelect: "none" }}
     >
-      {({ TransitionProps }) => (
-        <Grow
-          {...TransitionProps}
-          sx={{
-            transformOrigin: "left top",
-            background: ({ palette: { white } }) => white.main,
-          }}
-        >
-          <MKBox borderRadius="lg">
-            <MKTypography variant="h1" color="white">
-              <Icon ref={setArrowRef} sx={{ mt: -3 }}>
-                arrow_drop_up
-              </Icon>
-            </MKTypography>
-            <MKBox shadow="lg" borderRadius="lg" p={2} mt={2}>
-              {renderRoutes}
-            </MKBox>
-          </MKBox>
-        </Grow>
-      )}
-    </Popper>
-  )
-
-  // Render routes that are nested inside the dropdown menu routes
-  const renderNestedRoutes = routes.map(({ collapse, columns }) =>
-    collapse && !columns
-      ? collapse.map(({ name: parentName, collapse: nestedCollapse }) => {
-          let template
-
-          if (parentName === nestedDropdownName) {
-            template =
-              nestedCollapse &&
-              nestedCollapse.map((item) => {
-                const linkComponent = {
-                  component: MuiLink,
-                  href: item.href,
-                  target: "_blank",
-                  rel: "noreferrer",
-                }
-
-                const routeComponent = {
-                  component: Link,
-                  to: item.route,
-                }
-
-                return (
-                  <MKTypography
-                    key={item.name}
-                    {...(item.route ? routeComponent : linkComponent)}
-                    display="flex"
-                    justifyContent="space-between"
-                    alignItems="center"
-                    variant="button"
-                    textTransform="capitalize"
-                    minWidth={item.description ? "14rem" : "12rem"}
-                    color={item.description ? "dark" : "text"}
-                    fontWeight={item.description ? "bold" : "regular"}
-                    py={item.description ? 1 : 0.625}
-                    px={2}
-                    sx={({
-                      palette: { grey, dark },
-                      borders: { borderRadius },
-                    }) => ({
-                      borderRadius: borderRadius.md,
-                      cursor: "pointer",
-                      transition: "all 300ms linear",
-
-                      "&:hover": {
-                        backgroundColor: grey[200],
-                        color: dark.main,
-
-                        "& *": {
-                          color: dark.main,
-                        },
-                      },
-                    })}
-                  >
-                    {item.description ? (
-                      <MKBox>
-                        {item.name}
-                        <MKTypography
-                          display="block"
-                          variant="button"
-                          color="text"
-                          fontWeight="regular"
-                          sx={{ transition: "all 300ms linear" }}
-                        >
-                          {item.description}
-                        </MKTypography>
-                      </MKBox>
-                    ) : (
-                      item.name
-                    )}
-                    {item.collapse && (
-                      <Icon
-                        fontSize="small"
-                        sx={{
-                          fontWeight: "normal",
-                          verticalAlign: "middle",
-                          mr: -0.5,
-                        }}
-                      >
-                        keyboard_arrow_right
-                      </Icon>
-                    )}
-                  </MKTypography>
-                )
-              })
-          }
-
-          return template
-        })
-      : null,
-  )
-
-  // Dropdown menu for the nested dropdowns
-  const nestedDropdownMenu = (
-    <Popper
-      anchorEl={nestedDropdown}
-      popperRef={null}
-      open={Boolean(nestedDropdown)}
-      placement="right-start"
-      transition
-      style={{ zIndex: 10 }}
-      onMouseEnter={() => {
-        setNestedDropdown(nestedDropdownEl)
-      }}
-      onMouseLeave={() => {
-        setNestedDropdown(null)
-        setNestedDropdownName("")
-        setDropdown(null)
-      }}
-    >
-      {({ TransitionProps }) => (
-        <Grow
-          {...TransitionProps}
-          sx={{
-            transformOrigin: "left top",
-            background: ({ palette: { white } }) => white.main,
-          }}
-        >
-          <MKBox ml={2.5} mt={-2.5} borderRadius="lg">
-            <MKBox shadow="lg" borderRadius="lg" py={1.5} px={1} mt={2}>
-              {renderNestedRoutes}
-            </MKBox>
-          </MKBox>
-        </Grow>
-      )}
-    </Popper>
-  )
+      <MKTypography
+        variant="button"
+        fontWeight="regular"
+        textTransform="capitalize"
+        color={color ? color : light ? "white" : "dark"}
+        sx={{ fontWeight: "100%", ml: 1, mr: 0.25 }}
+      >
+        {label}
+      </MKTypography>
+    </MKBox>
+  ))
 
   return (
     <Container sx={sticky ? { position: "sticky", top: 0, zIndex: 10 } : null}>
@@ -535,68 +200,20 @@ function MyHeaderNavbar({
             ml="auto"
             mr={center ? "auto" : 0}
           >
-            {renderNavbarItems}
+            {renderNavbarItem}
           </MKBox>
-          <MKBox ml={{ xs: "auto", lg: 0 }}>
-            +
-            {action &&
-              (action.type === "internal" ? (
-                <MKButton
-                  component={Link}
-                  to={action.route}
-                  variant={
-                    action.color === "white" || action.color === "default"
-                      ? "contained"
-                      : "gradient"
-                  }
-                  color={action.color ? action.color : "info"}
-                  size="small"
-                >
-                  {action.label}
-                </MKButton>
-              ) : (
-                <MKButton
-                  component="a"
-                  href={action.route}
-                  target="_blank"
-                  rel="noreferrer"
-                  variant={
-                    action.color === "white" || action.color === "default"
-                      ? "contained"
-                      : "gradient"
-                  }
-                  color={action.color ? action.color : "info"}
-                  size="small"
-                >
-                  {action.label}
-                </MKButton>
-              ))}
-          </MKBox>
-          <MKBox
-            display={{ xs: "inline-block", lg: "none" }}
-            lineHeight={0}
-            py={1.5}
-            pl={1.5}
-            color={transparent ? "white" : "inherit"}
-            sx={{ cursor: "pointer" }}
-            onClick={openMobileNavbar}
-          >
-            [] <Icon fontSize="default">{mobileNavbar ? "close" : "menu"}</Icon>
-          </MKBox>
-        </MKBox>
-        <MKBox
-          bgColor={transparent ? "white" : "transparent"}
-          shadow={transparent ? "lg" : "none"}
-          borderRadius="xl"
-          px={transparent ? 2 : 0}
-        >
-          {mobileView && (
-            <DefaultNavbarMobile routes={routes} open={mobileNavbar} />
-          )}
         </MKBox>
       </MKBox>
-      {dropdownMenu}
-      {nestedDropdownMenu}
+      <MKBox>
+        <MKBox
+          color="inherit"
+          display={{ xs: "none", lg: "flex" }}
+          ml="auto"
+          mr={center ? "auto" : 0}
+        >
+          {renderNavbarSubItem}
+        </MKBox>
+      </MKBox>
     </Container>
   )
 }
@@ -606,7 +223,7 @@ MyHeaderNavbar.defaultProps = {
   brand: "Material Kit 2",
   transparent: false,
   light: false,
-  action: false,
+  actions: [],
   sticky: false,
   relative: false,
   center: false,
@@ -615,14 +232,29 @@ MyHeaderNavbar.defaultProps = {
 // Typechecking props for the DefaultNavbar
 MyHeaderNavbar.propTypes = {
   brand: PropTypes.string,
-  routes: PropTypes.arrayOf(PropTypes.object).isRequired,
   transparent: PropTypes.bool,
   light: PropTypes.bool,
-  action: PropTypes.oneOfType([
-    PropTypes.bool,
+  actions: PropTypes.arrayOf(
     PropTypes.shape({
       type: PropTypes.oneOf(["external", "internal"]).isRequired,
-      route: PropTypes.string.isRequired,
+      color: PropTypes.oneOf([
+        "primary",
+        "secondary",
+        "info",
+        "success",
+        "warning",
+        "error",
+        "dark",
+        "light",
+        "default",
+        "white",
+      ]),
+      label: PropTypes.string.isRequired,
+      isBtn: PropTypes.bool.isRequired,
+    }),
+  ),
+  subActions: PropTypes.arrayOf(
+    PropTypes.shape({
       color: PropTypes.oneOf([
         "primary",
         "secondary",
@@ -637,7 +269,7 @@ MyHeaderNavbar.propTypes = {
       ]),
       label: PropTypes.string.isRequired,
     }),
-  ]),
+  ),
   sticky: PropTypes.bool,
   relative: PropTypes.bool,
   center: PropTypes.bool,

@@ -29,7 +29,6 @@ import DefaultFooter from "examples/Footers/DefaultFooter";
 import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard";
 
 // Presentation page sections
-import Counters from "pages/Presentation/sections/Counters";
 import Information from "pages/Presentation/sections/Information";
 import DesignBlocks from "pages/Presentation/sections/DesignBlocks";
 import Pages from "pages/Presentation/sections/Pages";
@@ -47,6 +46,16 @@ import footerRoutes from "footer.routes";
 import bgImage from "assets/images/bg-presentation.jpg";
 
 import bgVideo from "assets/video/top-block-bg.mp4";
+
+const videoTag = {
+  objectFit: "cover",
+  width: "100vw",
+  height: "100vh",
+  position: "fixed",
+  top: '0',
+  left: "0"
+};
+
 function Presentation() {
   return (
     <>
@@ -64,21 +73,20 @@ function Presentation() {
         minHeight="75vh"
         width="100%"
         sx={{
-          backgroundImage: `url(${bgImage})`,
           backgroundSize: "cover",
           backgroundPosition: "top",
           display: "grid",
           placeItems: "center",
         }}
       >
-        <video className='videoTag' autoPlay loop muted>
+        <video style={videoTag} autoPlay loop muted>
           <source src={bgVideo} type='video/mp4' />
         </video>
         <Container>
           <Grid container item xs={12} lg={7} justifyContent="center" mx="auto">
             <MKTypography
               variant="h1"
-              color="white"
+              color="#8275F5"
               mt={-6}
               mb={1}
               sx={({ breakpoints, typography: { size } }) => ({
@@ -87,17 +95,16 @@ function Presentation() {
                 },
               })}
             >
-              Material Kit 2 React{" "}
+              Decentralized Auction{" "}
             </MKTypography>
             <MKTypography
               variant="body1"
-              color="white"
+              color="#8275F5"
               textAlign="center"
               px={{ xs: 6, lg: 12 }}
               mt={1}
             >
-              Free & Open Source Web UI Kit built over ReactJS &amp; MUI. Join over 1.6 million
-              developers around the world.
+              The World's First Decentralized Auction
             </MKTypography>
           </Grid>
         </Container>
@@ -108,13 +115,11 @@ function Presentation() {
           mx: { xs: 2, lg: 3 },
           mt: -8,
           mb: 4,
-          backgroundColor: ({ palette: { white }, functions: { rgba } }) => rgba(white.main, 0.8),
+          backgroundColor: '#8275f52b',
           backdropFilter: "saturate(200%) blur(30px)",
           boxShadow: ({ boxShadows: { xxl } }) => xxl,
         }}
       >
-        <Counters />
-        <Information />
         <DesignBlocks />
         <Pages />
         <Container sx={{ mt: 6 }}>

@@ -20,19 +20,51 @@ import MyHeaderNavbar from "components/Molecules/layouts/Header/MyHeaderNavbar"
 import logoDAU from "assets/images/logo-dau.png"
 
 // Routes
-import routes from "routes"
 
 function DauHeader() {
   return (
     <MKBox bgColor="white" shadow="sm" py={0.25}>
       <MyHeaderNavbar
-        routes={routes}
-        action={{
-          type: "external",
-          route: "https://www.creative-tim.com/product/material-kit-react",
-          label: "free download",
-          color: "info",
-        }}
+        actions={[
+          {
+            type: "internal",
+            route: "",
+            label: "Become a seller",
+            color: "info",
+            isBtn: false,
+          },
+          {
+            type: "internal",
+            route: "",
+            label: "New request",
+            color: "info",
+            isBtn: false,
+          },
+          {
+            type: "internal",
+            route: "",
+            label: "Sign up",
+            color: "info",
+            isBtn: false,
+          },
+          {
+            type: "external",
+            route: "",
+            label: "Sign in",
+            color: "info",
+            isBtn: true,
+          },
+        ]}
+        subActions={[
+          {
+            label: "All products",
+            color: "info",
+          },
+          {
+            label: "Pending products",
+            color: "info",
+          },
+        ]}
         transparent
         relative
       />

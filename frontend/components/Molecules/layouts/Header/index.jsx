@@ -20,6 +20,7 @@ import MyHeaderNavbar from "components/Molecules/layouts/Header/MyHeaderNavbar"
 import logoDAU from "assets/images/logo-dau.png"
 
 // Routes
+import routes from "routes/routesUser"
 
 //Styles
 import { makeStyles } from "@mui/styles"
@@ -32,7 +33,7 @@ const useStyles = makeStyles({
   },
 })
 
-function DauHeader({ color, shadow, changeColorOnScroll }) {
+function DauHeader({ color, shadow, changeColorOnScroll, isLogin }) {
   const classes = useStyles()
 
   const [colorHeader, setColorHeader] = useState(changeColorOnScroll.color)
@@ -68,36 +69,56 @@ function DauHeader({ color, shadow, changeColorOnScroll }) {
       className={classes.sticky_header}
     >
       <MyHeaderNavbar
-        actions={[
-          {
-            type: "internal",
-            route: "",
-            label: "Become a seller",
-            color: "info",
-            isBtn: false,
-          },
-          {
-            type: "internal",
-            route: "",
-            label: "New request",
-            color: "info",
-            isBtn: false,
-          },
-          {
-            type: "internal",
-            route: "",
-            label: "Sign up",
-            color: "info",
-            isBtn: false,
-          },
-          {
-            type: "external",
-            route: "",
-            label: "Sign in",
-            color: "info",
-            isBtn: true,
-          },
-        ]}
+        routes={routes}
+        actions={
+          isLogin
+            ? [
+                {
+                  type: "internal",
+                  route: "/",
+                  label: "Become a seller",
+                  color: "info",
+                  isBtn: false,
+                },
+                {
+                  type: "internal",
+                  route: "/",
+                  label: "New request",
+                  color: "info",
+                  isBtn: false,
+                },
+              ]
+            : [
+                {
+                  type: "internal",
+                  route: "/",
+                  label: "Become a seller",
+                  color: "info",
+                  isBtn: false,
+                },
+                {
+                  type: "internal",
+                  route: "/",
+                  label: "New request",
+                  color: "info",
+                  isBtn: false,
+                },
+                {
+                  type: "internal",
+                  route: "/",
+                  label: "Sign up",
+                  color: "info",
+                  isBtn: false,
+                },
+                {
+                  type: "external",
+                  route: "/",
+                  label: "Sign in",
+                  color: "info",
+                  isBtn: true,
+                },
+              ]
+        }
         subActions={[
           {
             label: "All products",
@@ -108,6 +129,7 @@ function DauHeader({ color, shadow, changeColorOnScroll }) {
             color: "info",
           },
         ]}
+        isLogin={isLogin}
         transparent
         relative
       />

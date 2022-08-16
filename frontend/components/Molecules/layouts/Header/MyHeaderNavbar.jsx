@@ -37,6 +37,9 @@ import MKTypography from "components/MKTypography"
 import MKButton from "components/MKButton"
 import MKAvatar from "components/MKAvatar"
 
+// Custom Material Kit 2
+import MyNavbarDropdown from "./MyNavbarDropdown"
+
 // Material Kit 2 React base styles
 import breakpoints from "assets/theme/base/breakpoints"
 
@@ -51,86 +54,99 @@ function MyHeaderNavbar({
   sticky,
   relative,
   center,
+  isLogin,
+  routes,
 }) {
-  const renderNavbarItem = actions.map(({ type, color, route, label, isBtn }) =>
-    type === "internal" ? (
-      <MKBox
-        mx={1}
-        p={1}
-        display="flex"
-        alignItems="center"
-        color={light ? "white" : "dark"}
-        opacity={light ? 1 : 0.6}
-        sx={{ cursor: "pointer", userSelect: "none" }}
-      >
-        {isBtn ? (
-          <MKButton
-            component={Link}
-            to={route}
-            variant={
-              color === "white" || color === "default"
-                ? "contained"
-                : "gradient"
-            }
-            color={color ? color : "info"}
-            size="small"
-          >
-            {label}
-          </MKButton>
-        ) : (
-          <MKTypography
-            variant="button"
-            fontWeight="regular"
-            textTransform="capitalize"
-            color={light ? "white" : "dark"}
-            sx={{ fontWeight: "100%", ml: 1, mr: 0.25 }}
-          >
-            {label}
-          </MKTypography>
-        )}
-      </MKBox>
-    ) : (
-      <MKBox
-        mx={1}
-        p={1}
-        display="flex"
-        alignItems="center"
-        color={light ? "white" : "dark"}
-        opacity={light ? 1 : 0.6}
-        sx={{ cursor: "pointer", userSelect: "none" }}
-      >
-        {isBtn ? (
-          <MKButton
-            component="a"
-            href={route}
-            target="_blank"
-            rel="noreferrer"
-            variant={
-              color === "white" || color === "default"
-                ? "contained"
-                : "gradient"
-            }
-            color={color ? color : "info"}
-            size="small"
-          >
-            {label}
-          </MKButton>
-        ) : (
-          <MKTypography
-            variant="button"
-            fontWeight="regular"
-            textTransform="capitalize"
-            color={light ? "white" : "dark"}
-            sx={{ fontWeight: "100%", ml: 1, mr: 0.25 }}
-          >
-            {label}
-          </MKTypography>
-        )}
-      </MKBox>
-    ),
+  const [dropdown, setDropdown] = useState("")
+  const [dropdownEl, setDropdownEl] = useState("")
+
+  const renderNavbarItem = actions.map(
+    ({ type, color, route, label, isBtn }, index) =>
+      type === "internal" ? (
+        <MKBox
+          key={label + index}
+          mx={1}
+          p={1}
+          display="flex"
+          alignItems="center"
+          color={light ? "white" : "dark"}
+          opacity={light ? 1 : 0.6}
+          sx={{ cursor: "pointer", userSelect: "none" }}
+        >
+          {isBtn ? (
+            <MKButton
+              key={label + index + "child"}
+              component={Link}
+              to={route}
+              variant={
+                color === "white" || color === "default"
+                  ? "contained"
+                  : "gradient"
+              }
+              color={color ? color : "info"}
+              size="small"
+            >
+              {label}
+            </MKButton>
+          ) : (
+            <MKTypography
+              key={label + index + "child"}
+              variant="button"
+              fontWeight="regular"
+              textTransform="capitalize"
+              color={light ? "white" : "dark"}
+              sx={{ fontWeight: "100%", ml: 1, mr: 0.25 }}
+            >
+              {label}
+            </MKTypography>
+          )}
+        </MKBox>
+      ) : (
+        <MKBox
+          key={label + index}
+          mx={1}
+          p={1}
+          display="flex"
+          alignItems="center"
+          color={light ? "white" : "dark"}
+          opacity={light ? 1 : 0.6}
+          sx={{ cursor: "pointer", userSelect: "none" }}
+        >
+          {isBtn ? (
+            <MKButton
+              key={label + index + "child"}
+              component="a"
+              href={route}
+              target="_blank"
+              rel="noreferrer"
+              variant={
+                color === "white" || color === "default"
+                  ? "contained"
+                  : "gradient"
+              }
+              color={color ? color : "info"}
+              size="small"
+            >
+              {label}
+            </MKButton>
+          ) : (
+            <MKTypography
+              key={label + index + "child"}
+              variant="button"
+              fontWeight="regular"
+              textTransform="capitalize"
+              color={light ? "white" : "dark"}
+              sx={{ fontWeight: "100%", ml: 1, mr: 0.25 }}
+            >
+              {label}
+            </MKTypography>
+          )}
+        </MKBox>
+      ),
   )
   const renderNavbarSubItem = subActions.map(({ label, color }) => (
     <MKBox
+      key={label}
       mx={1}
       pr={1}
       pl={1}
@@ -141,6 +157,7 @@ function MyHeaderNavbar({
       sx={{ cursor: "pointer", userSelect: "none" }}
     >
       <MKTypography
+        key={label + "child"}
         variant="button"
         fontWeight="regular"
         textTransform="capitalize"
@@ -151,6 +168,157 @@ function MyHeaderNavbar({
       </MKTypography>
     </MKBox>
   ))
+
+  const renderNavbarUser = routes.map(({ name, collapse }) => {
+    return (
+      <MyNavbarDropdown
+        key={name}
+        collapse={Boolean(collapse)}
+        onMouseEnter={({ currentTarget }) => {
+          if (collapse) {
+            setDropdown(currentTarget)
+            setDropdownEl(currentTarget)
+          }
+        }}
+        onMouseLeave={() => collapse && setDropdown(null)}
+        light={light}
+      />
+    )
+  })
+
+  // Render the routes on the dropdown menu
+  const renderRoutes = routes.map(
+    ({ name, collapse, columns, rowsPerColumn }) => {
+      // Render the dropdown menu that should be display as columns
+      const calculateColumns = collapse.reduce((resultArray, item, index) => {
+        const chunkIndex = Math.floor(index / rowsPerColumn)
+        if (!resultArray[chunkIndex]) {
+          resultArray[chunkIndex] = []
+        }
+        resultArray[chunkIndex].push(item)
+        return resultArray
+      }, [])
+      let template = (
+        <Grid key={name} container spacing={3} py={1} px={1.5}>
+          {calculateColumns.map((cols, key) => {
+            const gridKey = `grid-${key}`
+            const dividerKey = `divider-${key}`
+
+            return (
+              <Grid
+                key={gridKey}
+                item
+                xs={12 / columns}
+                sx={{ position: "relative" }}
+              >
+                {cols.map((col, index) => (
+                  <Fragment key={col.name}>
+                    <MKTypography
+                      display="block"
+                      variant="button"
+                      fontWeight="bold"
+                      textTransform="capitalize"
+                      py={1}
+                      px={0.5}
+                      mt={index !== 0 ? 2 : 0}
+                    >
+                      {col.name}
+                    </MKTypography>
+                    {col.collapse.map((item) => (
+                      <MKTypography
+                        key={item.name}
+                        component={item.route ? Link : MuiLink}
+                        to={item.route ? item.route : ""}
+                        href={item.href ? item.href : (e) => e.preventDefault()}
+                        target={item.href ? "_blank" : ""}
+                        rel={item.href ? "noreferrer" : "noreferrer"}
+                        minWidth="11.25rem"
+                        display="block"
+                        variant="button"
+                        color="text"
+                        textTransform="capitalize"
+                        fontWeight="regular"
+                        py={0.625}
+                        px={2}
+                        sx={({
+                          palette: { grey, dark },
+                          borders: { borderRadius },
+                        }) => ({
+                          borderRadius: borderRadius.md,
+                          cursor: "pointer",
+                          transition: "all 300ms linear",
+
+                          "&:hover": {
+                            backgroundColor: grey[200],
+                            color: dark.main,
+                          },
+                        })}
+                      >
+                        {item.name}
+                      </MKTypography>
+                    ))}
+                  </Fragment>
+                ))}
+                {key !== 0 && (
+                  <Divider
+                    key={dividerKey}
+                    orientation="vertical"
+                    sx={{
+                      position: "absolute",
+                      top: "50%",
+                      left: "-4px",
+                      transform: "translateY(-45%)",
+                      height: "90%",
+                    }}
+                  />
+                )}
+              </Grid>
+            )
+          })}
+        </Grid>
+      )
+
+      // Render the dropdown menu that should be display as list items
+
+      return template
+    },
+  )
+
+  // Routes dropdown menu
+  const dropdownMenu = (
+    <Popper
+      anchorEl={dropdown}
+      popperRef={null}
+      open={Boolean(dropdown)}
+      placement="top-start"
+      transition
+      style={{ zIndex: 10 }}
+      modifiers={[
+        {
+          name: "arrow",
+          enabled: true,
+        },
+      ]}
+      onMouseEnter={() => setDropdown(dropdownEl)}
+      onMouseLeave={() => setDropdown(null)}
+    >
+      {({ TransitionProps }) => (
+        <Grow
+          {...TransitionProps}
+          sx={{
+            transformOrigin: "left top",
+            background: ({ palette: { white } }) => white.main,
+          }}
+        >
+          <MKBox borderRadius="lg">
+            <MKBox shadow="lg" borderRadius="lg" p={2} mt={2}>
+              {renderRoutes}
+            </MKBox>
+          </MKBox>
+        </Grow>
+      )}
+    </Popper>
+  )
 
   return (
     <Container sx={sticky ? { position: "sticky", top: 0, zIndex: 10 } : null}>
@@ -202,11 +370,13 @@ function MyHeaderNavbar({
           >
             {renderNavbarItem}
           </MKBox>
+          {isLogin ? renderNavbarUser : null}
         </MKBox>
       </MKBox>
       <MKBox color="inherit" display="flex" ml="auto" mr={center ? "auto" : 0}>
         {renderNavbarSubItem}
       </MKBox>
+      {dropdownMenu}
     </Container>
   )
 }

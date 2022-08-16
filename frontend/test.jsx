@@ -3,9 +3,16 @@ import DauHeader from "components/Molecules/layouts/Header"
 
 function Test() {
   return (
-    <>
-      <DauHeader />
-    </>
+    <div>
+      <DauHeader
+        changeColorOnScroll={{
+          height: 1,
+          color: "transparent",
+          shadow: "none",
+        }}
+      />
+      <div style={{ height: 20000 }}></div>
+    </div>
   )
 }
 

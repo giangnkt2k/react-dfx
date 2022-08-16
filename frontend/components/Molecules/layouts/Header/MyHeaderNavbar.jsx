@@ -204,15 +204,8 @@ function MyHeaderNavbar({
           </MKBox>
         </MKBox>
       </MKBox>
-      <MKBox>
-        <MKBox
-          color="inherit"
-          display={{ xs: "none", lg: "flex" }}
-          ml="auto"
-          mr={center ? "auto" : 0}
-        >
-          {renderNavbarSubItem}
-        </MKBox>
+      <MKBox color="inherit" display="flex" ml="auto" mr={center ? "auto" : 0}>
+        {renderNavbarSubItem}
       </MKBox>
     </Container>
   )

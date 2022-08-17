@@ -1,13 +1,22 @@
 {
   "canisters": {
-    "counter": {
-      "main": "canisters/counter/main.mo",
-      "type": "motoko"
+    "dip20": {
+      "type": "motoko",
+      "main": "canisters/dip20/main.mo"
+    },
+    "dip721": {
+      "type": "motoko",
+      "main": "canisters/dip721/main.mo"
+    },
+    "marketplace_auction": {
+      "type": "motoko",
+      "main": "canisters/marketplace_auction/main.mo"
+    },
+    "reserve": {
+      "type": "motoko",
+      "main": "canisters/reserve/main.mo"
     },
     "assets": {
-      "dependencies": [
-        "counter"
-      ],
       "frontend": {
         "entrypoint": "dist/index.html"
       },

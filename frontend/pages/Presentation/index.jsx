@@ -12,62 +12,62 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import Container from "@mui/material/Container";
-import Grid from "@mui/material/Grid";
-import Card from "@mui/material/Card";
+import Container from "@mui/material/Container"
+import Grid from "@mui/material/Grid"
+import Card from "@mui/material/Card"
 
 // Material Kit 2 React components
-import MKBox from "components/MKBox";
-import MKTypography from "components/MKTypography";
-import MKSocialButton from "components/MKSocialButton";
+import MKBox from "components/MKBox"
+import MKTypography from "components/MKTypography"
+import MKSocialButton from "components/MKSocialButton"
 
 // Material Kit 2 React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import DefaultFooter from "examples/Footers/DefaultFooter";
-import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard";
+import DefaultNavbar from "examples/Navbars/DefaultNavbar"
+import DefaultFooter from "examples/Footers/DefaultFooter"
+import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard"
 
 // Presentation page sections
-import Information from "pages/Presentation/sections/Information";
-import DesignBlocks from "pages/Presentation/sections/DesignBlocks";
-import Pages from "pages/Presentation/sections/Pages";
-import Testimonials from "pages/Presentation/sections/Testimonials";
-import Download from "pages/Presentation/sections/Download";
+import Information from "pages/Presentation/sections/Information"
+import DesignBlocks from "pages/Presentation/sections/DesignBlocks"
+import Pages from "pages/Presentation/sections/Pages"
+import Testimonials from "pages/Presentation/sections/Testimonials"
+import Download from "pages/Presentation/sections/Download"
 
 // Presentation page components
-import BuiltByDevelopers from "pages/Presentation/components/BuiltByDevelopers";
+import BuiltByDevelopers from "pages/Presentation/components/BuiltByDevelopers"
 
 // Routes
-import routes from "routes";
-import footerRoutes from "footer.routes";
+import routes from "routes"
+import footerRoutes from "footer.routes"
 
 // Images
-import bgImage from "assets/images/bg-presentation.jpg";
+import bgImage from "assets/images/bg-presentation.jpg"
 
-import bgVideo from "assets/video/top-block-bg.mp4";
+import DauHeader from "components/Molecules/layouts/Header"
+
+import bgVideo from "assets/video/top-block-bg.mp4"
 
 const videoTag = {
   objectFit: "cover",
   width: "100vw",
   height: "100vh",
   position: "fixed",
-  top: '0',
-  left: "0"
-};
+  top: "0",
+  left: "0",
+}
 
 function Presentation() {
   return (
     <>
-      <DefaultNavbar
-        routes={routes}
-        action={{
-          type: "external",
-          route: "https://www.creative-tim.com/product/material-kit-react",
-          label: "free download",
-          color: "info",
+      <DauHeader
+        changeColorOnScroll={{
+          height: 1,
+          color: "transparent",
+          shadow: "none",
         }}
-        sticky
+        isLogin={true}
       />
       <MKBox
         minHeight="75vh"
@@ -80,7 +80,7 @@ function Presentation() {
         }}
       >
         <video style={videoTag} autoPlay loop muted>
-          <source src={bgVideo} type='video/mp4' />
+          <source src={bgVideo} type="video/mp4" />
         </video>
         <Container>
           <Grid container item xs={12} lg={7} justifyContent="center" mx="auto">
@@ -95,7 +95,7 @@ function Presentation() {
                 },
               })}
             >
-              Decentralized Auction{" "}
+              Decentralized Auction
             </MKTypography>
             <MKTypography
               variant="body1"
@@ -115,7 +115,7 @@ function Presentation() {
           mx: { xs: 2, lg: 3 },
           mt: -8,
           mb: 4,
-          backgroundColor: '#8275f52b',
+          backgroundColor: "#8275f52b",
           backdropFilter: "saturate(200%) blur(30px)",
           boxShadow: ({ boxShadows: { xxl } }) => xxl,
         }}
@@ -136,7 +136,8 @@ function Presentation() {
                 description="Check the possible ways of working with our product and the necessary files for building your own project."
                 action={{
                   type: "external",
-                  route: "https://www.creative-tim.com/learning-lab/react/overview/material-kit/",
+                  route:
+                    "https://www.creative-tim.com/learning-lab/react/overview/material-kit/",
                   label: "Let's start",
                 }}
               />
@@ -149,7 +150,8 @@ function Presentation() {
                 description="Get inspiration and have an overview about the plugins that we used to create the Material Kit."
                 action={{
                   type: "external",
-                  route: "https://www.creative-tim.com/learning-lab/react/overview/datepicker/",
+                  route:
+                    "https://www.creative-tim.com/learning-lab/react/overview/datepicker/",
                   label: "Read more",
                 }}
               />
@@ -162,7 +164,8 @@ function Presentation() {
                 description="Material Kit is giving you a lot of pre-made components, that will help you to build UI's faster."
                 action={{
                   type: "external",
-                  route: "https://www.creative-tim.com/learning-lab/react/alerts/material-kit/",
+                  route:
+                    "https://www.creative-tim.com/learning-lab/react/alerts/material-kit/",
                   label: "Read more",
                 }}
               />
@@ -174,7 +177,13 @@ function Presentation() {
         <MKBox pt={18} pb={6}>
           <Container>
             <Grid container spacing={3}>
-              <Grid item xs={12} lg={5} ml="auto" sx={{ textAlign: { xs: "center", lg: "left" } }}>
+              <Grid
+                item
+                xs={12}
+                lg={5}
+                ml="auto"
+                sx={{ textAlign: { xs: "center", lg: "left" } }}
+              >
                 <MKTypography variant="h4" fontWeight="bold" mb={0.5}>
                   Thank you for your support!
                 </MKTypography>
@@ -228,7 +237,7 @@ function Presentation() {
         <DefaultFooter content={footerRoutes} />
       </MKBox>
     </>
-  );
+  )
 }
 
-export default Presentation;
+export default Presentation

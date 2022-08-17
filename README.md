@@ -5,7 +5,7 @@
 - Github: https://github.com/chenyan2002/ic-repl
 - Link download: https://github.com/chenyan2002/ic-repl/releases/tag/0.2.0
 
-After download Ic-Repl, move it into **/usr/bin/**folder.
+After download Ic-Repl, move it into **/usr/bin/** folder.
 
 ### 2. Build, Deploy and Test
 Run command to allow execution file shell

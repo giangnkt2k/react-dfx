@@ -22,10 +22,13 @@ import Tooltip from "@mui/material/Tooltip";
 // Material Kit 2 React components
 import MKBox from "components/MKBox";
 import MKTypography from "components/MKTypography";
+import MKAvatar from "components/MKAvatar";
+import vetifyIcon from "../../../../assets/images/examples/vetify.svg";
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Button, CardActionArea, CardActions } from '@mui/material';
+import './style.css';
 function ExampleCard({ image, name, count, pro, ...rest }) {
   const imageTemplate = (
     <MKBox
@@ -84,7 +87,7 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
 
   return (
     <MKBox position="relative">
-      <Card>
+      <Card className='card-content'>
         {pro ? (
           <CardActionArea>
             <MKBox
@@ -96,15 +99,31 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
               my="auto"
               opacity={pro ? 0.6 : 1}
             />
-            <CardContent>
-              <MKTypography gutterBottom variant="h5" component="div">
-                {name}
-              </MKTypography>
-              <MKTypography variant="body2" color="text.secondary">
-                {count} {count === 1 ? "Example" : "Examples"}
-              </MKTypography>
+            <CardContent className='card-antiMui'>
+              <div className='card-root'>
+                <div className='card-avatar'>
+                  <div className="avtar-container">
+                    <div className='avatar'>
+                      <img className='avatar-img' src={image} alt="" />
+                    </div>
+                    <div className="avatar-infor">
+                      <div className="card-shopname">
+                        <p>GiangNKT</p>
+                        <img src={vetifyIcon} alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="card-space"></div>
+                <div className="card-action">
+                  <p>
+                    <strong >20</strong>
+                    ETH<span>/$37,717.8</span></p>
+                </div>
+              </div>
+
             </CardContent>
-            <CardActions>
+            <CardActions className='card-action'>
               <Button size="small" color="primary">
                 Share
               </Button>
@@ -116,8 +135,8 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
               component="img"
               src={image}
               alt={name}
-                width="100%"
-                height="140px"
+              width="100%"
+              height="140px"
               my="auto"
               opacity={pro ? 0.6 : 1}
             />

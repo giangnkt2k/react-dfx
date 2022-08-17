@@ -12,7 +12,7 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import * as React from 'react';
 // prop-types is a library for typechecking of props
 import PropTypes from "prop-types";
 
@@ -29,6 +29,7 @@ import CardContent from '@mui/material/CardContent';
 import CardMedia from '@mui/material/CardMedia';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import './style.css';
+import LinearProgress from '@mui/material/LinearProgress';
 function ExampleCard({ image, name, count, pro, ...rest }) {
   const imageTemplate = (
     <MKBox
@@ -84,7 +85,22 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
       />
     </MKBox>
   );
+  const [progress, setProgress] = React.useState(0);
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress((oldProgress) => {
+        if (oldProgress === 100) {
+          return 0;
+        }
+        const diff = Math.random() * 10;
+        return Math.min(oldProgress + diff, 100);
+      });
+    }, 500);
 
+    return () => {
+      clearInterval(timer);
+    };
+  }, []);
   return (
     <MKBox position="relative">
       <Card className='card-content'>
@@ -99,6 +115,7 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
               my="auto"
               opacity={pro ? 0.6 : 1}
             />
+            <LinearProgress style={{ "margin-top": "-8px" }} variant="determinate" value={progress} />
             <CardContent className='card-antiMui'>
               <div className='card-root'>
                 <div className='card-avatar'>
@@ -125,7 +142,7 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
             </CardContent>
             <CardActions className='card-action'>
               <Button size="small" color="primary">
-                Share
+                {name}
               </Button>
             </CardActions>
           </CardActionArea>
@@ -140,17 +157,34 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
               my="auto"
               opacity={pro ? 0.6 : 1}
             />
-            <CardContent>
-              <MKTypography gutterBottom variant="h5" component="div">
-                {name}
-              </MKTypography>
-              <MKTypography variant="body2" color="text.secondary">
-                {count} {count === 1 ? "Example" : "Examples"}
-              </MKTypography>
+            <LinearProgress style={{ "margin-top": "-8px" }} variant="determinate" value={progress} />
+            <CardContent className='card-antiMui'>
+              <div className='card-root'>
+                <div className='card-avatar'>
+                  <div className="avtar-container">
+                    <div className='avatar'>
+                      <img className='avatar-img' src={image} alt="" />
+                    </div>
+                    <div className="avatar-infor">
+                      <div className="card-shopname">
+                        <p>GiangNKT</p>
+                        <img src={vetifyIcon} alt="" />
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div className="card-space"></div>
+                <div className="card-action">
+                  <p>
+                    <strong >20</strong>
+                    ETH<span>/$37,717.8</span></p>
+                </div>
+              </div>
+
             </CardContent>
-            <CardActions>
+            <CardActions className='card-action'>
               <Button size="small" color="primary">
-                Share
+                {name}
               </Button>
             </CardActions>
           </CardActionArea>

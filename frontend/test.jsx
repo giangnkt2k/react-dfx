@@ -10,7 +10,7 @@ function Test() {
           color: "transparent",
           shadow: "none",
         }}
-        isLogin={true}
+        isLogin={false}
       />
       <div style={{ height: 20000 }}></div>
     </div>

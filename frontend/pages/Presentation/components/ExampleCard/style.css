@@ -1,6 +1,6 @@
 .card-content {
     background: url(../../../../assets/images/examples/card-bg.png) no-repeat center  hsla(0,0%,100%,.6);
-    background-size: auto;
+    background-size: 110% auto;
     position: relative;
     z-index: 10;
     flex-basis: 93px;
@@ -78,6 +78,10 @@
     color: var(--ps-primary);
     align-self: auto;
     margin: 0;
+}
+
+.avatar-infor {
+    padding-left: 14px;
 }
 
 .card-action strong {

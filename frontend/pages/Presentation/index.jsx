@@ -46,7 +46,7 @@ import footerRoutes from "footer.routes";
 import bgImage from "assets/images/bg-presentation.jpg";
 
 import bgVideo from "assets/video/top-block-bg.mp4";
-
+import DauHeader from "components/Molecules/layouts/Header"
 const videoTag = {
   objectFit: "cover",
   width: "100vw",
@@ -59,7 +59,7 @@ const videoTag = {
 function Presentation() {
   return (
     <>
-      <DefaultNavbar
+      {/* <DefaultNavbar
         routes={routes}
         action={{
           type: "external",
@@ -68,6 +68,14 @@ function Presentation() {
           color: "info",
         }}
         sticky
+      /> */}
+      <DauHeader
+        changeColorOnScroll={{
+          height: 1,
+          color: "transparent",
+          shadow: "none",
+        }}
+        isLogin={false}
       />
       <MKBox
         minHeight="75vh"

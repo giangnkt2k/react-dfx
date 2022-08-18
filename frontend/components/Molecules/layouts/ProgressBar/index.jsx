@@ -10,23 +10,22 @@ import Divider from "@mui/material/Divider"
 import MKBox from "components/MKBox"
 import MKPagination from "components/MKPagination"
 
-function DauProgress({ progress }) {
-  let propertyMkbox = {
-    width: "100%",
-    maxWidth: "250px",
-    height: 2,
-    backgroundColor: "secondary.light",
-    marginRight: 1,
-    marginLeft: 1,
-  }
+// Material Icon
+import CheckIcon from "@mui/icons-material/Check"
 
-  const renderProgress = progress.map(({ label, step, status }) => {
-    if (step === 1) return <MKPagination item>{step}</MKPagination>
+import MyProgressStep from "./MyProgressStep"
+
+function DauProgress({ progress }) {
+  const renderProgress = progress.map(({ label, status }, index) => {
     return (
-      <>
-        <MKBox sx={propertyMkbox}></MKBox>
-        <MKPagination item>{step}</MKPagination>
-      </>
+      <MyProgressStep
+        firstItem={index}
+        key={index}
+        status={status}
+        label={label}
+      >
+        {status === "done" ? <CheckIcon /> : index + 1}
+      </MyProgressStep>
     )
   })
 

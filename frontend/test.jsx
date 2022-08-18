@@ -14,39 +14,12 @@ import DauProgress from "components/Molecules/layouts/ProgressBar"
 function Test() {
   return (
     <>
-      <DauHeader
-        changeColorOnScroll={{
-          height: 1,
-          color: "transparent",
-          shadow: "none",
-        }}
-        isLogin={false}
-      />
-      <Container style={{ height: 20000 }}>
-        <Grid container item justifyContent="center" xs={12} lg={6} mx="auto">
-          <MKPagination>
-            <MKPagination item>
-              <KeyboardArrowLeftIcon />
-            </MKPagination>
-            <MKPagination item active>
-              1
-            </MKPagination>
-            <MKPagination item active>
-              2
-            </MKPagination>
-            <MKPagination item>3</MKPagination>
-            <MKPagination item>4</MKPagination>
-            <MKPagination item>5</MKPagination>
-            <MKPagination item>
-              <KeyboardArrowRightIcon />
-            </MKPagination>
-          </MKPagination>
-        </Grid>
+      <Container style={{ height: 20000, padding: 30 }}>
         <DauProgress
           progress={[
-            { label: "1", step: 1, status: true },
-            { label: "2", step: 2, status: true },
-            { label: "3", step: 3, status: true },
+            { label: "Basic Information", status: "done" },
+            { label: "Further Information", status: "pending" },
+            { label: "Success", status: "new" },
           ]}
         />
       </Container>

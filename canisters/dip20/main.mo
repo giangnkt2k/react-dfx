@@ -26,7 +26,7 @@ shared({caller}) actor class Dip20Token() {
 	
 	stable var symbol_ : Text = "DAU";
 	
-	stable var fee_ : Nat = 1000;
+	stable var fee_ : Nat = 0;
 	
 	stable var owner_ : Principal = caller;
 	

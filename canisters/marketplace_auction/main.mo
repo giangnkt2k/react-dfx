@@ -13,7 +13,7 @@ import Time "mo:base/Time";
 
 import Types "./types";
 
-shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: Principal) {
+shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: Principal) = Self {
 	public type Time = Time.Time;
 
 	private var storage = reserve;
@@ -60,6 +60,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 		if (Option.isSome(paymentExist.get(address))) {
 			return #Err(#AddressPaymentAllreadyExist);
 		};
+
+
 
 		paymentExist.put(address, true);
 
@@ -121,7 +123,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 				};
 			};
 
-			await nftProvider.transferFrom(caller, reserve, _unwrap(data.tokenId));
+			await nftProvider.transferFrom(caller, Principal.fromActor(Self), _unwrap(data.tokenId));
 
 			auctionIdCount += 1;
 
@@ -173,24 +175,52 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 	};
 
 	public shared({caller}) func CancelOrder(auctionId: Nat): async Types.CancelOrderResult{
-		// assert not Principal.isAnonymous(caller);
 		switch(idToAuction.get(auctionId)) {
 			case null {
 				return #Err(#AuctionNotExist);
 			};
 			case (?auction) {
 				if (auction.seller != caller) {
-					return #Err(#NotSeller);
+					return #Err(#NotOwnerOfOrder);
 				};
 				if (auction.auctionState != #AuctionStarted) {
 					return #Err(#CannotCancelOrder);
+				};
+				if (auction.startTime + auction.auctionTime < Time.now()) {
+					return #Err(#OrderAlreadyFinish);
 				};
 				if(_unwrap(auctionToBids.get(auctionId)).size() > 0){
 					return #Err(#CannotCancelOrder);
 				};
 				//need transfer nft to owner
-				idToAuction.delete(auctionId);
-				auctionToBids.delete(auctionId);
+				if (auction.typeAuction == #AuctionNFT) {
+					try {
+						await nftProvider.transferFrom(Principal.fromActor(Self), auction.seller, _unwrap(auction.tokenId));
+					} catch(e) {
+						return throw Error.reject("Something went wrong when cancel order, please contact with administrator");
+					}
+				};
+
+				let newAuction: Types.Auction = {
+					id = auction.id;
+					tokenId = auction.tokenId;
+					seller = auction.seller;
+					winner = auction.winner;
+					stepBid = auction.stepBid;
+					startPrice = auction.startPrice;
+					currentPrice = auction.startPrice;
+					tokenPayment = auction.tokenPayment;
+					startTime = auction.startTime;
+					auctionTime = auction.auctionTime;
+					highestBidId = auction.highestBidId;
+					auctionState = #AuctionCancelled;
+					isSend= auction.isSend;
+					isReceived= auction.isReceived;
+					metadataAuction = auction.metadataAuction;
+					typeAuction = auction.typeAuction;
+				};
+
+				idToAuction.put(auctionId, newAuction);
 				return #Ok(true);
 			};
 		};
@@ -316,7 +346,9 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 				return #Err(#AuctionNotExist);
 			};
 			case (?auction) {
-				if (auction.auctionTime + auction.startTime >= Time.now()) {
+				if (auction.auctionTime + auction.startTime < Time.now()) {
+					Debug.print(debug_show(auction.auctionTime + auction.startTime));
+					Debug.print(debug_show(Time.now()));
 					return #Err(#TimeBidIsExpired);
 				};
 				if (auction.highestBidId > 0) {
@@ -333,18 +365,9 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					return #Err(#BidIsLessThanLowestPrice);
 				};
 
-				//transfer token of this bid to market
-				try{
-					var resp = await dauTokenProvider.transferFrom(caller, reserve, data.amount);
-					switch (resp) {
-						case (#Ok(id)) {
-
-						};
-						case (_) {
-							return #Err(#NotEnoughtBalanceOrNotApprovedYet);
-						}
-					}
-				}catch(e) {
+				//transfer token of this bid to market;
+				let check = await _transferToken(auction.tokenPayment, caller, Principal.fromActor(Self), data.amount);
+				if (not check) {
 					return #Err(#NotEnoughtBalanceOrNotApprovedYet);
 				};
 
@@ -353,7 +376,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					id = bidId;
 					amount = data.amount;
 					bider = caller;
-					bidId = bidId;
+					status = #Deposited;
 				};
 
 				let newAuction: Types.Auction = {
@@ -416,6 +439,21 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 				if (_unwrap(_unwrap(auctionToBids.get(auctionId)).get(highestBidId)).bider != caller) {
 					return #Err(#NotOwnerOfBid);
 				};
+
+				//need to be transfer NFT to winner
+				try {
+					let resp = await nftProvider.transfer(_unwrap(auction.tokenId), caller);
+					switch(resp) {
+						case (#Ok(id)) {
+							
+						};
+						case (_) {
+							return #Err(#ErrorSystem);
+						};
+					}
+				}catch(e) {
+					return #Err(#ErrorSystem);
+				};
 				
 				let newAuction: Types.Auction = {
 					id = auction.id;
@@ -438,8 +476,6 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 				
 				idToAuction.put(auctionId, newAuction);
 
-				//need to be transfer NFT to winner
-
 				return #Ok(true)
 
 			};
@@ -453,34 +489,43 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 				return #Err(#AuctionNotExist);
 			};
 			case (?auction) {
-				if (auction.auctionTime + auction.startTime < Time.now()) {
-					return #Err(#TimeAuctionNotEnd);
-				};
-
 				// Owner of order claim token
 				if (auction.highestBidId == idBid) {
 					return #Err(#ErrCannotRefundHighestBid)
 				};
 
-				if (auction.typeAuction == #AuctionNFT) {
-					switch(_unwrap(auctionToBids.get(idAuction)).get(idBid)){
-						case null {
-							return #Err(#BidAlreadyClaimedOrNotExist); 
+				switch(_unwrap(auctionToBids.get(idAuction)).get(idBid)){
+					case null {
+						return #Err(#BidNotExist); 
+					};
+					case (?bid) {
+						if (bid.bider != caller) {
+							return #Err(#NotOwnerOfBid);
 						};
-						case (?bid) {
-							if (bid.bider != caller) {
-								return #Err(#NotOwnerOfBid);
-							};
+						if (bid.status != #Deposited) {
+							return #Err(#BidAlreadyRefund);
+						};
 
-							// transfer token to this caller
-
-							//delete this bid
-							_unwrap(auctionToBids.get(idAuction)).delete(idBid)
-						}
-					}
-				}else if (auction.typeAuction == #AuctionRealProduct) {
-
-				};
+						//approve
+						// let checkApprove = await _approveTokenForMarketplace(bid.amount);
+						// if (not checkApprove) {
+						// 	return #Err(#ErrorSystem);
+						// };
+						// transfer token to this caller
+						let check = await _transferTokenFromMarket(auction.tokenPayment, bid.bider, bid.amount);
+						if (not check) {
+							return #Err(#NotEnoughtBalanceOrNotApprovedYet);
+						};
+						//delete this bid
+						let newBid = {
+							id = bid.id;
+							amount = bid.amount;
+							bider = bid.bider;
+							status = #Withdrawn;
+						};
+						_unwrap(auctionToBids.get(idAuction)).put(idBid, newBid);
+						};
+					};
 
 				return #Ok(true)
 			};
@@ -495,6 +540,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 			};
 			case (?auction) {
 				if (auction.auctionTime + auction.startTime < Time.now()) {
+					Debug.print(debug_show(auction.auctionTime + auction.startTime));
+					Debug.print(debug_show(Time.now()));
 					return #Err(#TimeAuctionNotEnd);
 				};
 
@@ -503,10 +550,17 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					return #Err(#NotSeller)
 				};
 
+				if (auction.highestBidId == 0) {
+					return #Err(#NoBidYet);
+				};
+
 				if (auction.typeAuction == #AuctionNFT) {
 					//transfer token to this caller
-					//remove offer
-					_unwrap(auctionToBids.get(idAuction)).delete(auction.highestBidId)
+					let check = await _transferTokenFromMarket(auction.tokenPayment, auction.winner, auction.currentPrice); 
+					if (not check) {
+						return #Err(#ErrorSystem);
+					};
+					_convertAutionToFinish(auction);
 				}else if (auction.typeAuction == #AuctionRealProduct) {
 					if (not auction.isSend) {
 						return #Err(#NotSend)
@@ -747,6 +801,112 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 	//=============================================================================================================================================
 
 	//Helper
+
+	private func _transferToken(tokenAddress: Principal, from: Principal, to: Principal, amount: Nat) : async Bool {
+		try{
+			let tokenProvider: Types.IDIP20 = actor(Principal.toText(dip20)) : Types.IDIP20;
+			var resp = await tokenProvider.transferFrom(from, to, amount);
+			switch (resp) {
+				case (#Ok(id)) {
+					return true
+				};
+				case (_) {
+					return false;
+				};
+			};
+		}catch(e) {
+			return false;
+		};
+	};
+ 
+	private func _transferTokenFromMarket(tokenAddress: Principal, to: Principal, amount: Nat) : async Bool {
+		try{
+			let tokenProvider: Types.IDIP20 = actor(Principal.toText(dip20)) : Types.IDIP20;
+			var resp = await tokenProvider.transfer(to, amount);
+			switch (resp) {
+				case (#Ok(id)) {
+					return true
+				};
+				case (_) {
+					return false;
+				};
+			};
+		}catch(e) {
+			return false;
+		};
+	};
+
+	private func _convertAutionToFinish(auction: Types.Auction) : () {
+		let bid = _unwrap(auctionToBids.get(auction.id)).get(auction.highestBidId);
+		switch(bid) {
+			case null {
+				let newAuction: Types.Auction = {
+					id = auction.id;
+					tokenId = auction.tokenId;
+					seller = auction.seller;
+					winner = auction.winner;
+					stepBid = auction.stepBid;
+					startPrice = auction.startPrice;
+					currentPrice =  auction.currentPrice;
+					tokenPayment = auction.tokenPayment;
+					startTime = auction.startTime;
+					auctionTime = auction.auctionTime;
+					highestBidId = auction.highestBidId;
+					auctionState = #AuctionFinished;
+					isSend= auction.isSend;
+					isReceived= auction.isReceived;
+					metadataAuction = auction.metadataAuction;
+					typeAuction = auction.typeAuction;
+				};
+				
+				idToAuction.put(auction.id, newAuction);
+				return
+			};
+			case (?bid) {
+				let newAuction: Types.Auction = {
+					id = auction.id;
+					tokenId = auction.tokenId;
+					seller = auction.seller;
+					winner = bid.bider;
+					stepBid = auction.stepBid;
+					startPrice = auction.startPrice;
+					currentPrice =  auction.currentPrice;
+					tokenPayment = auction.tokenPayment;
+					startTime = auction.startTime;
+					auctionTime = auction.auctionTime;
+					highestBidId = auction.highestBidId;
+					auctionState = #AuctionFinished;
+					isSend= auction.isSend;
+					isReceived= auction.isReceived;
+					metadataAuction = auction.metadataAuction;
+					typeAuction = auction.typeAuction;
+				};
+				
+				idToAuction.put(auction.id, newAuction);
+				return
+			}
+		}
+	};
+ 
+
+
+	private func _approveTokenForMarketplace(amount: Nat) : async Bool {
+		try{
+			let tokenProvider: Types.IDIP20 = actor(Principal.toText(dip20)) : Types.IDIP20;
+			var resp = await tokenProvider.approve(Principal.fromActor(Self), amount);
+			switch (resp) {
+				case (#Ok(id)) {
+					return true
+				};
+				case (_) {
+					return false;
+				};
+			};
+		}catch(e) {
+			return false;
+		};
+	};
+	
 	private func _unwrap<T>(x : ?T) : T =
         switch x {
             case null { P.unreachable() };

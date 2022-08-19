@@ -1,19 +1,13 @@
 import React from "react"
 import DauHeader from "components/Molecules/layouts/Header"
+import Seller from "components/Molecules/layouts/Form/CreateSeller"
+import Container from "@mui/material/Container"
 
 function Test() {
   return (
-    <div>
-      <DauHeader
-        changeColorOnScroll={{
-          height: 1,
-          color: "transparent",
-          shadow: "none",
-        }}
-        isLogin={true}
-      />
-      <div style={{ height: 20000 }}></div>
-    </div>
+    <Container style={{ height: 20000 }}>
+      <Seller />
+    </Container>
   )
 }
 

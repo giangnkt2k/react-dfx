@@ -10,18 +10,13 @@ import KeyboardArrowLeftIcon from "@mui/icons-material/KeyboardArrowLeft"
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight"
 
 import DauProgress from "components/Molecules/layouts/ProgressBar"
+import routesDefault from "routes/routesProcessing"
 
 function Test() {
   return (
     <>
       <Container style={{ height: 20000, padding: 30 }}>
-        <DauProgress
-          progress={[
-            { label: "Basic Information", status: "done" },
-            { label: "Further Information", status: "pending" },
-            { label: "Success", status: "new" },
-          ]}
-        />
+        <DauProgress progress={routesDefault.createRealProduct} />
       </Container>
     </>
   )

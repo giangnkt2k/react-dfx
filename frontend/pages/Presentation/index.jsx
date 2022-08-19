@@ -86,7 +86,7 @@ function Presentation() {
           <Grid container item xs={12} lg={7} justifyContent="center" mx="auto">
             <MKTypography
               variant="h1"
-              color="#8275F5"
+              color="secondary"
               mt={-6}
               mb={1}
               sx={({ breakpoints, typography: { size } }) => ({
@@ -99,7 +99,7 @@ function Presentation() {
             </MKTypography>
             <MKTypography
               variant="body1"
-              color="#8275F5"
+              color="secondary"
               textAlign="center"
               px={{ xs: 6, lg: 12 }}
               mt={1}

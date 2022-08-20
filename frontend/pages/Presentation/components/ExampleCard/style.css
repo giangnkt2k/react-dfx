@@ -1,6 +1,6 @@
 .card-content {
-    background: url(../../../../assets/images/examples/card-bg.png) no-repeat center  hsla(0,0%,100%,.6);
-    background-size: 110% auto;
+    background: url(../../../../assets/images/examples/card-bg.png) no-repeat center hsla(0, 0%, 100%, .6);
+    background-size: 150% auto;
     position: relative;
     z-index: 10;
     flex-basis: 93px;
@@ -28,7 +28,7 @@
     margin-right: 16px;
 }
 
-.avtar-container{
+.avtar-container {
     display: flex;
     align-items: center;
     justify-content: space-between;
@@ -64,12 +64,18 @@
 }
 
 .card-shopname {
+    padding-left: 14px;
     max-width: 130px;
     display: flex;
     align-items: center;
     grid-column-gap: 6px;
     -webkit-column-gap: 6px;
     column-gap: 6px;
+}
+
+.card-detail {
+    padding: 0px 0px 8px 15px;
+    line-height: 18px;
 }
 
 .card-action {
@@ -97,5 +103,5 @@
 
 .card-space {
     flex: 1 1 auto;
-    
+
 }

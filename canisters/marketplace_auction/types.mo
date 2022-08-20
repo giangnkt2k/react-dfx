@@ -44,7 +44,7 @@ module {
     public type IDIP20 = actor {
         transfer : (Principal,Nat) ->  async TxReceipt;
         transferFrom : (Principal,Principal,Nat) -> async TxReceipt;
-        allowance : (owner: Principal, spender: Principal) -> async Nat;
+        approve: (spender: Principal, value: Nat) -> async TxReceipt;
         getMetadata: () -> async Metadata;
     };
     
@@ -53,7 +53,8 @@ module {
        isApprovedForAll: (Principal, Principal) -> async Bool;
        getApproved: (Nat) ->  async Principal;
        ownerOf: (Nat) -> async ?Principal;
-       transferFrom: (Principal, Principal, Nat) -> async ()
+       transferFrom: (Principal, Principal, Nat) -> async ();
+       transfer: (tokenId: Nat, to: Principal) -> async TxReceipt;
     };
 
     //========================================================== Auction
@@ -125,7 +126,7 @@ module {
         id: Nat;
         bider: Principal;
         amount: Nat;
-        bidId: Nat;
+        status: BidState;
     };
 
     public type AuctionBid = {
@@ -137,6 +138,10 @@ module {
         #AuctionStarted;
         #AuctionFinished;
         #AuctionCancelled;
+    };
+    public type BidState = {
+        #Deposited;
+        #Withdrawn;
     };
 
 
@@ -197,21 +202,26 @@ module {
         #InvalidAddress;
         #InvalidAuctionType;
         #NotOwnerOfToken;
+        #NotOwnerOfOrder;
         #NotOwnerOrApprovedForToken;
         #AuctionNotExist;
         #AddressPaymentNotExist;
         #NotSeller;
         #CannotCancelOrder;
+        #OrderAlreadyFinish;
         #TimeAuctionNotEnd;
         #NftAlreadyClaimed;
         #NotOwnerOfBid;
         #CannotClaimRealProduct;
-        #BidAlreadyClaimedOrNotExist;
+        #BidNotExist;
+        #BidAlreadyRefund;
         #ErrCannotRefundHighestBid;
+        #NotEnoughtBalanceOrNotApprovedYet;
         #NotSend;
         #CustomerNotReceived;
-        #BidNotExist;
         #NotWinner;
+        #ErrorSystem;
+        #NoBidYet;
         #Other;
     };
 

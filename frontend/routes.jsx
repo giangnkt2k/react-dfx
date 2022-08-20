@@ -47,6 +47,8 @@ import AboutUs from "layouts/pages/landing-pages/about-us";
 import ContactUs from "layouts/pages/landing-pages/contact-us";
 import Author from "layouts/pages/landing-pages/author";
 import SignIn from "layouts/pages/authentication/sign-in";
+import ProductDetailBid from "../frontend/pages/ProductDetail/ProductDetailBid/index";
+
 
 // Sections
 import PageHeaders from "layouts/sections/page-sections/page-headers";
@@ -237,6 +239,16 @@ const routes = [
         ],
       },
     ],
+  },
+  {
+    name: "product",
+    collapse: [
+      {
+        name: "detail product bid",
+        route: "/pages/detailProduct/ProductDetailBid",
+        component: <ProductDetailBid />,
+      },
+    ]
   },
   {
     name: "docs",

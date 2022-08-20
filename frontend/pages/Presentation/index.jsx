@@ -1,4 +1,4 @@
-/*
+  /*
 =========================================================
 * Material Kit 2 React - v2.0.0
 =========================================================
@@ -24,8 +24,10 @@ import MKTypography from "components/MKTypography";
 import MKSocialButton from "components/MKSocialButton";
 
 // Material Kit 2 React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
+// import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import DefaultFooter from "examples/Footers/DefaultFooter";
+import DauHeader from "components/Molecules/layouts/Header";
+
 import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard";
 
 // Presentation page sections
@@ -46,7 +48,6 @@ import footerRoutes from "footer.routes";
 import bgImage from "assets/images/bg-presentation.jpg";
 
 import bgVideo from "assets/video/top-block-bg.mp4";
-import DauHeader from "components/Molecules/layouts/Header"
 const videoTag = {
   objectFit: "cover",
   width: "100vw",
@@ -59,23 +60,13 @@ const videoTag = {
 function Presentation() {
   return (
     <>
-      {/* <DefaultNavbar
-        routes={routes}
-        action={{
-          type: "external",
-          route: "https://www.creative-tim.com/product/material-kit-react",
-          label: "free download",
-          color: "info",
-        }}
-        sticky
-      /> */}
       <DauHeader
         changeColorOnScroll={{
           height: 1,
           color: "transparent",
           shadow: "none",
         }}
-        isLogin={false}
+        isLogin={true}
       />
       <MKBox
         minHeight="75vh"
@@ -94,7 +85,7 @@ function Presentation() {
           <Grid container item xs={12} lg={7} justifyContent="center" mx="auto">
             <MKTypography
               variant="h1"
-              color="#8275F5"
+              color="secondary"
               mt={-6}
               mb={1}
               sx={({ breakpoints, typography: { size } }) => ({
@@ -107,7 +98,7 @@ function Presentation() {
             </MKTypography>
             <MKTypography
               variant="body1"
-              color="#8275F5"
+              color="secondary"
               textAlign="center"
               px={{ xs: 6, lg: 12 }}
               mt={1}

@@ -37,6 +37,7 @@ function HorizontalTeamCard({ image, name, position, description }) {
               width="100%"
               borderRadius="md"
               shadow="lg"
+              color="dark"
             />
           </MKBox>
         </Grid>

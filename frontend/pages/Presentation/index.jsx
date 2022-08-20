@@ -24,8 +24,10 @@ import MKTypography from "components/MKTypography";
 import MKSocialButton from "components/MKSocialButton";
 
 // Material Kit 2 React examples
-import DefaultNavbar from "examples/Navbars/DefaultNavbar";
+// import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import DefaultFooter from "examples/Footers/DefaultFooter";
+import DauHeader from "components/Molecules/layouts/Header";
+
 import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard";
 
 // Presentation page sections
@@ -59,7 +61,7 @@ const videoTag = {
 function Presentation() {
   return (
     <>
-      <DefaultNavbar
+       {/* <DefaultNavbar
         routes={routes}
         action={{
           type: "external",
@@ -68,6 +70,14 @@ function Presentation() {
           color: "info",
         }}
         sticky
+      /> */}
+       <DauHeader
+        changeColorOnScroll={{
+          height: 1,
+          color: "transparent",
+          shadow: "none",
+        }}
+        isLogin={true}
       />
       <MKBox
         minHeight="75vh"

@@ -48,7 +48,7 @@ function DesignBlocks() {
         <Grid container spacing={3}>
           {items.map(({ image, name, count, route, pro }) => (
             <Grid item xs={12} md={4} sx={{ mb: 2 }} key={name}>
-              <Link to={pro ? "/" : route}>
+              <Link to={pro ? "/pages/detailProduct/ProductDetailBid" : route}>
                 <ExampleCard image={image} name={name} count={count} />
               </Link>
             </Grid>

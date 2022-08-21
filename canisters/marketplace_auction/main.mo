@@ -13,10 +13,9 @@ import Time "mo:base/Time";
 
 import Types "./types";
 
-shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: Principal) = Self {
+shared(msg) actor class Dacution(dip20: Principal, dip721: Principal) = Self {
 	public type Time = Time.Time;
 
-	private var storage = reserve;
     private var owner = msg.caller;
 	private var dauTokenProvider: Types.IDIP20 = actor(Principal.toText(dip20)) : Types.IDIP20;
 	private var nftProvider: Types.IDIP721 = actor(Principal.toText(dip721)) : Types.IDIP721;
@@ -43,7 +42,6 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 
 	private var idToAuctionPending: HashMap.HashMap<Nat, Types.AuctionPending> = HashMap.fromIter(auctionPendingStore.vals(), 10, Nat.equal, Hash.hash);
 	private var auctionPendingToVotes = HashMap.HashMap<Nat, HashMap.HashMap<Principal, Types.Vote>>(1, Nat.equal, Hash.hash);
-
 
 	//SupportedPayment
 	public query func GetSupportedPayment() : async [Principal] {

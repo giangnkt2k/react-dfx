@@ -46,6 +46,13 @@ module {
         transferFrom : (Principal,Principal,Nat) -> async TxReceipt;
         approve: (spender: Principal, value: Nat) -> async TxReceipt;
         getMetadata: () -> async Metadata;
+        symbol: () -> async Text;
+    };
+
+    public type dip721Metadata = {
+        name: Text;
+        url: Text;
+        description: Text;
     };
     
     //Dip721 interface
@@ -55,6 +62,7 @@ module {
        ownerOf: (Nat) -> async ?Principal;
        transferFrom: (Principal, Principal, Nat) -> async ();
        transfer: (tokenId: Nat, to: Principal) -> async TxReceipt;
+       getTokenInfo: (tokenId: Nat) -> async ?dip721Metadata;
     };
 
     //========================================================== Auction
@@ -71,6 +79,8 @@ module {
         voteDown: Nat;
         timePending: Time.Time;
         timeStart: Time.Time;
+        picture: Text;
+        currencyUnit: Text;
     };
 
     public type VoteMetadata = {
@@ -100,6 +110,13 @@ module {
         metadataAuction: ?MetadataAuction;
         isSend: Bool;
         isReceived: Bool;
+        picture: ?Text;
+        currencyUnit: Text;
+    };
+
+    public type AuctionResp = {
+        product: Auction;
+        seller: Seller;
     };
 
     public type AuctionCreate = {
@@ -110,6 +127,7 @@ module {
         auctionTime: Time.Time;
         typeAuction: TypeAuction;
         metadataAuction: ?MetadataAuction;
+        picture: ?Text;
     };
 
     public type MetadataAuction = {
@@ -253,7 +271,7 @@ module {
     public type SupportedPaymentResult = Result<Bool, ApiError>;
     public type AddAuctionResult = Result<Nat, AuctionError>;
     public type CancelOrderResult = Result<Bool, AuctionError>;
-    public type GetAuctionResult = Result<Auction, AuctionError>;
+    public type GetAuctionResult = Result<AuctionResp, AuctionError>;
     public type ClaimAuctionResult = Result<Bool, AuctionError>;
     public type UpdateAuctionResult = Result<Bool, AuctionError>;
 

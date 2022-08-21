@@ -99,7 +99,9 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 		if(not _isSupportedPayment(data.tokenPayment)) {
 			return #Err(#AddressPaymentNotExist);
 		};
-		assert not Principal.isAnonymous(caller);
+
+		let tokenProvider: Types.IDIP20 = actor(Principal.toText(dip20)) : Types.IDIP20;
+		var currencyUnit = await tokenProvider.symbol();
 
 		// need transfer nft to market
 		if (data.typeAuction == #AuctionNFT) {
@@ -123,6 +125,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 				};
 			};
 
+			let tokenInfo = await nftProvider.getTokenInfo(_unwrap(data.tokenId));
+
 			await nftProvider.transferFrom(caller, Principal.fromActor(Self), _unwrap(data.tokenId));
 
 			auctionIdCount += 1;
@@ -145,6 +149,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 				isReceived= false;
 				metadataAuction = null;
 				typeAuction = data.typeAuction;
+				picture=?_unwrap(tokenInfo).url;
+				currencyUnit=currencyUnit;
 			};
 			idToAuction.put(auctionIdCount, auction);
 			auctionToBids.put(auctionIdCount, HashMap.fromIter<Nat, Types.Bid>(Iter.fromArray([]), 1, Nat.equal, Hash.hash));
@@ -165,6 +171,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
         		voteDown = 0;
 				timePending = timePending;
 				timeStart = Time.now();
+				picture = _unwrap(data.picture);
+				currencyUnit=currencyUnit;
 			};
 			idToAuctionPending.put(auctionPendingIdCount, auctionPending);
 			auctionPendingToVotes.put(auctionPendingIdCount, HashMap.fromIter<Principal, Types.Vote>(Iter.fromArray([]), 1, Principal.equal, Principal.hash));
@@ -218,6 +226,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					isReceived= auction.isReceived;
 					metadataAuction = auction.metadataAuction;
 					typeAuction = auction.typeAuction;
+					picture = auction.picture;
+					currencyUnit=auction.currencyUnit;
 				};
 
 				idToAuction.put(auctionId, newAuction);
@@ -227,9 +237,13 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 		return #Ok(true)
 	};
 
-	public query func GetAuctions() : async [Types.Auction] {
-		return Iter.toArray(Iter.map(idToAuction.entries(), func ((id: Nat, auction: Types.Auction)) : Types.Auction {
-			auction
+	public query func GetAuctions() : async [Types.AuctionResp] {
+		return Iter.toArray(Iter.map(idToAuction.entries(), func ((id: Nat, auction: Types.Auction)) : Types.AuctionResp {
+			let seller = idToSeller.get(auction.seller); 
+			return {
+				product= auction;
+				seller=_unwrap(seller);
+			};
 		}));
 	};
 
@@ -239,7 +253,10 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 				return #Err(#AuctionNotExist);
 			};
 			case (?auction) {
-				return #Ok(auction);
+				return #Ok({
+					product= auction;
+					seller=_unwrap(idToSeller.get(auction.seller));
+				});
 			};
 		};
 	};
@@ -279,6 +296,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					isReceived= auction.isReceived;
 					metadataAuction = auction.metadataAuction;
 					typeAuction = auction.typeAuction;
+					picture = auction.picture;
+					currencyUnit=auction.currencyUnit;
 				};
 				
 				idToAuction.put(idAuction, newAuction);
@@ -327,6 +346,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 							isReceived= true;
 							metadataAuction = auction.metadataAuction;
 							typeAuction = auction.typeAuction;
+							picture = auction.picture;
+							currencyUnit=auction.currencyUnit;
 						};
 						
 						idToAuction.put(idAuction, newAuction);
@@ -396,6 +417,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					isReceived= auction.isReceived;
 					metadataAuction = auction.metadataAuction;
 					typeAuction = auction.typeAuction;
+					picture = auction.picture;
+					currencyUnit=auction.currencyUnit;
 				};
 				
 				idToAuction.put(data.auctionId, newAuction);
@@ -472,6 +495,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					isReceived= true;
 					metadataAuction = auction.metadataAuction;
 					typeAuction = auction.typeAuction;
+					picture = auction.picture;
+					currencyUnit=auction.currencyUnit;
 				};
 				
 				idToAuction.put(auctionId, newAuction);
@@ -628,6 +653,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 							voteDown = auctionPendingData.voteDown;
 							timePending = auctionPendingData.timePending;
 							timeStart = auctionPendingData.timeStart;
+							picture = auctionPendingData.picture;
+							currencyUnit= auctionPendingData.currencyUnit;
 						};
 						idToAuctionPending.put(data.auctionPendingId, newAuctionPending);
 					};
@@ -644,6 +671,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 							voteDown = auctionPendingData.voteDown + 1;
 							timePending = auctionPendingData.timePending;
 							timeStart = auctionPendingData.timeStart;
+							picture = auctionPendingData.picture;
+							currencyUnit= auctionPendingData.currencyUnit;
 						};
 						idToAuctionPending.put(data.auctionPendingId, newAuctionPending);
 					};
@@ -699,6 +728,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					isSend= false;
 					isReceived= false;
 					typeAuction = #AuctionRealProduct;
+					picture = ?auctionPendingData.picture;
+					currencyUnit=auctionPendingData.currencyUnit;
 				};
 				idToAuction.put(id, auction);
 				auctionToBids.put(auctionIdCount, HashMap.fromIter<Nat, Types.Bid>(Iter.fromArray([]), 1, Nat.equal, Hash.hash));
@@ -857,6 +888,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					isReceived= auction.isReceived;
 					metadataAuction = auction.metadataAuction;
 					typeAuction = auction.typeAuction;
+					picture = auction.picture;
+					currencyUnit=auction.currencyUnit;
 				};
 				
 				idToAuction.put(auction.id, newAuction);
@@ -880,6 +913,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, reserve: P
 					isReceived= auction.isReceived;
 					metadataAuction = auction.metadataAuction;
 					typeAuction = auction.typeAuction;
+					picture = auction.picture;
+					currencyUnit=auction.currencyUnit;
 				};
 				
 				idToAuction.put(auction.id, newAuction);

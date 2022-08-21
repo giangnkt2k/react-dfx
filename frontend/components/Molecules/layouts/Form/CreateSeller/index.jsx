@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import { useFormik } from "formik"
 import * as yup from "yup"
 // @mui material components
@@ -20,34 +20,42 @@ import InstagramIcon from "@mui/icons-material/Instagram"
 // Import Image
 import defaultAvatar from "assets/images/default-avatar.png"
 
+const myTextFieldStyle = {
+  "& .MuiFormHelperText-root": {
+    color: "red !important",
+  },
+}
+
 function Seller() {
   const hiddenAvatarInput = useRef(null)
   const handleClick = () => {
     hiddenAvatarInput.current.click()
+  }
+  const [sourceImg, setSourceImg] = useState(defaultAvatar)
+  const handleChangePhoto = (event) => {
+    if (event.target.files && event.target.files[0]) {
+      setSourceImg(URL.createObjectURL(event.target.files[0]))
+      formik.setFieldValue("photo", event.target.files[0], false)
+    }
   }
 
   const formik = useFormik({
     initialValues: {
       username: "",
       email: "",
-      photo: "",
+      photo: {},
       description: "",
       twitter: "",
       facebook: "",
       instagram: "",
     },
     validationSchema: yup.object({
-      username: yup.string().required(""),
-      email: yup.string().email().required(""),
-      photo: yup.string(),
-      description: yup.string(),
-      twitter: yup.string(),
-      facebook: yup.string(),
-      instagram: yup.string(),
+      username: yup.string().required("dasdasdasd"),
+      email: yup.string().email().required("dasdasdas"),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+      console.log(values)
     },
   })
   const handleReset = () => {
@@ -106,6 +114,7 @@ function Seller() {
                       variant="outlined"
                       fullWidth
                       placeholder="Type something"
+                      sx={myTextFieldStyle}
                     />
                   </Grid>
                   <Grid pb={2}>
@@ -124,6 +133,7 @@ function Seller() {
                       variant="outlined"
                       fullWidth
                       placeholder="Type something"
+                      sx={myTextFieldStyle}
                     />
                   </Grid>
                 </Grid>
@@ -132,10 +142,13 @@ function Seller() {
                     Photo
                   </MKTypography>
                   <MKInput
-                    id="photo"
-                    name="photo"
-                    onChange={formik.handleChange}
-                    value={formik.values.photo}
+                    // id="photo"
+                    // name="photo"
+                    // onChange={formik.handleChange}
+                    onChange={(e) => {
+                      handleChangePhoto(e)
+                    }}
+                    // value={formik.values.photo}
                     inputRef={hiddenAvatarInput}
                     type="file"
                     inputProps={{ accept: "image/png, image/gif, image/jpeg" }}
@@ -143,7 +156,7 @@ function Seller() {
                     sx={{ position: "absolute", display: "none" }}
                   />
                   <MKAvatar
-                    src={defaultAvatar}
+                    src={sourceImg}
                     alt="default-avatar"
                     size="myCustom"
                     onClick={handleClick}

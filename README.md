@@ -13,17 +13,12 @@ Run command to allow execution file shell
 chmod +x *.sh ./test/*.sh
 ```
 
-Build first
+Run deploy
 ```
-./build.sh
-```
-
-Deploy to local
-```
-./deploy.sh
+./run_deploy.sh
 ```
 
 Run test
 ```
-./run.sh
+./run_test.sh
 ```

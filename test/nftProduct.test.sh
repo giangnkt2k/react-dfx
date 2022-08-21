@@ -1,4 +1,4 @@
-#!/usr/bin/ic-repl
+#!/usr/local/bin/ic-repl
 
 load "../env.sh";
 
@@ -102,7 +102,7 @@ let resp = call marketplaceCanister.AddOrder(
         stepBid=1000;
         startPrice=20000;
         tokenId=opt 2; 
-        auctionTime=17000000000; 
+        auctionTime=20000000000; 
         tokenPayment=dip20Canister; 
         typeAuction=variant {AuctionNFT}; 
         metadataAuction=null

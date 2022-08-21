@@ -12,10 +12,6 @@
       "type": "motoko",
       "main": "canisters/marketplace_auction/main.mo"
     },
-    "reserve": {
-      "type": "motoko",
-      "main": "canisters/reserve/main.mo"
-    },
     "assets": {
       "frontend": {
         "entrypoint": "dist/index.html"

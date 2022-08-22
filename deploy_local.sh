@@ -1,4 +1,4 @@
-#!/usr/local/bin/ic-repl
+#!/usr/cal/bin/ic-repl
 function deploy(wasm) {
   let id = call ic.provisional_create_canister_with_cycles(record { settings = null; amount = null });
   call ic.install_code(

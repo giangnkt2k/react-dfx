@@ -12,6 +12,10 @@
       "type": "motoko",
       "main": "canisters/marketplace_auction/main.mo"
     },
+    "staking": {
+      "type": "motoko",
+      "main": "canisters/staking/main.mo"
+    },
     "assets": {
       "frontend": {
         "entrypoint": "dist/index.html"

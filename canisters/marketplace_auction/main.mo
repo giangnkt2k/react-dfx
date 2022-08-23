@@ -13,12 +13,13 @@ import Time "mo:base/Time";
 
 import Types "./types";
 
-shared(msg) actor class Dacution(dip20: Principal, dip721: Principal) = Self {
+shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: Principal) = Self {
 	public type Time = Time.Time;
 
     private var owner = msg.caller;
 	private var dauTokenProvider: Types.IDIP20 = actor(Principal.toText(dip20)) : Types.IDIP20;
 	private var nftProvider: Types.IDIP721 = actor(Principal.toText(dip721)) : Types.IDIP721;
+	private var stakeProvider: Types.IStaking = actor(Principal.toText(staking)) : Types.IStaking;
 
     private stable var auctionIdCount: Nat = 0;
 	private stable var auctionPendingIdCount: Nat = 0;
@@ -579,7 +580,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal) = Self {
 
 				if (auction.typeAuction == #AuctionNFT) {
 					//transfer token to this caller
-					let check = await _transferTokenFromMarket(auction.tokenPayment, auction.winner, auction.currentPrice); 
+					let realAmount = await _chargeFee(auction.tokenPayment, auction.currentPrice);
+					let check = await _transferTokenFromMarket(auction.tokenPayment, auction.winner, realAmount); 
 					if (not check) {
 						return #Err(#ErrorSystem);
 					};
@@ -621,9 +623,15 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal) = Self {
 	};
 
 	public shared({caller}) func VoteAuctionPending(data: Types.VoteMetadata) : async Types.VoteAuctionPendingResult{
-		// assert not Principal.isAnonymous(caller);
+		if (Principal.isAnonymous(caller)) {
+			return #Err(#Unauthorized);
+		};
 
 		//check if caller steak token
+		let check = await stakeProvider.isStake(caller);
+		if (not check) {
+			return #Err(#NotValidator);
+		};
 
 		switch(idToAuctionPending.get(data.auctionPendingId)){
 			case null{
@@ -677,6 +685,11 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal) = Self {
 				};
 
 				_unwrap(auctionPendingToVotes.get(data.auctionPendingId)).put(caller, data.vote);
+
+				let check = await _transferTokenFromMarket(dip20, caller, 1000);
+				if (not check) {
+					return #Err(#MarketNotEnoughtToken);
+				};
 				return #Ok(true);
 			};
 		};
@@ -698,7 +711,6 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal) = Self {
 		}
 	};
 
-	
 	public shared({caller}) func ApproveAuctionPending(idAuctionPending: Nat) : async Types.ApproveAuctionPendingResult {
 		assert caller == owner;
 		switch (idToAuctionPending.get(idAuctionPending)) {
@@ -921,8 +933,6 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal) = Self {
 		}
 	};
  
-
-
 	private func _approveTokenForMarketplace(amount: Nat) : async Bool {
 		try{
 			let tokenProvider: Types.IDIP20 = actor(Principal.toText(dip20)) : Types.IDIP20;
@@ -937,6 +947,14 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal) = Self {
 			};
 		}catch(e) {
 			return false;
+		};
+	};
+
+	private func _chargeFee(token: Principal, amount: Nat): async Nat {
+		if (token == dip20) {
+			return amount - (amount*7/100);
+		}else {
+			return amount - (amount*7/100);
 		};
 	};
 	

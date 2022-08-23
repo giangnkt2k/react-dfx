@@ -11,7 +11,8 @@ import CardContent from '@mui/material/CardContent';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import './style.css';
 import LinearProgress from '@mui/material/LinearProgress';
-function ExampleCard({ image, name, count, pro, ...rest }) {
+function ExampleCard({ product, seller, ...rest }) {
+  console.log('responseListProductproductproductproductproduct==>',product,seller );
 
   return (
     <MKBox position="relative">
@@ -20,7 +21,7 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
           <MKBox
             component="img"
             src="https://mui.com/static/images/cards/contemplative-reptile.jpg"
-            alt={name}
+            alt=''
             width="100%"
             height="160px"
             my="auto"
@@ -32,7 +33,7 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
               <div className='card-avatar'>
                 <div className="avtar-container">
                   <div className='avatar'>
-                    <img className='avatar-img' src={image} alt="" />
+                    <img className='avatar-img' src='https://mui.com/static/images/cards/contemplative-reptile.jpg' alt="" />
                   </div>
                   <div className="avatar-infor">
                     <div className="card-shopname">
@@ -63,7 +64,7 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
           </CardContent>
           <CardActions>
             <Button size="small" color="primary">
-              {name}
+              product name
             </Button>
           </CardActions>
         </CardActionArea>
@@ -74,17 +75,14 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
 
 // Setting default props for the ExampleCard
 ExampleCard.defaultProps = {
-  name: "",
-  count: 0,
-  pro: false,
+product: {},
+seller: {}
 };
 
 // Typechecking props for the ExampleCard
 ExampleCard.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  count: PropTypes.number,
-  pro: PropTypes.bool,
+  product: PropTypes.object,
+  seller: PropTypes.object
 };
 
 export default ExampleCard;

@@ -1,4 +1,4 @@
-  /*
+/*
 =========================================================
 * Material Kit 2 React - v2.0.0
 =========================================================
@@ -8,7 +8,7 @@
 
 Coded by www.creative-tim.com
 
- =========================================================
+=========================================================
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
@@ -27,9 +27,7 @@ import MKSocialButton from "components/MKSocialButton"
 // import DefaultNavbar from "examples/Navbars/DefaultNavbar";
 import DefaultFooter from "examples/Footers/DefaultFooter";
 import DauHeader from "components/Molecules/layouts/Header";
-
 import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard";
-
 // Presentation page sections
 import Information from "pages/Presentation/sections/Information"
 import DesignBlocks from "pages/Presentation/sections/DesignBlocks"
@@ -46,8 +44,12 @@ import footerRoutes from "footer.routes"
 
 // Images
 import bgImage from "assets/images/bg-presentation.jpg"
-
 import bgVideo from "assets/video/top-block-bg.mp4";
+
+import { useCanister } from "@connect2ic/react"
+import { useEffect } from "react"
+
+
 const videoTag = {
   objectFit: "cover",
   width: "100vw",
@@ -56,8 +58,19 @@ const videoTag = {
   top: "0",
   left: "0",
 }
-
 function Presentation() {
+  const [marketplace_auction, { loading, error }] = useCanister("marketplace_auction")
+  const [products, setProducts] = React.useState([]);
+
+  const getProducts = async () => {
+    const res = await marketplace_auction.GetAuctions();
+    console.log('res', res);
+    setProducts(res);
+  };
+
+  React.useEffect(() => {
+    getProducts();
+  }, []);
   return (
     <>
       <DauHeader
@@ -119,8 +132,10 @@ function Presentation() {
           boxShadow: ({ boxShadows: { xxl } }) => xxl,
         }}
       >
-        <DesignBlocks />
-        <Pages />
+
+
+        <DesignBlocks dataApi={products} />
+        {/* <Pages /> */}
         <Container sx={{ mt: 6 }}>
           <BuiltByDevelopers />
         </Container>

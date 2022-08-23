@@ -19,8 +19,6 @@ import InstagramIcon from "@mui/icons-material/Instagram"
 
 // Import Image
 import defaultAvatar from "assets/images/default-avatar.png"
-import ButtonAdd from "./components/ButtonAdd"
-import PreviewFile from "./components/PreviewFile"
 
 const myTextFieldStyle = {
   "& .MuiFormHelperText-root": {
@@ -31,30 +29,37 @@ const myTextFieldStyle = {
 function MintProduct() {
   const formik = useFormik({
     initialValues: {
-      username: "",
-      email: "",
-      photo: {},
+      file: undefined,
+      fileName: "",
       description: "",
-      twitter: "",
-      facebook: "",
-      instagram: "",
     },
     validationSchema: yup.object({
-      username: yup.string().required("dasdasdasd"),
-      email: yup.string().email().required("dasdasdas"),
+      file: yup.mixed().required("A file is required"),
+      fileName: yup.string().required("dasdasdasd"),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values)
-      onNextStep()
-      setTimeout(() => {
-        onNextStep()
-      }, 5000)
     },
   })
+
   const handleReset = () => {
     formik.handleReset()
-    setSourceImg(defaultAvatar)
+  }
+
+  const handleChangeFile = (event) => {
+    const files = event.target.files ? [...event.target.files] : []
+    if (files.length && files[0]) {
+      formik.setFieldValue("file", files[0], false)
+      formik.setFieldError("file", "")
+    }
+  }
+
+  const handleOnClickFile = () => {
+    formik.setFieldValue("file", undefined, false)
+    setTimeout(() => {
+      formik.setFieldError("file", "A file is required")
+    }, 1000)
   }
 
   return (
@@ -95,31 +100,38 @@ function MintProduct() {
                   <MKTypography variant="h6" mb={1}>
                     Files
                   </MKTypography>
-                  <MKBox
-                    component="section"
-                    bgColor="light"
-                    variant="gradient"
-                    p={1}
-                    borderRadius="sm"
-                  >
-                    <ButtonAdd />
-                    <PreviewFile />
-                  </MKBox>
+                  <MKInput
+                    id="file"
+                    type="file"
+                    name="file"
+                    onClick={(e) => {
+                      handleOnClickFile(e)
+                    }}
+                    onChange={(e) => {
+                      handleChangeFile(e)
+                    }}
+                    error={Boolean(formik.errors.file)}
+                    helperText={formik.errors.file}
+                    variant="outlined"
+                    fullWidth
+                    placeholder="Type something"
+                    sx={myTextFieldStyle}
+                  />
                 </Grid>
                 <Grid item xs={12}>
                   <MKTypography variant="h6" mb={1}>
                     Filename
                   </MKTypography>
                   <MKInput
-                    id="username"
-                    name="username"
+                    id="fileName"
+                    name="fileName"
                     error={
-                      formik.touched.username && Boolean(formik.errors.username)
+                      formik.touched.fileName && Boolean(formik.errors.fileName)
                     }
                     onChange={formik.handleChange}
-                    value={formik.values.username}
+                    value={formik.values.fileName}
                     helperText={
-                      formik.touched.username && formik.errors.username
+                      formik.touched.fileName && formik.errors.fileName
                     }
                     variant="outlined"
                     fullWidth

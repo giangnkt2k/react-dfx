@@ -150,13 +150,9 @@ function Seller({ onNextStep }) {
                     Photo
                   </MKTypography>
                   <MKInput
-                    // id="photo"
-                    // name="photo"
-                    // onChange={formik.handleChange}
                     onChange={(e) => {
                       handleChangePhoto(e)
                     }}
-                    // value={formik.values.photo}
                     inputRef={hiddenAvatarInput}
                     type="file"
                     inputProps={{ accept: "image/png, image/gif, image/jpeg" }}

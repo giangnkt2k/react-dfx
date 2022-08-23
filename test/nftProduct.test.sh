@@ -1,4 +1,4 @@
-#!/usr/bin/ic-repl
+#!/usr/local/bin/ic-repl
 
 load "../env.sh";
 
@@ -13,7 +13,9 @@ let resp = call marketplaceCanister.AddOrder(
         auctionTime=86400; 
         tokenPayment=dip20Canister; 
         typeAuction=variant {AuctionNFT}; 
-        metadataAuction=null
+        metadataAuction=null;
+        title="title";
+        description="description"
     }
 );
 assert resp == variant { Err = variant { NotOwnerOfToken } };
@@ -39,7 +41,9 @@ let resp = call marketplaceCanister.AddOrder(
         auctionTime=0; 
         tokenPayment=dip20Canister; 
         typeAuction=variant {AuctionNFT}; 
-        metadataAuction=null
+        metadataAuction=null;
+        title="title";
+        description="description"
     }
 );
 assert resp == variant { Ok = 1 : nat };
@@ -56,7 +60,9 @@ let resp = call marketplaceCanister.AddOrder(
         auctionTime=86400; 
         tokenPayment=dip20Canister; 
         typeAuction=variant {AuctionNFT}; 
-        metadataAuction=null
+        metadataAuction=null;
+        title="title";
+        description="description"
     }
 );
 assert resp == variant { Err = variant { NotSeller } };
@@ -71,7 +77,9 @@ let resp = call marketplaceCanister.AddOrder(
         auctionTime=86400; 
         tokenPayment=dip20Canister; 
         typeAuction=variant {AuctionNFT}; 
-        metadataAuction=null
+        metadataAuction=null;
+        title="title";
+        description="description"
     }
 );
 assert resp == variant { Err = variant { NotOwnerOrApprovedForToken } };
@@ -86,7 +94,9 @@ let resp = call marketplaceCanister.AddOrder(
         auctionTime=86400000000000; 
         tokenPayment=dip20Canister; 
         typeAuction=variant {AuctionNFT}; 
-        metadataAuction=null
+        metadataAuction=null;
+        title="title";
+        description="description"
     }
 );
 assert resp == variant { Ok = 2 : nat };
@@ -102,10 +112,12 @@ let resp = call marketplaceCanister.AddOrder(
         stepBid=1000;
         startPrice=20000;
         tokenId=opt 2; 
-        auctionTime=20000000000; 
+        auctionTime=60000000000; 
         tokenPayment=dip20Canister; 
         typeAuction=variant {AuctionNFT}; 
-        metadataAuction=null
+        metadataAuction=null;
+        title="title";
+        description="description"
     }
 );
 assert resp == variant { Ok = 3 : nat };
@@ -128,7 +140,7 @@ assert resp == variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
 
 " - Should revert if bid amount not enought";
 let resp = call dip20Canister.approve(marketplaceCanister, amountBid1);
-assert resp == variant { Ok = 4 : nat };
+assert resp != variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
 let resp = call marketplaceCanister.BidAuction(record {auctionId=2; amount=amountLarge});
 assert resp == variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
 
@@ -147,12 +159,12 @@ assert resp == variant { Err = variant { YouAreHighestBidNow } };
 " - Should work correctly 2";
 identity account2 "../config/account2.pem";
 let resp = call dip20Canister.approve(marketplaceCanister, amountBid2);
-assert resp == variant { Ok = 6 : nat };
+assert resp != variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
 let resp = call marketplaceCanister.BidAuction(record {auctionId=2; amount=amountBid2});
 assert resp == variant { Ok = 2 : nat };
 " - Should work correctly 3";
 let resp = call dip20Canister.approve(marketplaceCanister, amountBid1);
-assert resp == variant { Ok = 8 : nat };
+assert resp != variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
 let resp = call marketplaceCanister.BidAuction(record {auctionId=3; amount=amountBid1});
 assert resp == variant { Ok = 1 : nat };
 
@@ -187,7 +199,9 @@ let resp = call marketplaceCanister.AddOrder(
         auctionTime=50000000000; 
         tokenPayment=dip20Canister; 
         typeAuction=variant {AuctionNFT}; 
-        metadataAuction=null
+        metadataAuction=null;
+        title="title";
+        description="description"
     }
 );
 assert resp == variant { Ok = 4 : nat };
@@ -200,7 +214,7 @@ assert resp == opt account1;
 "Refund token";
 identity account3 "../config/account3.pem";
 let resp = call dip20Canister.approve(marketplaceCanister, amountBid3);
-assert resp == variant { Ok = 10 : nat };
+assert resp != variant { Err = variant { AuctionNotExist } };
 let resp = call marketplaceCanister.BidAuction(record {auctionId=2; amount=amountBid3});
 assert resp == variant { Ok = 3 : nat };
 " - should revert if auction not exist";

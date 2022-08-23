@@ -580,7 +580,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 
 				if (auction.typeAuction == #AuctionNFT) {
 					//transfer token to this caller
-					let realAmount = _chargeFee(auction.tokenPayment, auction.currentPrice);
+					let realAmount = await _chargeFee(auction.tokenPayment, auction.currentPrice);
 					let check = await _transferTokenFromMarket(auction.tokenPayment, auction.winner, realAmount); 
 					if (not check) {
 						return #Err(#ErrorSystem);
@@ -952,11 +952,11 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 
 	private func _chargeFee(token: Principal, amount: Nat): async Nat {
 		if (token == dip20) {
-			return amount - (amount*0.07);
+			return amount - (amount*7/100);
 		}else {
-			return amount - (amount*0.1);
-		}
-	}
+			return amount - (amount*7/100);
+		};
+	};
 	
 	private func _unwrap<T>(x : ?T) : T =
         switch x {

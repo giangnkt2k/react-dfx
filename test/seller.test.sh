@@ -1,4 +1,4 @@
-#!/usr/bin/ic-repl
+#!/usr/local/bin/ic-repl
 
 load "../env.sh";
 
@@ -10,7 +10,8 @@ let resp = call marketplaceCanister.BecomeTheSeller(record {
     social="asdasdasd"; 
     description="adasdasdd"; 
     email="asdasdasd"; 
-    locationTime="asdasdasd"
+    locationTime="asdasdasd";
+    avatar="image link";
 });
 assert resp == variant { Ok = true : bool };
 
@@ -21,7 +22,8 @@ let resp = call marketplaceCanister.BecomeTheSeller(record {
     social="asdasdasd"; 
     description="adasdasdd"; 
     email="asdasdasd"; 
-    locationTime="asdasdasd"
+    locationTime="asdasdasd";
+    avatar="image link";
 });
 assert resp == variant { Ok = true : bool };
 
@@ -31,6 +33,7 @@ let resp = call marketplaceCanister.BecomeTheSeller(record {
     social="asdasdasd"; 
     description="adasdasdd"; 
     email="asdasdasd"; 
-    locationTime="asdasdasd"
+    locationTime="asdasdasd";
+    avatar="image link";
 });
 assert resp == variant { Err = variant { AlreadySeller } };

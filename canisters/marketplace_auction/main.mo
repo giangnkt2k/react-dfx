@@ -150,6 +150,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 				typeAuction = data.typeAuction;
 				picture=?_unwrap(tokenInfo).url;
 				currencyUnit=currencyUnit;
+				title=data.title;
+				description=data.description;
 			};
 			idToAuction.put(auctionIdCount, auction);
 			auctionToBids.put(auctionIdCount, HashMap.fromIter<Nat, Types.Bid>(Iter.fromArray([]), 1, Nat.equal, Hash.hash));
@@ -172,6 +174,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 				timeStart = Time.now();
 				picture = _unwrap(data.picture);
 				currencyUnit=currencyUnit;
+				title=data.title;
+				description=data.description;
 			};
 			idToAuctionPending.put(auctionPendingIdCount, auctionPending);
 			auctionPendingToVotes.put(auctionPendingIdCount, HashMap.fromIter<Principal, Types.Vote>(Iter.fromArray([]), 1, Principal.equal, Principal.hash));
@@ -227,6 +231,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 					typeAuction = auction.typeAuction;
 					picture = auction.picture;
 					currencyUnit=auction.currencyUnit;
+					title=auction.title;
+					description=auction.description;
 				};
 
 				idToAuction.put(auctionId, newAuction);
@@ -297,6 +303,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 					typeAuction = auction.typeAuction;
 					picture = auction.picture;
 					currencyUnit=auction.currencyUnit;
+					title=auction.title;
+					description=auction.description;
 				};
 				
 				idToAuction.put(idAuction, newAuction);
@@ -347,6 +355,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 							typeAuction = auction.typeAuction;
 							picture = auction.picture;
 							currencyUnit=auction.currencyUnit;
+							title=auction.title;
+							description=auction.description;
 						};
 						
 						idToAuction.put(idAuction, newAuction);
@@ -418,6 +428,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 					typeAuction = auction.typeAuction;
 					picture = auction.picture;
 					currencyUnit=auction.currencyUnit;
+					title=auction.title;
+					description=auction.description;
 				};
 				
 				idToAuction.put(data.auctionId, newAuction);
@@ -496,6 +508,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 					typeAuction = auction.typeAuction;
 					picture = auction.picture;
 					currencyUnit=auction.currencyUnit;
+					title=auction.title;
+					description=auction.description;
 				};
 				
 				idToAuction.put(auctionId, newAuction);
@@ -661,6 +675,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 							timeStart = auctionPendingData.timeStart;
 							picture = auctionPendingData.picture;
 							currencyUnit= auctionPendingData.currencyUnit;
+							title=auctionPendingData.title;
+							description=auctionPendingData.description;
 						};
 						idToAuctionPending.put(data.auctionPendingId, newAuctionPending);
 					};
@@ -679,6 +695,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 							timeStart = auctionPendingData.timeStart;
 							picture = auctionPendingData.picture;
 							currencyUnit= auctionPendingData.currencyUnit;
+							title=auctionPendingData.title;
+							description=auctionPendingData.description;
 						};
 						idToAuctionPending.put(data.auctionPendingId, newAuctionPending);
 					};
@@ -740,6 +758,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 					typeAuction = #AuctionRealProduct;
 					picture = ?auctionPendingData.picture;
 					currencyUnit=auctionPendingData.currencyUnit;
+					title=auctionPendingData.title;
+					description=auctionPendingData.description;
 				};
 				idToAuction.put(id, auction);
 				auctionToBids.put(auctionIdCount, HashMap.fromIter<Nat, Types.Bid>(Iter.fromArray([]), 1, Nat.equal, Hash.hash));
@@ -797,6 +817,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 			locationTime = data.locationTime;
 			social = data.social;
 			email = data.email;
+			avatar=data.avatar;
 		};
 		idToSeller.put(caller, newSeller);
 
@@ -819,6 +840,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 					social = data.social;
 					locationTime = data.locationTime;
 					email = seller.email;
+					avatar=data.avatar;
 				};
 				return #Ok(true);
 			};
@@ -900,6 +922,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 					typeAuction = auction.typeAuction;
 					picture = auction.picture;
 					currencyUnit=auction.currencyUnit;
+					title=auction.title;
+					description=auction.description;
 				};
 				
 				idToAuction.put(auction.id, newAuction);
@@ -925,6 +949,8 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 					typeAuction = auction.typeAuction;
 					picture = auction.picture;
 					currencyUnit=auction.currencyUnit;
+					title=auction.title;
+					description=auction.description;
 				};
 				
 				idToAuction.put(auction.id, newAuction);

@@ -27,6 +27,6 @@ echo "{
   },
   \"staking\": {
     \"local\": \"$stakingCanister\"
-  },
+  }
 }
 " > .dfx/local/canister_ids.json

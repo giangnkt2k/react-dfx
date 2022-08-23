@@ -10,7 +10,10 @@ import { Connect2ICProvider } from "@connect2ic/react"
 /*
  * Import canister definitions like this:
  */
-import * as counter from "../.dfx/local/canisters/counter"
+import * as dip20 from "../.dfx/local/canisters/dip20"
+import * as dip721 from "../.dfx/local/canisters/dip721"
+import * as marketplace_auction from "../.dfx/local/canisters/marketplace_auction"
+// import * as stake from "../.dfx/local/canisters/stake";
 // react-router components
 import {
   BrowserRouter as Router,
@@ -74,10 +77,13 @@ function App() {
     </ThemeProvider>
   )
 }
-
+console.log("marketplace_auction12121", marketplace_auction)
 const client = createClient({
   canisters: {
-    counter,
+    dip20,
+    dip721,
+    marketplace_auction,
+    // stake
   },
   providers: defaultProviders,
   globalProviderConfig: {
@@ -90,10 +96,9 @@ const client = createClient({
 })
 
 export default () => (
-  // <Connect2ICProvider client={client}>
-  <Router>
-    <App />
-  </Router>
-
-  // </Connect2ICProvider>
+  <Connect2ICProvider client={client}>
+    <Router>
+      <App />
+    </Router>
+  </Connect2ICProvider>
 )

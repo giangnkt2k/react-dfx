@@ -37,6 +37,7 @@ function DauProgress({ progress }) {
       px={10}
       shadow="md"
       borderRadius="xl"
+      my={3}
     >
       <Container>
         <Grid

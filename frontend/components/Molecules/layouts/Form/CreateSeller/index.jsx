@@ -26,10 +26,12 @@ const myTextFieldStyle = {
   },
 }
 
-function Seller() {
+function Seller({ onNextStep }) {
   const hiddenAvatarInput = useRef(null)
   const handleClick = () => {
     hiddenAvatarInput.current.click()
+    formik.setFieldValue("photo", {}, false)
+    setSourceImg(defaultAvatar)
   }
   const [sourceImg, setSourceImg] = useState(defaultAvatar)
   const handleChangePhoto = (event) => {
@@ -56,10 +58,15 @@ function Seller() {
     enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values)
+      onNextStep()
+      setTimeout(() => {
+        onNextStep()
+      }, 5000)
     },
   })
   const handleReset = () => {
     formik.handleReset()
+    setSourceImg(defaultAvatar)
   }
   return (
     <MKBox
@@ -68,6 +75,7 @@ function Seller() {
       p={4}
       shadow="md"
       borderRadius="xl"
+      my={3}
     >
       <Container>
         <Grid

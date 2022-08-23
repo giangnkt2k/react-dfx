@@ -59,6 +59,11 @@ let assetCanister = assetSc.canister_id;
 "assertSc ===========================================================";
 assetCanister;
 
+let assetStore = deploy(file(".dfx/local/canisters/assets/assetstorage.wasm"));
+let assetStoreCanister = assetStore.canister_id;
+"assertStoreSc ===========================================================";
+assetStoreCanister;
+
 let marketplace = deployArgs(file(".dfx/local/canisters/marketplace_auction/marketplace_auction.wasm"), dip20Canister, dip721Canister, stakingCanister);
 let marketplaceCanister = marketplace.canister_id;
 "marketplace ===========================================================";

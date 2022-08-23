@@ -65,6 +65,10 @@ module {
        getTokenInfo: (tokenId: Nat) -> async ?dip721Metadata;
     };
 
+    public type IStaking = actor {
+        isStake: (Principal) -> async Bool;
+    };
+
     //========================================================== Auction
 
     public type AuctionPending = {
@@ -245,6 +249,7 @@ module {
 
     public type AuctionPendingError = {
         #Unauthorized;
+        #NotValidator;
         #InvalidTokenId;
         #InvalidAddress;
         #AuctionPendingNotExist;
@@ -253,6 +258,7 @@ module {
         #NotSeller;
         #CannotCancelOrder;
         #AuctionAlreadyStarted;
+        #MarketNotEnoughtToken;
         #Other;
     };
 

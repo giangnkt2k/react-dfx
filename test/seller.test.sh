@@ -11,7 +11,7 @@ let resp = call marketplaceCanister.BecomeTheSeller(record {
     description="adasdasdd"; 
     email="asdasdasd"; 
     locationTime="asdasdasd";
-    avatar="image link";
+    avatar="https://picsum.photos/seed/picsum/200/300";
 });
 assert resp == variant { Ok = true : bool };
 
@@ -23,7 +23,7 @@ let resp = call marketplaceCanister.BecomeTheSeller(record {
     description="adasdasdd"; 
     email="asdasdasd"; 
     locationTime="asdasdasd";
-    avatar="image link";
+    avatar="https://picsum.photos/seed/picsum/200/300";
 });
 assert resp == variant { Ok = true : bool };
 
@@ -34,6 +34,6 @@ let resp = call marketplaceCanister.BecomeTheSeller(record {
     description="adasdasdd"; 
     email="asdasdasd"; 
     locationTime="asdasdasd";
-    avatar="image link";
+    avatar="https://picsum.photos/seed/picsum/200/300";
 });
 assert resp == variant { Err = variant { AlreadySeller } };

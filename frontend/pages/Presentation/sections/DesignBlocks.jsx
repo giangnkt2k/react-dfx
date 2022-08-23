@@ -30,7 +30,6 @@ import PropTypes from "prop-types";
 
 // Data
 import data from "pages/Presentation/sections/data/designBlocksData";
-
 function DesignBlocks({dataApi}) {
   console.log('responseListProduct==>',dataApi);
   const renderData =  (
@@ -38,7 +37,7 @@ function DesignBlocks({dataApi}) {
         <Grid container spacing={3}>
           {dataApi.map((item, index) => (
             <Grid item xs={12} md={4} sx={{ mb: 2 }} key={index}>
-              <Link to="/pages/detailProduct/ProductDetailBid">
+              <Link to={'/pages/detailProduct/ProductDetailBid/'+ item.product.id}>
                 <ExampleCard product={item.product} seller={item.seller} />
               </Link>
             </Grid>

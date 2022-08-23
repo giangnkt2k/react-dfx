@@ -22,16 +22,16 @@ assert resp == variant { Err = variant { NotOwnerOfToken } };
 
 "- Account 1 Mint NFT token 1";
 identity account1 "../config/account1.pem";
-let resp = call dip721Canister.mint(record {url="http://groupbar.me/1"; name="Duong"; description="Day la anh cua Duong"});
+let resp = call dip721Canister.mint(record {url="https://picsum.photos/id/237/200/300"; name="Duong"; description="Day la anh cua Duong"});
 assert resp == variant { Ok = 1 : nat };
 
 "- Account 2 Mint NFT token 2";
 identity account2 "../config/account2.pem";
-let resp = call dip721Canister.mint(record {url="http://groupbar.me/2"; name="Duong2"; description="Day la anh cua Duong2"});
+let resp = call dip721Canister.mint(record {url="https://picsum.photos/id/237/200/300"; name="Duong2"; description="Day la anh cua Duong2"});
 assert resp == variant { Ok = 2 : nat };
 
 "- Account 2 mint NFT token 3";
-let resp = call dip721Canister.mint(record {url="http://groupbar.me/3"; name="Duong3"; description="Day la anh cua Duong3"});
+let resp = call dip721Canister.mint(record {url="https://picsum.photos/id/237/200/300"; name="Duong3"; description="Day la anh cua Duong3"});
 assert resp == variant { Ok = 3 : nat };
 let resp = call marketplaceCanister.AddOrder(
     record {

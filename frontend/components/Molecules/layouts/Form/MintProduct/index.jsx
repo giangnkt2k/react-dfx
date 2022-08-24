@@ -26,7 +26,7 @@ const myTextFieldStyle = {
   },
 }
 
-function MintProduct() {
+function MintProduct({ onNextStep }) {
   const formik = useFormik({
     initialValues: {
       file: undefined,
@@ -40,6 +40,10 @@ function MintProduct() {
     enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values)
+      onNextStep()
+      setTimeout(() => {
+        onNextStep()
+      }, 5000)
     },
   })
 
@@ -98,7 +102,7 @@ function MintProduct() {
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <MKTypography variant="h6" mb={1}>
-                    Files
+                    File
                   </MKTypography>
                   <MKInput
                     id="file"

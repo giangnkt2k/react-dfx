@@ -4,6 +4,11 @@ const routesDefault = {
     { label: "Processing", status: "new" },
     { label: "Success", status: "new" },
   ],
+  minProduct: [
+    { label: "Basic Information", status: "pending" },
+    { label: "Processing", status: "new" },
+    { label: "Success", status: "new" },
+  ],
   createRealProduct: [
     { label: "Submit new request", status: "pending" },
     { label: "Seller make an offer", status: "new" },

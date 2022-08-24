@@ -6,13 +6,14 @@ import MintProduct from "components/Molecules/layouts/Form/MintProduct"
 import Container from "@mui/material/Container"
 
 import CreateSeller from "pages/FormPages/CreateSeller"
+import MintPage from "pages/FormPages/MintPage"
 
 import defaultRoutes from "routes/routesProcessing"
 
 function Test() {
   return (
     <Container style={{ height: 20000 }}>
-      <MintProduct />
+      <MintPage />
     </Container>
   )
 }

@@ -6,7 +6,7 @@ import { useEffect } from "react"
 import { createClient } from "@connect2ic/core"
 import { defaultProviders } from "@connect2ic/core/providers"
 import "@connect2ic/core/style.css"
-import { Connect2ICProvider } from "@connect2ic/react"
+import { ConnectButton, ConnectDialog, Connect2ICProvider } from "@connect2ic/react"
 /*
  * Import canister definitions like this:
  */

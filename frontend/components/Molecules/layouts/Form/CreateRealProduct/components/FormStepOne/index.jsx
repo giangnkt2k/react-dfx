@@ -143,6 +143,9 @@ function FormStepOne({ onNextStep }) {
                     formik={formik}
                   />
                 </Grid>
+                <Grid item xs={12}>
+                  <MKTypography variant="h6">Auction Duration</MKTypography>
+                </Grid>
               </Grid>
               <Grid container justifyContent="end" my={2}>
                 <Grid item xs={3} mr={2}>

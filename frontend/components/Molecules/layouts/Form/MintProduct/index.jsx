@@ -20,35 +20,69 @@ import InstagramIcon from "@mui/icons-material/Instagram"
 // Import Image
 import defaultAvatar from "assets/images/default-avatar.png"
 
+// Import Web3-Storage
+import { Web3Storage, getFilesFromPath } from "web3.storage"
+
+import mintProduct from "../../../../../services/mintProduct"
+import { useCanister } from "@connect2ic/react"
+
+const token =
+  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDUyRjNmQjU5NTAwOEM5QzI0MTE3NDgyMDQzY2M0QWM0N0NBYTBGYWQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjEzNDc0Mzk2NTMsIm5hbWUiOiJmcHQtaGFja2F0aG9uLTIwMjIifQ._fFPVFAXa1vZ4qziS58ckAAxM8SVSd7Sts5dK04ShRU"
+
 const myTextFieldStyle = {
   "& .MuiFormHelperText-root": {
     color: "red !important",
   },
 }
 
+const stringToken = "https://{cid}.ipfs.w3s.link/{name}"
+
+const replaceString = (s, params) => {
+  for (const key in params) {
+    s = s.replace(`{${key}}`, params[key])
+  }
+  return s
+}
+
 function MintProduct({ onNextStep }) {
+  const [dip721, { loadingDip, errorDip }] = useCanister("dip721")
+
   const formik = useFormik({
     initialValues: {
       file: undefined,
-      fileName: "",
+      name: "",
       description: "",
     },
     validationSchema: yup.object({
       file: yup.mixed().required("A file is required"),
-      fileName: yup.string().required("dasdasdasd"),
+      name: yup.string().required("dasdasdasd"),
     }),
     enableReinitialize: true,
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: async (values) => {
       onNextStep()
-      setTimeout(() => {
-        onNextStep()
-      }, 5000)
+      const cid = await uploadToWeb3Storage(values.file)
+      values = {
+        ...values,
+        url: replaceString(stringToken, {
+          cid: cid,
+          name: values.file.name,
+        }),
+      }
+      console.log(values)
+      console.log(await dip721.mint(values))
     },
   })
 
   const handleReset = () => {
     formik.handleReset()
+  }
+
+  
+
+  const uploadToWeb3Storage = async (file) => {
+    const storage = new Web3Storage({ token })
+    const rootCid = await storage.put([file])
+    return rootCid
   }
 
   const handleChangeFile = (event) => {
@@ -124,19 +158,15 @@ function MintProduct({ onNextStep }) {
                 </Grid>
                 <Grid item xs={12}>
                   <MKTypography variant="h6" mb={1}>
-                    Filename
+                    File Name
                   </MKTypography>
                   <MKInput
-                    id="fileName"
-                    name="fileName"
-                    error={
-                      formik.touched.fileName && Boolean(formik.errors.fileName)
-                    }
+                    id="name"
+                    name="name"
+                    error={formik.touched.name && Boolean(formik.errors.name)}
                     onChange={formik.handleChange}
-                    value={formik.values.fileName}
-                    helperText={
-                      formik.touched.fileName && formik.errors.fileName
-                    }
+                    value={formik.values.name}
+                    helperText={formik.touched.name && formik.errors.name}
                     variant="outlined"
                     fullWidth
                     placeholder="Type something"

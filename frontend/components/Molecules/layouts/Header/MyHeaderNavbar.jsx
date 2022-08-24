@@ -46,6 +46,9 @@ import breakpoints from "assets/theme/base/breakpoints"
 // Images
 import logoDau from "assets/images/logo-dau.png"
 
+// Connect Wallet
+import { ConnectDialog } from "@connect2ic/react"
+
 function MyHeaderNavbar({
   transparent,
   light,
@@ -85,6 +88,7 @@ function MyHeaderNavbar({
               }
               color={color ? color : "info"}
               size="small"
+              onClick={label === "Sign in" ? onConnectPlug() : () => {}}
             >
               {label}
             </MKButton>
@@ -126,6 +130,10 @@ function MyHeaderNavbar({
               }
               color={color ? color : "info"}
               size="small"
+              onClick={(event) => {
+                event.preventDefault()
+                label === "Sign in" ? onConnectPlug() : null
+              }}
             >
               {label}
             </MKButton>
@@ -168,7 +176,6 @@ function MyHeaderNavbar({
       </MKTypography>
     </MKBox>
   ))
-
   const renderNavbarUser = routes.map(({ name, collapse }) => {
     return (
       <MyNavbarDropdown
@@ -185,7 +192,6 @@ function MyHeaderNavbar({
       />
     )
   })
-
   // Render the routes on the dropdown menu
   const renderRoutes = routes.map(
     ({ name, collapse, columns, rowsPerColumn }) => {
@@ -283,7 +289,6 @@ function MyHeaderNavbar({
       return template
     },
   )
-
   // Routes dropdown menu
   const dropdownMenu = (
     <Popper
@@ -320,6 +325,14 @@ function MyHeaderNavbar({
     </Popper>
   )
 
+  const onConnectPlug = async () => {
+    try {
+      const publicKey = await window.ic.plug.requestConnect()
+      console.log(`The connected user's public key is:`, publicKey)
+    } catch (e) {
+      console.log(e)
+    }
+  }
   return (
     <Container sx={sticky ? { position: "sticky", top: 0, zIndex: 10 } : null}>
       <MKBox
@@ -377,6 +390,7 @@ function MyHeaderNavbar({
         {renderNavbarSubItem}
       </MKBox>
       {dropdownMenu}
+      <ConnectDialog />
     </Container>
   )
 }

@@ -1,4 +1,4 @@
-#!/usr/bin/ic-repl
+#!/usr/local/bin/ic-repl
 
 load "../env.sh";
 

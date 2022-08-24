@@ -73,6 +73,8 @@ module {
 
     public type AuctionPending = {
         id: Nat;
+        title:Text;
+        description:Text;
         seller: Principal;
         stepBid: Nat;
         startPrice: Nat;
@@ -99,6 +101,8 @@ module {
 
     public type Auction = {
         id: Nat;
+        title:Text;
+        description:Text;
         tokenId: ?Nat;
         seller: Principal;
         winner: Principal;
@@ -125,6 +129,8 @@ module {
 
     public type AuctionCreate = {
         tokenId: ?Nat;
+        title:Text;
+        description:Text;
         stepBid: Nat;
         startPrice: Nat;
         tokenPayment: Principal;
@@ -176,6 +182,7 @@ module {
         locationTime: Text;
         description: Text;
         social: Text;
+        avatar: Text;
     };
 
     public type SellerCreate = {
@@ -184,6 +191,7 @@ module {
         locationTime: Text;
         description: Text;
         social: Text;
+        avatar: Text;
     };
 
     public type SellerUpdate = {
@@ -191,6 +199,7 @@ module {
         locationTime: Text;
         description: Text;
         social: Text;
+        avatar: Text;
     };
 
     public type ApiSellerError = {

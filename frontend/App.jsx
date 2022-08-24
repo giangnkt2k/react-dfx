@@ -10,9 +10,9 @@ import { Connect2ICProvider } from "@connect2ic/react"
 /*
  * Import canister definitions like this:
  */
-import * as dip20 from "../.dfx/local/canisters/dip20"
-import * as dip721 from "../.dfx/local/canisters/dip721"
-import * as marketplace_auction from "../.dfx/local/canisters/marketplace_auction"
+import * as dip20 from "../.dfx/local/canisters/dip20";
+import * as dip721 from "../.dfx/local/canisters/dip721";
+import * as marketplace_auction from "../.dfx/local/canisters/marketplace_auction";
 // import * as stake from "../.dfx/local/canisters/stake";
 // react-router components
 import {
@@ -77,7 +77,7 @@ function App() {
     </ThemeProvider>
   )
 }
-console.log("marketplace_auction12121", marketplace_auction)
+console.log('marketplace_auction12121',marketplace_auction)
 const client = createClient({
   canisters: {
     dip20,

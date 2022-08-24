@@ -245,7 +245,7 @@ const routes = [
     collapse: [
       {
         name: "detail product bid",
-        route: "/pages/detailProduct/ProductDetailBid",
+        route: "/pages/detailProduct/ProductDetailBid/:id",
         component: <ProductDetailBid />,
       },
     ]

@@ -11,7 +11,19 @@ import CardContent from '@mui/material/CardContent';
 import { Button, CardActionArea, CardActions } from '@mui/material';
 import './style.css';
 import LinearProgress from '@mui/material/LinearProgress';
-function ExampleCard({ image, name, count, pro, ...rest }) {
+
+const replaceNumber = (num) => {
+  return parseInt(num);
+}
+const replaceTime = (time) => {
+  return (new Date((replaceNumber(time))/1000000)).toGMTString();
+}
+const deadLineTime = (currentTime, totalDay) => {
+  const deadLine = replaceNumber(currentTime) + replaceNumber(totalDay);
+  return replaceTime(deadLine);
+}
+function ExampleCard({ product, seller, ...rest }) {
+  console.log('responseListProductproductproductproductproduct==>',product,seller );
 
   return (
     <MKBox position="relative">
@@ -19,8 +31,8 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
         <CardActionArea>
           <MKBox
             component="img"
-            src="https://mui.com/static/images/cards/contemplative-reptile.jpg"
-            alt={name}
+            src={product.picture[0]}
+            alt=''
             width="100%"
             height="160px"
             my="auto"
@@ -32,11 +44,11 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
               <div className='card-avatar'>
                 <div className="avtar-container">
                   <div className='avatar'>
-                    <img className='avatar-img' src={image} alt="" />
+                    <img className='avatar-img' src={seller.avatar} alt="" />
                   </div>
                   <div className="avatar-infor">
                     <div className="card-shopname">
-                      <p>GiangNKT</p>
+                      <p>{seller.username}</p>
                       <img src={vetifyIcon} alt="" />
                     </div>
                   </div>
@@ -45,25 +57,25 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
               <div className="card-space"></div>
               <div className="card-action">
                 <p>
-                  <strong >20</strong>
-                  ETH<span>/$37,717.8</span></p>
+                  <strong>{replaceNumber(product.currentPrice)}</strong>
+                  {product.currencyUnit}<span>/$37,717.8</span></p>
               </div>
             </div>
 
             <div className="card-detail">
               <div>
-                <MKTypography variant="span" fontWeight="bold" mb={1}>Start time: 12h00 2022/10/10</MKTypography>
+                <MKTypography variant="span" fontWeight="bold" mb={1}>Start time: {replaceTime(product.startTime)}</MKTypography>
               </div>
               <div>
-                <MKTypography variant="span" fontWeight="bold" mb={1}>Current price: 25 ETH</MKTypography>
+                <MKTypography variant="span" fontWeight="bold" mb={1}>Current price: {replaceNumber(product.startPrice)}{product.currencyUnit}</MKTypography>
               </div> <div>
-                <MKTypography variant="span" fontWeight="bold" mb={1}>Deadline: 12h00 2022/10/12</MKTypography>
+                <MKTypography variant="span" fontWeight="bold" mb={1}>Deadline: {deadLineTime(product.startTime,product.auctionTime)}</MKTypography>
               </div>
             </div>
           </CardContent>
           <CardActions>
             <Button size="small" color="primary">
-              {name}
+              {product.title}
             </Button>
           </CardActions>
         </CardActionArea>
@@ -74,17 +86,14 @@ function ExampleCard({ image, name, count, pro, ...rest }) {
 
 // Setting default props for the ExampleCard
 ExampleCard.defaultProps = {
-  name: "",
-  count: 0,
-  pro: false,
+product: {},
+seller: {}
 };
 
 // Typechecking props for the ExampleCard
 ExampleCard.propTypes = {
-  image: PropTypes.string.isRequired,
-  name: PropTypes.string,
-  count: PropTypes.number,
-  pro: PropTypes.bool,
+  product: PropTypes.object,
+  seller: PropTypes.object
 };
 
 export default ExampleCard;

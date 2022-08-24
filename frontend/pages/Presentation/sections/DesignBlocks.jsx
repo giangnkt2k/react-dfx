@@ -26,24 +26,25 @@ import MKTypography from "components/MKTypography";
 
 // Presentation page components
 import ExampleCard from "pages/Presentation/components/ExampleCard";
+import PropTypes from "prop-types";
 
 // Data
 import data from "pages/Presentation/sections/data/designBlocksData";
-
-function DesignBlocks() {
-  const renderData = data.map(({ items }) => (
-    <div container spacing={3} sx={{ mb: 10 }} key={items}>
+function DesignBlocks({dataApi}) {
+  console.log('responseListProduct==>',dataApi);
+  const renderData =  (
+    <div container spacing={3} sx={{ mb: 10 }}>
         <Grid container spacing={3}>
-          {items.map(({ image, name, count, route, pro }) => (
-            <Grid item xs={12} md={4} sx={{ mb: 2 }} key={name}>
-              <Link to="/pages/detailProduct/ProductDetailBid">
-                <ExampleCard image={image} name={name} count={count} pro={pro} />
+          {dataApi.map((item, index) => (
+            <Grid item xs={12} md={4} sx={{ mb: 2 }} key={index}>
+              <Link to={'/pages/detailProduct/ProductDetailBid/'+ item.product.id}>
+                <ExampleCard product={item.product} seller={item.seller} />
               </Link>
             </Grid>
           ))}
         </Grid>
     </div>
-  ));
+  );
 
   return (
     <MKBox component="section" my={6} py={6}>
@@ -76,5 +77,15 @@ function DesignBlocks() {
     </MKBox>
   );
 }
+
+// Setting default props for the ExampleCard
+DesignBlocks.defaultProps = {
+  dataApi: PropTypes.array,
+};
+
+// Typechecking props for the ExampleCard
+DesignBlocks.propTypes = {
+  dataApi: PropTypes.array,
+};
 
 export default DesignBlocks;

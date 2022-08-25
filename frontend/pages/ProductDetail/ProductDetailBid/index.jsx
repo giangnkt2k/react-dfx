@@ -77,7 +77,7 @@ function a11yProps(index) {
 
 function ProductDetailBid() {
   const [marketplace_auction, { loading, error }] = useCanister("marketplace_auction")
-  const [dip20] = useCanister("dip20")
+  const [dip20,{ loading20, error20 }] = useCanister("dip20")
   const [value, setValue] = React.useState(0);
   const [product, setProduct] = React.useState(undefined);
   const [wallet] = useWallet()
@@ -123,14 +123,23 @@ function ProductDetailBid() {
     zIndex: "-1"
   };
 
-  console.log('product', product);
+  console.log('marketplace_auction', marketplace_auction);
   const handleBid = async () => {
+    
     if(!wallet) {
      await onConnectPlug()
     }
     else {
-      const res = await dip20.approve('wzp7w-lyaaa-aaaaa-aaara-cai', 0)
+      try {
+      // const res = await marketplace_auction.getCanisterPrincipal()
+      console.log('biding');
+      console.log('-->',Principal.fromText('v32cj-3iaaa-aaaaa-aaa2a-cai'))
+      const res = await dip20.approve(Principal.fromText('v32cj-3iaaa-aaaaa-aaa2a-cai'), 0)
       console.log('mum', res);
+      }
+      catch(e) {
+        console.log('error', e)
+      }
     }
   }
 
@@ -161,6 +170,9 @@ function ProductDetailBid() {
     console.log('product jnc', product);
   }, []);
 
+  React.useEffect(() => {
+    console.log('error20', error20);
+  }, [error20]);
   return (
     <BaseLayout
       breadcrumb={[

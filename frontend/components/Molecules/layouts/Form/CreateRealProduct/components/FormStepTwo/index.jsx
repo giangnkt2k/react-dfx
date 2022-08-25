@@ -1,9 +1,13 @@
 import React, { useState, useRef, useEffect } from "react"
 import { useFormik } from "formik"
 import * as yup from "yup"
+
 // @mui material components
 import Container from "@mui/material/Container"
 import Grid from "@mui/material/Grid"
+import IconButton from "@mui/material/IconButton"
+import ListItem from "@mui/material/ListItem"
+import ListItemText from "@mui/material/ListItemText"
 
 // Material Kit 2 React components
 import MKBox from "components/MKBox"
@@ -13,29 +17,38 @@ import MKButton from "components/MKButton"
 import MKAvatar from "components/MKAvatar"
 
 // Import Icons
-import TwitterIcon from "@mui/icons-material/Twitter"
-import FacebookIcon from "@mui/icons-material/Facebook"
-import InstagramIcon from "@mui/icons-material/Instagram"
+import DeleteIcon from "@mui/icons-material/Delete"
 
-// Import Image
-import defaultAvatar from "assets/images/default-avatar.png"
-
-const myTextFieldStyle = {
-  "& .MuiFormHelperText-root": {
-    color: "red !important",
+const itemData = [
+  {
+    img: "https://images.unsplash.com/photo-1551963831-b3b1ca40c98e",
+    title: "Breakfast",
   },
-}
+  {
+    img: "https://images.unsplash.com/photo-1551782450-a2132b4ba21d",
+    title: "Burger",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1522770179533-24471fcdba45",
+    title: "Camera",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1444418776041-9c7e33cc5a9c",
+    title: "Coffee",
+  },
+  {
+    img: "https://images.unsplash.com/photo-1533827432537-70133748f5c8",
+    title: "Hats",
+  },
+]
 
-function MintProduct({ onNextStep }) {
+function FormStepTwo({ onNextStep }) {
   const formik = useFormik({
     initialValues: {
-      file: undefined,
-      fileName: "",
-      description: "",
+      file: [],
     },
     validationSchema: yup.object({
       file: yup.mixed().required("A file is required"),
-      fileName: yup.string().required("dasdasdasd"),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -49,21 +62,6 @@ function MintProduct({ onNextStep }) {
 
   const handleReset = () => {
     formik.handleReset()
-  }
-
-  const handleChangeFile = (event) => {
-    const files = event.target.files ? [...event.target.files] : []
-    if (files.length && files[0]) {
-      formik.setFieldValue("file", files[0], false)
-      formik.setFieldError("file", "")
-    }
-  }
-
-  const handleOnClickFile = () => {
-    formik.setFieldValue("file", undefined, false)
-    setTimeout(() => {
-      formik.setFieldError("file", "A file is required")
-    }, 1000)
   }
 
   return (
@@ -86,7 +84,7 @@ function MintProduct({ onNextStep }) {
           textAlign="center"
         >
           <MKTypography variant="h3" mb={1}>
-            Add to your collection
+            Create Product
           </MKTypography>
         </Grid>
         <Grid container item xs={12} lg={10} sx={{ mx: "auto" }}>
@@ -104,63 +102,21 @@ function MintProduct({ onNextStep }) {
                   <MKTypography variant="h6" mb={1}>
                     File
                   </MKTypography>
-                  <MKInput
-                    id="file"
-                    type="file"
-                    name="file"
-                    onClick={(e) => {
-                      handleOnClickFile(e)
-                    }}
-                    onChange={(e) => {
-                      handleChangeFile(e)
-                    }}
-                    error={Boolean(formik.errors.file)}
-                    helperText={formik.errors.file}
-                    variant="outlined"
-                    fullWidth
-                    placeholder="Type something"
-                    sx={myTextFieldStyle}
-                  />
                 </Grid>
-                <Grid item xs={12}>
-                  <MKTypography variant="h6" mb={1}>
-                    Filename
-                  </MKTypography>
-                  <MKInput
-                    id="fileName"
-                    name="fileName"
-                    error={
-                      formik.touched.fileName && Boolean(formik.errors.fileName)
+                <Grid item xs={3}>
+                  <ListItem
+                    secondaryAction={
+                      <IconButton edge="end" aria-label="delete">
+                        <DeleteIcon />
+                      </IconButton>
                     }
-                    onChange={formik.handleChange}
-                    value={formik.values.fileName}
-                    helperText={
-                      formik.touched.fileName && formik.errors.fileName
-                    }
-                    variant="outlined"
-                    fullWidth
-                    placeholder="Type something"
-                    sx={myTextFieldStyle}
-                  />
-                </Grid>
-                <Grid item xs={12}>
-                  <MKTypography variant="h6" mb={1}>
-                    Description
-                  </MKTypography>
-                  <MKInput
-                    id="description"
-                    name="description"
-                    onChange={formik.handleChange}
-                    value={formik.values.description}
-                    variant="outlined"
-                    multiline
-                    fullWidth
-                    rows={6}
-                    placeholder="Type something"
-                  />
+                  >
+                    <ListItemText primary="Single-line item" />
+                    <>dsds</>
+                  </ListItem>
                 </Grid>
               </Grid>
-              <Grid container justifyContent="end" my={2}>
+              <Grid container justifyContent="end" mt={4}>
                 <Grid item xs={3} mr={2}>
                   <MKButton
                     type="reset"
@@ -178,7 +134,7 @@ function MintProduct({ onNextStep }) {
                     color="dark"
                     fullWidth
                   >
-                    Mint
+                    Send
                   </MKButton>
                 </Grid>
               </Grid>
@@ -190,4 +146,4 @@ function MintProduct({ onNextStep }) {
   )
 }
 
-export default MintProduct
+export default FormStepTwo

@@ -20,12 +20,6 @@ import InstagramIcon from "@mui/icons-material/Instagram"
 // Import Image
 import defaultAvatar from "assets/images/default-avatar.png"
 
-const myTextFieldStyle = {
-  "& .MuiFormHelperText-root": {
-    color: "red !important",
-  },
-}
-
 function Seller({ onNextStep }) {
   const hiddenAvatarInput = useRef(null)
   const handleClick = () => {
@@ -122,7 +116,6 @@ function Seller({ onNextStep }) {
                       variant="outlined"
                       fullWidth
                       placeholder="Type something"
-                      sx={myTextFieldStyle}
                     />
                   </Grid>
                   <Grid pb={2}>
@@ -141,7 +134,6 @@ function Seller({ onNextStep }) {
                       variant="outlined"
                       fullWidth
                       placeholder="Type something"
-                      sx={myTextFieldStyle}
                     />
                   </Grid>
                 </Grid>

@@ -11,12 +11,7 @@ import MKTypography from "components/MKTypography"
 import MKInput from "components/MKInput"
 import MKButton from "components/MKButton"
 import MKRadioGroup from "components/MKRadioGroup"
-
-const myTextFieldStyle = {
-  "& .MuiFormHelperText-root": {
-    color: "red !important",
-  },
-}
+import MKSelection from "../../../../../../MKSelection"
 
 const convertDaysToMiliSeconds = (days) => {
   return parseFloat(days) * 86400000
@@ -31,16 +26,45 @@ const radioItems = {
   optional: { id: 0, title: "Day(s)" },
 }
 
+const currencyItems = [
+  {
+    id: "BTC",
+    title: "Bitcoin",
+  },
+  { id: "ETH", title: "Ethereum" },
+  {
+    id: "ADA",
+    title: "Cadarno",
+  },
+]
+
 function FormStepOne({ onNextStep }) {
   const formik = useFormik({
     initialValues: {
-      productName: "",
+      title: "",
       description: "",
       duration: 1,
+      startPrice: "",
+      stepBid: "",
+      currency: "BTC",
     },
     validationSchema: yup.object({
-      //   productName: yup.string().required("dasdasdasd"),
-      //   duration: yup.number().min(1, "Enter number please."),
+      title: yup.string().required("This field is required."),
+      description: yup.string().required("This field is required."),
+      duration: yup
+        .number()
+        .typeError("Must be numeric.")
+        .positive("More than 0."),
+      startPrice: yup
+        .number()
+        .typeError("Must be numeric.")
+        .positive("More than 0.")
+        .required("This field is required."),
+      stepBid: yup
+        .number()
+        .typeError("Must be numeric.")
+        .positive("More than 0.")
+        .required("This field is required."),
     }),
     enableReinitialize: true,
     onSubmit: (values) => {
@@ -76,7 +100,7 @@ function FormStepOne({ onNextStep }) {
           textAlign="center"
         >
           <MKTypography variant="h3" mb={1}>
-            Add to your collection
+            Create Product
           </MKTypography>
         </Grid>
         <Grid container item xs={12} lg={10} sx={{ mx: "auto" }}>
@@ -89,27 +113,21 @@ function FormStepOne({ onNextStep }) {
             onReset={handleReset}
           >
             <MKBox p={3}>
-              <Grid container spacing={3}>
+              <Grid container spacing={3} alignItems="flex-end">
                 <Grid item xs={12}>
                   <MKTypography variant="h6" mb={1}>
                     Product Name
                   </MKTypography>
                   <MKInput
-                    id="productName"
-                    name="productName"
-                    error={
-                      formik.touched.productName &&
-                      Boolean(formik.errors.productName)
-                    }
+                    id="title"
+                    name="title"
+                    error={formik.touched.title && Boolean(formik.errors.title)}
                     onChange={formik.handleChange}
-                    value={formik.values.productName}
-                    helperText={
-                      formik.touched.productName && formik.errors.productName
-                    }
+                    value={formik.values.title}
+                    helperText={formik.touched.title && formik.errors.title}
                     variant="outlined"
                     fullWidth
                     placeholder="Type something"
-                    sx={myTextFieldStyle}
                   />
                 </Grid>
                 <Grid item xs={12}>
@@ -143,11 +161,54 @@ function FormStepOne({ onNextStep }) {
                     formik={formik}
                   />
                 </Grid>
-                <Grid item xs={12}>
-                  <MKTypography variant="h6">Auction Duration</MKTypography>
+                <Grid item xs={4}>
+                  <MKTypography variant="h6" mb={1}>
+                    Currency Amount
+                  </MKTypography>
+                  <MKSelection
+                    formik={formik}
+                    label="Currency"
+                    name="currency"
+                    items={currencyItems}
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <MKInput
+                    id="startPrice"
+                    name="startPrice"
+                    error={
+                      formik.touched.startPrice &&
+                      Boolean(formik.errors.startPrice)
+                    }
+                    onChange={formik.handleChange}
+                    value={formik.values.startPrice}
+                    helperText={
+                      formik.touched.startPrice && formik.errors.startPrice
+                    }
+                    label="Start Price"
+                    variant="outlined"
+                    placeholder="Type something"
+                    fullWidth
+                  />
+                </Grid>
+                <Grid item xs={4}>
+                  <MKInput
+                    id="stepBid"
+                    name="stepBid"
+                    error={
+                      formik.touched.stepBid && Boolean(formik.errors.stepBid)
+                    }
+                    onChange={formik.handleChange}
+                    value={formik.values.stepBid}
+                    helperText={formik.touched.stepBid && formik.errors.stepBid}
+                    label="Step Price"
+                    variant="outlined"
+                    placeholder="Type something"
+                    fullWidth
+                  />
                 </Grid>
               </Grid>
-              <Grid container justifyContent="end" my={2}>
+              <Grid container justifyContent="end" mt={4}>
                 <Grid item xs={3} mr={2}>
                   <MKButton
                     type="reset"

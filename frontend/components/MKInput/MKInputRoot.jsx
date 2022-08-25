@@ -35,8 +35,13 @@ export default styled(TextField)(({ theme, ownerState }) => {
       paddingRight: pxToRem(4),
     },
     "& .MuiInputBase-input": {
-      padding: `${pxToRem(4)} ${pxToRem(8)}`,
-      width: pxToRem(50)
+      padding: `${pxToRem(4)} 0 ${pxToRem(4)} ${pxToRem(8)}`,
+      width: pxToRem(50),
+    },
+    "& .MuiFormHelperText-root": {
+      position: "absolute",
+      color: colorError.main,
+      top: "100%",
     },
   })
   const errorStyles = () => ({
@@ -54,6 +59,12 @@ export default styled(TextField)(({ theme, ownerState }) => {
 
     "& .MuiInputLabel-root.Mui-focused": {
       color: colorError.main,
+    },
+
+    "& .MuiFormHelperText-root": {
+      position: "absolute",
+      color: colorError.main,
+      top: "100%",
     },
   })
 

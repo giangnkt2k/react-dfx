@@ -64,8 +64,8 @@ export default function MKRadioGroup(props) {
   })
 
   const handleOnChangeInput = (event) => {
-    setInput(event.target.value)
-    formik.setFieldValue(name, event.target.value, false)
+    setInput("0" + event.target.value)
+    formik.setFieldValue(name, "0" + event.target.value, false)
   }
 
   items.push({ ...radioItems.optional, optional: true })
@@ -108,6 +108,9 @@ export default function MKRadioGroup(props) {
                     handleOnChangeInput(e)
                   }}
                   classes={{ root: classes.inputRoot }}
+                  inputProps={{
+                    style: { textAlign: "right" },
+                  }}
                   InputProps={{
                     endAdornment: (
                       <InputAdornment position="end" disableTypography>
@@ -115,6 +118,7 @@ export default function MKRadioGroup(props) {
                       </InputAdornment>
                     ),
                   }}
+                  helperText={formik.touched[name] && formik.errors[name]}
                   radioGroup
                 />
               ) : (

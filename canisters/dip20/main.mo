@@ -10,7 +10,7 @@ import Principal "mo:base/Principal";
 import Result "mo:base/Result";
 import Time "mo:base/Time";
 
-shared({caller}) actor class Dip20Token() {
+shared({caller}) actor class Dip20Token() = Self {
 	public shared query (doIHaveTokens__msg) func doIHaveTokens(minimum : Nat) : async Bool {
 		let caller = doIHaveTokens__msg.caller; // First input
 		_balanceOf(caller) >= minimum;
@@ -437,6 +437,10 @@ shared({caller}) actor class Dip20Token() {
 				return [];
 			};
 		}
+	};
+
+	public query func getCanisterPrincipal() : async Principal {
+		return Principal.fromActor(Self);
 	};
 	
 	/*

@@ -293,6 +293,10 @@ shared(msg) actor class Dip721 () = Self {
 		
 		ignore tokenIdToOwner.remove(tokenId);
 	};
+
+    public query func getCanisterPrincipal() : async Principal {
+		return Principal.fromActor(Self);
+	};
 	
 	system func preupgrade() {
 		tokenIdToMetadataTmp := Iter.toArray(tokenIdToMetadata.entries());

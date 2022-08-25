@@ -225,6 +225,10 @@ shared({caller}) actor class Staking(dip20: Principal) = Self {
             case (?x_) { x_ };
     };
 
+    public query func getCanisterPrincipal() : async Principal {
+		return Principal.fromActor(Self);
+	};
+
 
     system func preupgrade() {
 		stakings := Iter.toArray(idToStakingPackage.entries());

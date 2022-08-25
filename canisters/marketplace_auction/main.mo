@@ -915,6 +915,10 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		return _isManager(caller);
 	};
 
+	public query func getCanisterPrincipal() : async Principal {
+		return Principal.fromActor(Self);
+	};
+
 	private func _isSeller(address: Principal) : Bool {
 		return Option.isSome(idToSeller.get(address));
 	};

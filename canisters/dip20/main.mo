@@ -439,7 +439,7 @@ shared({caller}) actor class Dip20Token() = Self {
 		}
 	};
 
-	public query func getCanisterPrincipal() : async Principal {
+	public shared query func getCanisterPrincipal() : async Principal {
 		return Principal.fromActor(Self);
 	};
 	

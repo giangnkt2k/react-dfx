@@ -225,7 +225,7 @@ shared({caller}) actor class Staking(dip20: Principal) = Self {
             case (?x_) { x_ };
     };
 
-    public query func getCanisterPrincipal() : async Principal {
+    public shared query func getCanisterPrincipal() : async Principal {
 		return Principal.fromActor(Self);
 	};
 

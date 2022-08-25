@@ -294,7 +294,7 @@ shared(msg) actor class Dip721 () = Self {
 		ignore tokenIdToOwner.remove(tokenId);
 	};
 
-    public query func getCanisterPrincipal() : async Principal {
+    public shared query func getCanisterPrincipal() : async Principal {
 		return Principal.fromActor(Self);
 	};
 	

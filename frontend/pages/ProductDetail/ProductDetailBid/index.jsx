@@ -26,6 +26,8 @@ import { Route, Routes, useParams } from 'react-router-dom';
 import { useBalance, useWallet } from "@connect2ic/react";
 import { Principal } from '@dfinity/principal'
 import { useStore } from '../../../store';
+import { useConnect } from '@connect2ic/react';
+import { useEffect } from 'react';
 
 const replaceNumber = (num) => {
   return parseInt(num);
@@ -73,7 +75,8 @@ function a11yProps(index) {
 
 function ProductDetailBid() {
   const [marketplace_auction] = useCanister("marketplace_auction")
-  const [dip20,{ loading20, error20 }] = useCanister("dip20")
+  const [dip20, { loading20, error20 }] = useCanister("dip20", { mode: 'anonymous' })
+  const { principal } = useConnect()
   const [value, setValue] = React.useState(0);
   const [product, setProduct] = React.useState(undefined);
   const [wallet] = useWallet()
@@ -81,7 +84,12 @@ function ProductDetailBid() {
   const [inputNumToken, setInputNumToken] = React.useState('');
   const params = useParams();
   const [state, dispatch] = useStore()
-  console.log('state', state)
+  const stateMarket = state.canisters.marketplace_auction;
+  console.log('marketplace_auction', stateMarket, ">>>>>>")
+  console.log(stateMarket ? stateMarket[carnisterId] : stateMarket, ">>>>");
+  useEffect(() => {
+    console.log(stateMarket ? stateMarket[carnisterId] : stateMarket, ">>>");
+  }, [stateMarket])
   const handleChangeInputBid = event => {
     setInputNumToken(event.target.value);
 
@@ -96,12 +104,12 @@ function ProductDetailBid() {
     const b = new Date(a / 1000000);
     const c = new Date();
     const d = b.getDate() - c.getDate();
-    const aucTime = new Date(replaceNumber(datas.Ok.product.auctionTime)/1000000);
+    const aucTime = new Date(replaceNumber(datas.Ok.product.auctionTime) / 1000000);
     datas.Ok.product.processToBid = d + ' day';
     if (c > b) {
       datas.Ok.product.processBar = 100
     } else {
-      datas.Ok.product.processBar =  (aucTime.getDate() - d)/(aucTime.getDate()) *100
+      datas.Ok.product.processBar = (aucTime.getDate() - d) / (aucTime.getDate()) * 100
     }
 
     setProduct(datas);
@@ -122,19 +130,25 @@ function ProductDetailBid() {
   };
 
   const handleBid = async () => {
-    
-    if(!wallet) {
-     await onConnectPlug()
+
+    if (!wallet) {
+      await onConnectPlug()
     }
     else {
       try {
-      const res123 = await marketplace_auction.getCanisterPrincipal()
-      console.log('biding',res123);
-      // console.log('-->',Principal.fromText('v32cj-3iaaa-aaaaa-aaa2a-cai'))
-      // const res = await dip20.approve(Principal.fromText('v32cj-3iaaa-aaaaa-aaa2a-cai'), 0)
-      // console.log('mum', res);
+        // const res123 = await marketplace_auction.getCanisterPrincipal()
+        // console.log('biding',res123);
+        console.log('-->', Principal.fromText('7bb7f-zaaaa-aaaaa-aabdq-cai'))
+        const res = await dip20.approve(Principal.fromText(principal), Principal.fromText('7bb7f-zaaaa-aaaaa-aabdq-cai'), 360000)
+        console.log('mum', res);
+        const biding = await marketplace_auction.BidAuction({
+          auctionId: 2,
+          amount: 3600
+        })
+        console.log('biding', biding);
+
       }
-      catch(e) {
+      catch (e) {
         console.log('error', e)
       }
     }
@@ -152,9 +166,9 @@ function ProductDetailBid() {
 
   const getAmount = (amountt, unitt) => {
     let amountToken = ' 0';
-    amountToken = amountt.filter(e =>  e.symbol === unitt)
-    if(amountToken.length > 0) {
-      amountToken =  amountToken[0].amount
+    amountToken = amountt.filter(e => e.symbol === unitt)
+    if (amountToken.length > 0) {
+      amountToken = amountToken[0].amount
     } else {
       amountToken = ' 0'
     }
@@ -183,121 +197,121 @@ function ProductDetailBid() {
       </video>
       {product ?
         <>
-        <MKBox pt={5} pb={6}>
-          <Container style={{ "backgroundColor": "#ffffffd9", "boxShadow": "0rem 0.625rem 0.9375rem -0.1875rem rgb(0 0 0 / 10%), 0rem 0.25rem 0.375rem -0.125rem rgb(0 0 0 / 5%)" }}>
-            <Grid container>
-              <Grid item xs={12} md={8} sx={{ mb: 2 }}>
-                {/* user info  */}
-                <div className='card-root'>
-                  <div className='card-avatar'>
-                    <div className="avtar-container">
-                      <div className='avatar'>
-                        <img className='avatar-img' src={product.Ok.seller.avatar} alt="" />
-                        {/* <img className='avatar-img' src="" alt="" /> */}
+          <MKBox pt={5} pb={6}>
+            <Container style={{ "backgroundColor": "#ffffffd9", "boxShadow": "0rem 0.625rem 0.9375rem -0.1875rem rgb(0 0 0 / 10%), 0rem 0.25rem 0.375rem -0.125rem rgb(0 0 0 / 5%)" }}>
+              <Grid container>
+                <Grid item xs={12} md={8} sx={{ mb: 2 }}>
+                  {/* user info  */}
+                  <div className='card-root'>
+                    <div className='card-avatar'>
+                      <div className="avtar-container">
+                        <div className='avatar'>
+                          <img className='avatar-img' src={product.Ok.seller.avatar} alt="" />
+                          {/* <img className='avatar-img' src="" alt="" /> */}
 
-                      </div>
-                      <div className="avatar-infor">
-                        <div className="card-shopname">
-                          <p>{product.Ok.seller.username}</p>
-                          <img src={vetifyIcon} alt="" />
+                        </div>
+                        <div className="avatar-infor">
+                          <div className="card-shopname">
+                            <p>{product.Ok.seller.username}</p>
+                            <img src={vetifyIcon} alt="" />
+                          </div>
                         </div>
                       </div>
                     </div>
+                    <div className="card-space"></div>
                   </div>
-                  <div className="card-space"></div>
-                </div>
-                {/* main info product */}
-                <div className='card-root'>
-                  <MKTypography color='primary' textGradient variant="h4" fontWeight="bold" mb={1}>{product.Ok.product.title}</MKTypography>
-                </div>
-                <div className='card-root-image'>
-                  <MKBox
-                    component="img"
-                    src={product.Ok.product.picture[0]}
-                    width="100%"
-                    height="400px"
-                    my="auto"
-                  />
-                </div>
+                  {/* main info product */}
+                  <div className='card-root'>
+                    <MKTypography color='primary' textGradient variant="h4" fontWeight="bold" mb={1}>{product.Ok.product.title}</MKTypography>
+                  </div>
+                  <div className='card-root-image'>
+                    <MKBox
+                      component="img"
+                      src={product.Ok.product.picture[0]}
+                      width="100%"
+                      height="400px"
+                      my="auto"
+                    />
+                  </div>
 
-              </Grid>
-              {/* product infor  */}
-              <Grid item xs={12} md={4} sx={{ mx: "auto", textAlign: "center" }}>
-                <div>
-                  <MKTypography pt={3} color='dark' textGradient variant="body1" fontWeight="bold" mb={1}>Infor Product</MKTypography>
-                </div>
-                <MKBox py={2} px={3}>
-                  <MKProgress variant="gradient" color={(product.Ok.product.processBar === 100) ? 'error' : 'success'} value={product.Ok.product.processBar} />
-                </MKBox>
-                <dl className='dl-list'>
-                  <dt>
-                    <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
-                      Product type:
-                    </MKTypography>
-                  </dt>
-                  <dd>
-                    <MKTypography color='dark' textGradient variant="inherit" mb={1}>
-                      {(product.Ok.product.metadataAuction) ? 'Real Product' : 'NFT'}
-                    </MKTypography>
-                  </dd>
-                  <dt>
-                    <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
-                      Auction time:
-                    </MKTypography>
-                  </dt>
-                  <dd>
-                    <MKTypography color='dark' textGradient variant="inherit" mb={1}>
-                      {product.Ok.product.processToBid}
-                    </MKTypography>
-                  </dd>
-                  <dt>
-                    <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
-                      Step Bid:
-                    </MKTypography>
-                  </dt>
-                  <dd>
-                    <MKTypography color='dark' textGradient variant="inherit" mb={1}>
-                      {replaceNumber(product.Ok.product.stepBid)} {product.Ok.product.currencyUnit}
-                    </MKTypography>
-                  </dd>
-                  <dt>
-                    <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
-                      Start price:
-                    </MKTypography>
-                  </dt>
-                  <dd>
-                    <MKTypography color='dark' textGradient variant="inherit" mb={1}>
-                      {replaceNumber(product.Ok.product.startPrice)} {product.Ok.product.currencyUnit}
-                    </MKTypography>
-                  </dd>
-                  <dt>
-                    <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
-                      Current Price:
-                    </MKTypography>
-                  </dt>
-                  <dd>
-                    <MKTypography color='dark' textGradient variant="inherit" mb={1}>
-                      {replaceNumber(product.Ok.product.currentPrice)} {product.Ok.product.currencyUnit}
-                    </MKTypography>
-                  </dd>
-                </dl>
-                <div>
-                  <MKBox py={3} px={3} sx={{ mx: "auto", textAlign: "center" }}>
-                    <MKTypography color='primary' textGradient variant="body1" fontWeight="bold" mb={1}>Total wallet : 
-                    {assets ? getAmount(assets, product.Ok.product.currencyUnit)  : 'connect Wallet'}</MKTypography>
-                    <MKInput label="Your total" value={inputNumToken} onChange={handleChangeInputBid} fullWidth />
-                    <MKBox pt={2}>
-                      <MKButton variant="gradient" color="primary" fullWidth onClick={handleBid}>
-                        BID
-                      </MKButton>
-                    </MKBox>
-
+                </Grid>
+                {/* product infor  */}
+                <Grid item xs={12} md={4} sx={{ mx: "auto", textAlign: "center" }}>
+                  <div>
+                    <MKTypography pt={3} color='dark' textGradient variant="body1" fontWeight="bold" mb={1}>Infor Product</MKTypography>
+                  </div>
+                  <MKBox py={2} px={3}>
+                    <MKProgress variant="gradient" color={(product.Ok.product.processBar === 100) ? 'error' : 'success'} value={product.Ok.product.processBar} />
                   </MKBox>
-                </div>
+                  <dl className='dl-list'>
+                    <dt>
+                      <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
+                        Product type:
+                      </MKTypography>
+                    </dt>
+                    <dd>
+                      <MKTypography color='dark' textGradient variant="inherit" mb={1}>
+                        {(product.Ok.product.metadataAuction) ? 'Real Product' : 'NFT'}
+                      </MKTypography>
+                    </dd>
+                    <dt>
+                      <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
+                        Auction time:
+                      </MKTypography>
+                    </dt>
+                    <dd>
+                      <MKTypography color='dark' textGradient variant="inherit" mb={1}>
+                        {product.Ok.product.processToBid}
+                      </MKTypography>
+                    </dd>
+                    <dt>
+                      <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
+                        Step Bid:
+                      </MKTypography>
+                    </dt>
+                    <dd>
+                      <MKTypography color='dark' textGradient variant="inherit" mb={1}>
+                        {replaceNumber(product.Ok.product.stepBid)} {product.Ok.product.currencyUnit}
+                      </MKTypography>
+                    </dd>
+                    <dt>
+                      <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
+                        Start price:
+                      </MKTypography>
+                    </dt>
+                    <dd>
+                      <MKTypography color='dark' textGradient variant="inherit" mb={1}>
+                        {replaceNumber(product.Ok.product.startPrice)} {product.Ok.product.currencyUnit}
+                      </MKTypography>
+                    </dd>
+                    <dt>
+                      <MKTypography color='dark' fontWeight="bold" textGradient variant="inherit" mb={1}>
+                        Current Price:
+                      </MKTypography>
+                    </dt>
+                    <dd>
+                      <MKTypography color='dark' textGradient variant="inherit" mb={1}>
+                        {replaceNumber(product.Ok.product.currentPrice)} {product.Ok.product.currencyUnit}
+                      </MKTypography>
+                    </dd>
+                  </dl>
+                  <div>
+                    <MKBox py={3} px={3} sx={{ mx: "auto", textAlign: "center" }}>
+                      <MKTypography color='primary' textGradient variant="body1" fontWeight="bold" mb={1}>Total wallet :
+                        {assets ? getAmount(assets, product.Ok.product.currencyUnit) : 'connect Wallet'}</MKTypography>
+                      <MKInput label="Your total" value={inputNumToken} onChange={handleChangeInputBid} fullWidth />
+                      <MKBox pt={2}>
+                        <MKButton variant="gradient" color="primary" fullWidth onClick={handleBid}>
+                          BID
+                        </MKButton>
+                      </MKBox>
+
+                    </MKBox>
+                  </div>
+                </Grid>
               </Grid>
-            </Grid>
-          </Container>
-        </MKBox>
+            </Container>
+          </MKBox>
           <MKBox mt={5} pb={6} className="box-tabs">
             <MKBox >
               <Tabs value={value} onChange={handleChange} aria-label="basic tabs example">

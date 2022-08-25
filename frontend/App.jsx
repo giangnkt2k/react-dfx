@@ -39,17 +39,23 @@ import { StoreProvider, useStore, actions } from "./store"
 /*
  * Some examples to get you started
  */
+
+
+
 function App() {
   const { pathname } = useLocation()
   const [state, dispatch] = useStore()
-  // const {canisters, }
-  // const dispatch = useDispatch();
   // Setting page scroll to 0 when changing the route
   useEffect(() => {
     document.documentElement.scrollTop = 0
     document.scrollingElement.scrollTop = 0
+    dispatch(actions.setCanisters({
+      dip_20: dip20,
+      dip_721: dip20,
+      marketplace_auction: marketplace_auction,
+    }))
+    
   }, [pathname])
-
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
       if (route.collapse) {
@@ -104,11 +110,12 @@ console.log('marketplace_auction', marketplace_auction)
 
 export default () => (
   <Connect2ICProvider client={client}>
-    <StoreProvider>
-      <Router>
+    <Router>
+      <StoreProvider>
         <App />
-      </Router>
-    </StoreProvider>
-
+      </StoreProvider>
+    </Router>
   </Connect2ICProvider>
+
+
 )

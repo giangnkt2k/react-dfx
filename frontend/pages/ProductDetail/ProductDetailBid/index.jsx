@@ -24,7 +24,7 @@ import Transaction from "./tabs/transaction.jsx";
 import { useCanister } from "@connect2ic/react"
 import { Route, Routes, useParams } from 'react-router-dom';
 import { useBalance, useWallet } from "@connect2ic/react";
-
+import { Principal } from '@dfinity/principal'
 import bgImage from "assets/images/bg-coworking.jpeg";
 
 
@@ -77,15 +77,19 @@ function a11yProps(index) {
 
 function ProductDetailBid() {
   const [marketplace_auction, { loading, error }] = useCanister("marketplace_auction")
+  const [dip20] = useCanister("dip20")
   const [value, setValue] = React.useState(0);
   const [product, setProduct] = React.useState(undefined);
   const [wallet] = useWallet()
   const [assets] = useBalance()
-  const test = {};
+  const [inputNumToken, setInputNumToken] = React.useState('');
   const params = useParams();
-  const [a, setA] = React.useState(false);
+  const [amountCurrentUnit,c] = React.useState(undefined);
+  const handleChangeInputBid = event => {
+    setInputNumToken(event.target.value);
 
-  let datas = undefined
+    console.log('value is:', event.target.value);
+  };
 
   const getProduct = async () => {
     const datas = await marketplace_auction.GetAuction(parseInt(params.id));
@@ -120,13 +124,13 @@ function ProductDetailBid() {
   };
 
   console.log('product', product);
-
   const handleBid = async () => {
     if(!wallet) {
      await onConnectPlug()
     }
     else {
-      console.log('bid')
+      const res = await dip20.approve('wzp7w-lyaaa-aaaaa-aaara-cai', 0)
+      console.log('mum', res);
     }
   }
 
@@ -134,10 +138,23 @@ function ProductDetailBid() {
     try {
       const publicKey = await window.ic.plug.requestConnect();
       console.log(`The connected user's public key is:`, publicKey);
+      getProduct()
     } catch (e) {
       console.log(e);
     }
   }
+
+  const getAmount = (amountt, unitt) => {
+    let amountToken = ' 0';
+    amountToken = amountt.filter(e =>  e.symbol === unitt)
+    if(amountToken.length > 0) {
+      amountToken =  amountToken[0].amount
+    } else {
+      amountToken = ' 0'
+    }
+    return amountToken + ' ' + unitt
+  }
+
 
   React.useEffect(() => {
     getProduct()
@@ -257,8 +274,9 @@ function ProductDetailBid() {
                 </dl>
                 <div>
                   <MKBox py={3} px={3} sx={{ mx: "auto", textAlign: "center" }}>
-                    <MKTypography color='primary' textGradient variant="body1" fontWeight="bold" mb={1}>Total wallet : {assets ? assets.amount : 'connect Wallet'}</MKTypography>
-                    <MKInput label="Your total" fullWidth />
+                    <MKTypography color='primary' textGradient variant="body1" fontWeight="bold" mb={1}>Total wallet : 
+                    {assets ? getAmount(assets, product.Ok.product.currencyUnit)  : 'connect Wallet'}</MKTypography>
+                    <MKInput label="Your total" value={inputNumToken} onChange={handleChangeInputBid} fullWidth />
                     <MKBox pt={2}>
                       <MKButton variant="gradient" color="primary" fullWidth onClick={handleBid}>
                         BID
@@ -290,7 +308,7 @@ function ProductDetailBid() {
                   shadow="md" lineHeight={1} style={{ "border": "1px solid #3447672b" }}>
                   <MKTypography pl={{ xs: 4, lg: 1 }} variant="h5">About this product</MKTypography>
                   <MKTypography variant="h6" color="secondary" mb={1} pb={{ xs: 1, lg: 2.5 }} pl={{ xs: 4, lg: 1 }} pt={{ xs: 1, lg: 2.5 }}>
-                    3D Animation and Sound Design for advertisement, presentation and educational purposes, logo animation.
+                    {product.Ok.product.description}
                   </MKTypography>
                 </MKBox>
 
@@ -303,7 +321,7 @@ function ProductDetailBid() {
                         <div className='card-avatar'>
                           <div className="avtar-container-lg">
                             <div className='avatar-lg'>
-                              <img className='avatar-img' src="https://mui.com/static/images/cards/contemplative-reptile.jpg" alt="" />
+                              <img className='avatar-img' src={product.Ok.seller.avatar} alt="" />
                             </div>
                           </div>
                         </div>
@@ -313,14 +331,14 @@ function ProductDetailBid() {
                     <Grid item xs={12} md={10} sx={{ mb: 2 }}>
                       <div className="avatar-infor">
                         <div className="card-shopname-md">
-                          <p>GiangNKT</p>
+                          <p>{product.Ok.seller.username}</p>
                           <img src={vetifyIcon} alt="" />
                         </div>
+                        <MKTypography pb={2} variant="h6" color="text">
+                          {product.Ok.seller.email}
+                        </MKTypography>
                         <MKTypography pb={2} variant="body1" color="text">
-                          I will be the leader of a company that ends up being worth billions of dollars,
-                          because I got the answers. I understand culture. I am the nucleus. I think that&apos;s
-                          a responsibility that I have, to push possibilities, to show people, this is the level
-                          that things could be at.
+                          {product.Ok.seller.description}
                         </MKTypography>
                       </div>
                     </Grid>

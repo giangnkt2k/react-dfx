@@ -31,7 +31,6 @@ import PropTypes from "prop-types";
 // Data
 import data from "pages/Presentation/sections/data/designBlocksData";
 function DesignBlocks({dataApi}) {
-  console.log('responseListProduct==>',dataApi);
   const renderData =  (
     <div container spacing={3} sx={{ mb: 10 }}>
         <Grid container spacing={3}>

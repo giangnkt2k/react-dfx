@@ -1025,22 +1025,22 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		}
 	};
  
-	private func _approveTokenForMarketplace(amount: Nat) : async Bool {
-		try{
-			let tokenProvider: Types.IDIP20 = actor(Principal.toText(dip20)) : Types.IDIP20;
-			var resp = await tokenProvider.approve(Principal.fromActor(Self), amount);
-			switch (resp) {
-				case (#Ok(id)) {
-					return true
-				};
-				case (_) {
-					return false;
-				};
-			};
-		}catch(e) {
-			return false;
-		};
-	};
+	// private func _approveTokenForMarketplace(amount: Nat) : async Bool {
+	// 	try{
+	// 		let tokenProvider: Types.IDIP20 = actor(Principal.toText(dip20)) : Types.IDIP20;
+	// 		var resp = await tokenProvider.approve(Principal.fromActor(Self), amount);
+	// 		switch (resp) {
+	// 			case (#Ok(id)) {
+	// 				return true
+	// 			};
+	// 			case (_) {
+	// 				return false;
+	// 			};
+	// 		};
+	// 	}catch(e) {
+	// 		return false;
+	// 	};
+	// };
 
 	private func _chargeFee(token: Principal, amount: Nat): async Nat {
 		if (token == dip20) {

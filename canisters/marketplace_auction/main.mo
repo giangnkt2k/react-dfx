@@ -25,7 +25,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 	private stable var auctionPendingIdCount: Nat = 0;
     private stable var bitIdCount: Nat = 0;
     private stable var fee = 10;
-	private stable var timePending = 86400;
+	private stable var timePending = 8600000000;
 
     private stable var supportedPaymentStore: [(Principal, Bool)] = [];
     private stable var auctionStore: [(Nat, Types.Auction)] = [];
@@ -34,12 +34,14 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
     private stable var auctionTobidsStore: [(Nat, [(Nat, Types.Bid)])] = [];
 	private stable var auctionPendingStore: [(Nat, Types.AuctionPending)] = [];
 	private stable var auctionToVotesStore: [(Nat, [(Principal, Types.Vote)])] = [];
+	private stable var managerStore: [(Principal, Bool)] = [];
 
     private var idToAuction: HashMap.HashMap<Nat, Types.Auction> = HashMap.fromIter(auctionStore.vals(), 10, Nat.equal, Hash.hash);
     private var idToBid: HashMap.HashMap<Nat, Types.Bid> = HashMap.fromIter(bidStore.vals(), 10, Nat.equal, Hash.hash);
     private var paymentExist: HashMap.HashMap<Principal, Bool> = HashMap.fromIter(supportedPaymentStore.vals(), 10, Principal.equal, Principal.hash);
     private var auctionToBids = HashMap.HashMap<Nat, HashMap.HashMap<Nat, Types.Bid>>(1, Nat.equal, Hash.hash);
 	private var idToSeller: HashMap.HashMap<Principal, Types.Seller> = HashMap.fromIter(listSeller.vals(), 10, Principal.equal, Principal.hash);
+	private var addressManage: HashMap.HashMap<Principal, Bool> = HashMap.fromIter(managerStore.vals(), 10, Principal.equal, Principal.hash);
 
 	private var idToAuctionPending: HashMap.HashMap<Nat, Types.AuctionPending> = HashMap.fromIter(auctionPendingStore.vals(), 10, Nat.equal, Hash.hash);
 	private var auctionPendingToVotes = HashMap.HashMap<Nat, HashMap.HashMap<Principal, Types.Vote>>(1, Nat.equal, Hash.hash);
@@ -367,6 +369,15 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
+	public shared query({caller}) func GetMyProduct(): async [Types.Auction] {
+		let filters = Iter.filter(idToAuction.entries(), func ((id: Nat, auction: Types.Auction)) : Bool { 
+			caller == auction.seller;
+		});
+		return Iter.toArray(Iter.map(filters, func ((id: Nat, auction: Types.Auction)) : Types.Auction {
+			return auction;
+		}));
+	};
+
 	//=============================================================================================================================================
 	//AUCTION BIDs
 	public shared({caller}) func BidAuction(data: Types.AuctionBid): async Types.AuctionBidResult {
@@ -619,9 +630,13 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 	//=============================================================================================================================================
 
 	//AuctionPending
-	public query func GetAuctionPending() : async [Types.AuctionPending] {
-		return Iter.toArray(Iter.map(idToAuctionPending.entries(), func ((id: Nat, auction: Types.AuctionPending)) : Types.AuctionPending {
-			auction
+	public query func GetAuctionPending() : async [Types.AuctionPendingResp] {
+		return Iter.toArray(Iter.map(idToAuctionPending.entries(), func ((id: Nat, auction: Types.AuctionPending)) : Types.AuctionPendingResp {
+			let seller = idToSeller.get(auction.seller); 
+			return {
+				product= auction;
+				seller=_unwrap(seller);
+			};
 		}));
 	};
 
@@ -730,12 +745,18 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 	};
 
 	public shared({caller}) func ApproveAuctionPending(idAuctionPending: Nat) : async Types.ApproveAuctionPendingResult {
-		assert caller == owner;
+		if(not _isManager(caller)) {
+			return #Err(#NotManager);
+		};
 		switch (idToAuctionPending.get(idAuctionPending)) {
 			case null {
 				return #Err(#AuctionPendingNotExist);
 			};
 			case (?auctionPendingData){
+				if (auctionPendingData.timeStart + auctionPendingData.timePending < Time.now()) {
+					return #Err(#TimeVoteIsExpired);	
+				};
+
 				auctionIdCount += 1;
 				let id = auctionIdCount;
 
@@ -800,6 +821,15 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
+	public shared query({caller}) func GetMyPendingProduct(): async [Types.AuctionPending] {
+		let filters = Iter.filter(idToAuctionPending.entries(), func ((id: Nat, auction: Types.AuctionPending)) : Bool { 
+			caller == auction.seller;
+		});
+		return Iter.toArray(Iter.map(filters, func ((id: Nat, auction: Types.AuctionPending)) : Types.AuctionPending {
+			return auction;
+		}));
+	};
+
 	//========================================================== seller ==========================================================================
 	public shared({caller}) func BecomeTheSeller(data: Types.SellerCreate): async Types.SellerErrorResult {
 		if (Principal.isAnonymous(caller)) {
@@ -857,8 +887,40 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		return _isSeller(caller);
 	};
 
+	public shared({caller}) func setManager(address: Principal): async Types.ManageResult {
+		if (Principal.isAnonymous(caller)) {
+			return #Err(#PrincipalIsAnonymous);
+		};
+		if (caller != owner) {
+			return #Err(#Unauthorized);
+		};
+		switch(addressManage.get(address)) {
+			case null {
+				addressManage.put(address, true);
+				return #Ok(true);
+			};
+			case (?address) {
+				return #Err(#AlreadyManager);
+			};
+		}
+	};
+
+	public shared query func getManager(): async [Principal] {
+		return Iter.toArray(Iter.map(addressManage.entries(), func ((id: Principal, value: Bool)): Principal {
+			return id;
+		}));
+	};
+
+	public shared query({caller}) func isManager(): async Bool {
+		return _isManager(caller);
+	};
+
 	private func _isSeller(address: Principal) : Bool {
 		return Option.isSome(idToSeller.get(address));
+	};
+
+	private func _isManager(address: Principal) : Bool {
+		return Option.isSome(addressManage.get(address));
 	};
 
 	//=============================================================================================================================================

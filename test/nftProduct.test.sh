@@ -139,7 +139,7 @@ let resp = call marketplaceCanister.BidAuction(record {auctionId=2; amount=amoun
 assert resp == variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
 
 " - Should revert if bid amount not enought";
-let resp = call dip20Canister.approve(marketplaceCanister, amountBid1);
+let resp = call dip20Canister.approve(account1, marketplaceCanister, amountBid1);
 assert resp != variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
 let resp = call marketplaceCanister.BidAuction(record {auctionId=2; amount=amountLarge});
 assert resp == variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
@@ -158,12 +158,12 @@ assert resp == variant { Err = variant { YouAreHighestBidNow } };
 
 " - Should work correctly 2";
 identity account2 "../config/account2.pem";
-let resp = call dip20Canister.approve(marketplaceCanister, amountBid2);
+let resp = call dip20Canister.approve(account2, marketplaceCanister, amountBid2);
 assert resp != variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
 let resp = call marketplaceCanister.BidAuction(record {auctionId=2; amount=amountBid2});
 assert resp == variant { Ok = 2 : nat };
 " - Should work correctly 3";
-let resp = call dip20Canister.approve(marketplaceCanister, amountBid1);
+let resp = call dip20Canister.approve(account2, marketplaceCanister, amountBid1);
 assert resp != variant { Err = variant { NotEnoughtBalanceOrNotApprovedYet } };
 let resp = call marketplaceCanister.BidAuction(record {auctionId=3; amount=amountBid1});
 assert resp == variant { Ok = 1 : nat };
@@ -213,7 +213,7 @@ assert resp == opt account1;
 
 "Refund token";
 identity account3 "../config/account3.pem";
-let resp = call dip20Canister.approve(marketplaceCanister, amountBid3);
+let resp = call dip20Canister.approve(account3, marketplaceCanister, amountBid3);
 assert resp != variant { Err = variant { AuctionNotExist } };
 let resp = call marketplaceCanister.BidAuction(record {auctionId=2; amount=amountBid3});
 assert resp == variant { Ok = 3 : nat };

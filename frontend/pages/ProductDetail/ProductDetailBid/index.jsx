@@ -25,9 +25,7 @@ import { useCanister } from "@connect2ic/react"
 import { Route, Routes, useParams } from 'react-router-dom';
 import { useBalance, useWallet } from "@connect2ic/react";
 import { Principal } from '@dfinity/principal'
-import bgImage from "assets/images/bg-coworking.jpeg";
-
-
+import { useStore } from '../../../store';
 
 const replaceNumber = (num) => {
   return parseInt(num);
@@ -53,7 +51,7 @@ function TabPanel(props) {
     >
       {value === index && (
         <MKBox sx={{ p: 3 }}>
-          <MKTypography>{children}</MKTypography>
+          {children}
         </MKBox>
       )}
     </div>
@@ -73,10 +71,8 @@ function a11yProps(index) {
   };
 }
 
-
-
 function ProductDetailBid() {
-  const [marketplace_auction, { loading, error }] = useCanister("marketplace_auction")
+  const [marketplace_auction] = useCanister("marketplace_auction")
   const [dip20,{ loading20, error20 }] = useCanister("dip20")
   const [value, setValue] = React.useState(0);
   const [product, setProduct] = React.useState(undefined);
@@ -84,7 +80,8 @@ function ProductDetailBid() {
   const [assets] = useBalance()
   const [inputNumToken, setInputNumToken] = React.useState('');
   const params = useParams();
-  const [amountCurrentUnit,c] = React.useState(undefined);
+  const [state, dispatch] = useStore()
+  console.log('state', state)
   const handleChangeInputBid = event => {
     setInputNumToken(event.target.value);
 
@@ -99,11 +96,12 @@ function ProductDetailBid() {
     const b = new Date(a / 1000000);
     const c = new Date();
     const d = b.getDate() - c.getDate();
+    const aucTime = new Date(replaceNumber(datas.Ok.product.auctionTime)/1000000);
     datas.Ok.product.processToBid = d + ' day';
     if (c > b) {
       datas.Ok.product.processBar = 100
     } else {
-      datas.Ok.product.processBar = (replaceNumber(datas.Ok.product.auctionTime) - d) * 100
+      datas.Ok.product.processBar =  (aucTime.getDate() - d)/(aucTime.getDate()) *100
     }
 
     setProduct(datas);
@@ -123,7 +121,6 @@ function ProductDetailBid() {
     zIndex: "-1"
   };
 
-  console.log('marketplace_auction', marketplace_auction);
   const handleBid = async () => {
     
     if(!wallet) {
@@ -131,11 +128,11 @@ function ProductDetailBid() {
     }
     else {
       try {
-      // const res = await marketplace_auction.getCanisterPrincipal()
-      console.log('biding');
-      console.log('-->',Principal.fromText('v32cj-3iaaa-aaaaa-aaa2a-cai'))
-      const res = await dip20.approve(Principal.fromText('v32cj-3iaaa-aaaaa-aaa2a-cai'), 0)
-      console.log('mum', res);
+      const res123 = await marketplace_auction.getCanisterPrincipal()
+      console.log('biding',res123);
+      // console.log('-->',Principal.fromText('v32cj-3iaaa-aaaaa-aaa2a-cai'))
+      // const res = await dip20.approve(Principal.fromText('v32cj-3iaaa-aaaaa-aaa2a-cai'), 0)
+      // console.log('mum', res);
       }
       catch(e) {
         console.log('error', e)
@@ -361,7 +358,7 @@ function ProductDetailBid() {
             <TabPanel value={value} index={1}>
               <MKBox py={3} px={3} sx={{ mx: "auto", textAlign: "center" }} className="box-comment">
                 <img className='img-human' src={humanSVG} alt="" />
-                <MKTypography color='primary' textGradient variant="body1" fontWeight="bold" mb={1} style={{ "align-self": "center" }}>
+                <MKTypography color='primary' textGradient variant="body1" fontWeight="bold" mb={1} style={{ "alignSelf": "center" }}>
                   Sorry! No comments now.
                 </MKTypography>
               </MKBox>

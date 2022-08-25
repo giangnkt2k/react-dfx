@@ -35,25 +35,19 @@ import Test from "./test"
 // Material Kit 2 React routes
 import routes from "routes"
 //store 
-// import store from "./redux/store"
-// import { Provider } from 'react-redux';
-// import { useDispatch } from 'react-redux';
-// import { addCanister } from '../frontend/redux/canisterSlice'
+import { StoreProvider, useStore, actions } from "./store"
 /*
  * Some examples to get you started
  */
 function App() {
   const { pathname } = useLocation()
+  const [state, dispatch] = useStore()
+  // const {canisters, }
   // const dispatch = useDispatch();
   // Setting page scroll to 0 when changing the route
   useEffect(() => {
     document.documentElement.scrollTop = 0
     document.scrollingElement.scrollTop = 0
-    // dispatch(
-    //   addCanister({
-    //     canister: value,
-    //   })
-    // );
   }, [pathname])
 
   const getRoutes = (allRoutes) =>
@@ -110,8 +104,11 @@ console.log('marketplace_auction', marketplace_auction)
 
 export default () => (
   <Connect2ICProvider client={client}>
-    <Router>
+    <StoreProvider>
+      <Router>
         <App />
-    </Router>
+      </Router>
+    </StoreProvider>
+
   </Connect2ICProvider>
 )

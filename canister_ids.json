@@ -1,5 +1,14 @@
 {
   "dip20": {
     "ic": "kyxfv-waaaa-aaaao-aaj2a-cai"
+  },
+  "dip721": {
+    "ic": "kruoj-aiaaa-aaaao-aaj3q-cai"
+  },
+  "marketplace_auction": {
+    "ic": "l33mt-cyaaa-aaaao-aaj4q-cai"
+  },
+  "staking": {
+    "ic": "l42kh-paaaa-aaaao-aaj4a-cai"
   }
 }

@@ -131,6 +131,9 @@ shared(msg) actor class Dip721 () = Self {
 	};
 
     public shared(msg) func mint(metadata: Types.metadata) : async Types.MintResult {
+      if (Principal.isAnonymous(msg.caller)) {
+        return #Err(#Unauthorized);
+      };
       TokenCounter += 1;
       _mint(msg.caller, TokenCounter, metadata);
 		return #Ok(TokenCounter);

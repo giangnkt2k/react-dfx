@@ -127,6 +127,11 @@ module {
         seller: Seller;
     };
 
+    public type AuctionPendingResp = {
+        product: AuctionPending;
+        seller: Seller;
+    };
+
     public type AuctionCreate = {
         tokenId: ?Nat;
         title:Text;
@@ -231,6 +236,8 @@ module {
         #Unauthorized;
         #InvalidTokenId;
         #InvalidAddress;
+        #PrincipalIsAnonymous;
+        #AlreadyManager;
         #InvalidAuctionType;
         #NotOwnerOfToken;
         #NotOwnerOfOrder;
@@ -268,6 +275,7 @@ module {
         #CannotCancelOrder;
         #AuctionAlreadyStarted;
         #MarketNotEnoughtToken;
+        #NotManager;
         #Other;
     };
 
@@ -289,6 +297,7 @@ module {
     public type GetAuctionResult = Result<AuctionResp, AuctionError>;
     public type ClaimAuctionResult = Result<Bool, AuctionError>;
     public type UpdateAuctionResult = Result<Bool, AuctionError>;
+    public type ManageResult = Result<Bool, AuctionError>;
 
     public type AuctionBidResult = Result<Nat, AuctionBidError>;
 

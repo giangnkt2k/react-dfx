@@ -12,6 +12,7 @@ import MKButton from "components/MKButton"
 import MKTypography from "components/MKTypography"
 import MKAvatar from "components/MKAvatar"
 import MKInput from "components/MKInput"
+import { makeStyles } from "@mui/styles"
 
 // Material Kit 2 React examples
 import MyHeaderNavbar from "components/Molecules/layouts/Header/MyHeaderNavbar"
@@ -23,8 +24,6 @@ import logoDAU from "assets/images/logo-dau.png"
 import routes from "routes/routesUser"
 
 //Styles
-import { makeStyles } from "@mui/styles"
-
 const useStyles = makeStyles({
   sticky_header: {
     position: "sticky",

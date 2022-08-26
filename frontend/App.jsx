@@ -10,7 +10,7 @@ import { Connect2ICProvider } from "@connect2ic/react"
 /*
  * Import canister definitions like this:
  */
-import * as counter from "../.dfx/local/canisters/counter"
+// import * as counter from "../.dfx/local/canisters/counter"
 // react-router components
 import {
   BrowserRouter as Router,
@@ -77,7 +77,7 @@ function App() {
 
 const client = createClient({
   canisters: {
-    counter,
+    // counter,
   },
   providers: defaultProviders,
   globalProviderConfig: {

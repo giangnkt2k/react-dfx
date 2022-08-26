@@ -1,4 +1,4 @@
-  /*
+/*
 =========================================================
 * Material Kit 2 React - v2.0.0
 =========================================================
@@ -25,10 +25,10 @@ import MKSocialButton from "components/MKSocialButton"
 
 // Material Kit 2 React examples
 // import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import DefaultFooter from "examples/Footers/DefaultFooter";
-import DauHeader from "components/Molecules/layouts/Header";
+import DefaultFooter from "examples/Footers/DefaultFooter"
+import DauHeader from "components/Molecules/layouts/Header"
 
-import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard";
+import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard"
 
 // Presentation page sections
 import Information from "pages/Presentation/sections/Information"
@@ -47,7 +47,7 @@ import footerRoutes from "footer.routes"
 // Images
 import bgImage from "assets/images/bg-presentation.jpg"
 
-import bgVideo from "assets/video/top-block-bg.mp4";
+import bgVideo from "assets/video/top-block-bg.mp4"
 const videoTag = {
   objectFit: "cover",
   width: "100vw",

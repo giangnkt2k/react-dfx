@@ -75,7 +75,7 @@ function a11yProps(index) {
 }
 
 function ProductDetailBid() {
-  const [marketplace_auction, {canisterDefinition}] = useCanister("marketplace_auction")
+  const [marketplace_auction, {canisterDefinition}] = useCanister("marketplace_auction", { mode: 'anonymous' })
   const [dip20, { loading20, error20 }] = useCanister("dip20", { mode: 'anonymous' })
   const { principal } = useConnect()
   const [value, setValue] = React.useState(0);
@@ -147,11 +147,11 @@ function ProductDetailBid() {
       try {
 
         console.log('-->', Principal.fromText(principal))
-        const res = await dip20.approve(Principal.fromText(principal), Principal.fromText(stateMarket), BigInt.asUintN(4, 36000n))
+        const res = await dip20.approve(Principal.fromText(principal), Principal.fromText(stateMarket), BigInt(3600))
         console.log('mum', res);  
-        const biding = await marketplace_auction.BidAuction({
+        const biding = await marketplace_auction.BidAuction(Principal.fromText(principal),{
           auctionId: 2,
-          amount: 3600
+          amount: 3600,
         })
         console.log('biding', biding);
 

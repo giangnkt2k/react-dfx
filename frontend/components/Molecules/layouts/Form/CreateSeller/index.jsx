@@ -20,16 +20,12 @@ import InstagramIcon from "@mui/icons-material/Instagram"
 // Import Image
 import defaultAvatar from "assets/images/default-avatar.png"
 
-const myTextFieldStyle = {
-  "& .MuiFormHelperText-root": {
-    color: "red !important",
-  },
-}
-
-function Seller() {
+function Seller({ onNextStep }) {
   const hiddenAvatarInput = useRef(null)
   const handleClick = () => {
     hiddenAvatarInput.current.click()
+    formik.setFieldValue("photo", {}, false)
+    setSourceImg(defaultAvatar)
   }
   const [sourceImg, setSourceImg] = useState(defaultAvatar)
   const handleChangePhoto = (event) => {
@@ -56,10 +52,15 @@ function Seller() {
     enableReinitialize: true,
     onSubmit: (values) => {
       console.log(values)
+      onNextStep()
+      setTimeout(() => {
+        onNextStep()
+      }, 5000)
     },
   })
   const handleReset = () => {
     formik.handleReset()
+    setSourceImg(defaultAvatar)
   }
   return (
     <MKBox
@@ -68,6 +69,7 @@ function Seller() {
       p={4}
       shadow="md"
       borderRadius="xl"
+      my={3}
     >
       <Container>
         <Grid
@@ -114,7 +116,6 @@ function Seller() {
                       variant="outlined"
                       fullWidth
                       placeholder="Type something"
-                      sx={myTextFieldStyle}
                     />
                   </Grid>
                   <Grid pb={2}>
@@ -133,7 +134,6 @@ function Seller() {
                       variant="outlined"
                       fullWidth
                       placeholder="Type something"
-                      sx={myTextFieldStyle}
                     />
                   </Grid>
                 </Grid>
@@ -142,13 +142,9 @@ function Seller() {
                     Photo
                   </MKTypography>
                   <MKInput
-                    // id="photo"
-                    // name="photo"
-                    // onChange={formik.handleChange}
                     onChange={(e) => {
                       handleChangePhoto(e)
                     }}
-                    // value={formik.values.photo}
                     inputRef={hiddenAvatarInput}
                     type="file"
                     inputProps={{ accept: "image/png, image/gif, image/jpeg" }}

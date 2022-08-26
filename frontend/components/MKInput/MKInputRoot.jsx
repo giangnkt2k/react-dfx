@@ -12,19 +12,38 @@ Coded by www.creative-tim.com
 
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
-import React from 'react';
+import React from "react"
 // @mui material components
-import TextField from "@mui/material/TextField";
-import { styled } from "@mui/material/styles";
+import TextField from "@mui/material/TextField"
+import { styled } from "@mui/material/styles"
 
 export default styled(TextField)(({ theme, ownerState }) => {
-  const { palette, functions } = theme;
-  const { error, success, disabled } = ownerState;
+  const { palette, functions } = theme
+  const { error, success, disabled, radioGroup } = ownerState
 
-  const { grey, transparent, error: colorError, success: colorSuccess } = palette;
-  const { pxToRem } = functions;
+  const {
+    grey,
+    transparent,
+    error: colorError,
+    success: colorSuccess,
+  } = palette
+  const { pxToRem } = functions
 
   // styles for the input with error={true}
+  const radioGroupStyles = () => ({
+    "& .MuiInputBase-root": {
+      paddingRight: pxToRem(4),
+    },
+    "& .MuiInputBase-input": {
+      padding: `${pxToRem(4)} 0 ${pxToRem(4)} ${pxToRem(8)}`,
+      width: pxToRem(50),
+    },
+    "& .MuiFormHelperText-root": {
+      position: "absolute",
+      color: colorError.main,
+      top: "100%",
+    },
+  })
   const errorStyles = () => ({
     backgroundImage:
       "url(\"data:image/svg+xml;charset=utf-8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='none' stroke='%23F44335' viewBox='0 0 12 12'%3E%3Ccircle cx='6' cy='6' r='4.5'/%3E%3Cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3E%3Ccircle cx='6' cy='8.2' r='.6' fill='%23F44335' stroke='none'/%3E%3C/svg%3E\")",
@@ -41,7 +60,13 @@ export default styled(TextField)(({ theme, ownerState }) => {
     "& .MuiInputLabel-root.Mui-focused": {
       color: colorError.main,
     },
-  });
+
+    "& .MuiFormHelperText-root": {
+      position: "absolute",
+      color: colorError.main,
+      top: "100%",
+    },
+  })
 
   // styles for the input with success={true}
   const successStyles = () => ({
@@ -60,12 +85,13 @@ export default styled(TextField)(({ theme, ownerState }) => {
     "& .MuiInputLabel-root.Mui-focused": {
       color: colorSuccess.main,
     },
-  });
+  })
 
   return {
     backgroundColor: disabled ? `${grey[200]} !important` : transparent.main,
     pointerEvents: disabled ? "none" : "auto",
     ...(error && errorStyles()),
     ...(success && successStyles()),
-  };
-});
+    ...(radioGroup && radioGroupStyles()),
+  }
+})

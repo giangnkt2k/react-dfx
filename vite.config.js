@@ -4,7 +4,8 @@ import path from "path"
 import dfxJson from "./dfx.json"
 import fs, { readdirSync } from 'fs'
 
-const isDev = process.env["DFX_NETWORK"] !== "ic"
+// const isDev = process.env["DFX_NETWORK"] !== "ic"
+const isDev = true
 
 //jsconfig for direction file react
 const absolutePathAliases = {};
@@ -52,6 +53,7 @@ const aliases = Object.entries(dfxJson.canisters).reduce(
 
 // Generate canister ids, required by the generated canister code in .dfx/local/canisters/*
 // This strange way of JSON.stringifying the value is required by vite
+console.log(canisterIds)
 const canisterDefinitions = Object.entries(canisterIds).reduce(
   (acc, [key, val]) => ({
     ...acc,

@@ -46,6 +46,9 @@ import breakpoints from "assets/theme/base/breakpoints"
 // Images
 import logoDau from "assets/images/logo-dau.png"
 
+// Connect Wallet
+import { ConnectDialog } from "@connect2ic/react"
+
 function MyHeaderNavbar({
   transparent,
   light,
@@ -61,14 +64,27 @@ function MyHeaderNavbar({
   const [dropdownEl, setDropdownEl] = useState("")
 
   const renderNavbarItem = actions.map(
-    ({ type, color, route, label, isBtn }, index) =>
-      type === "internal" ? (
+    ({ type, color, route, label, isBtn, connectBtn }, index) => {
+      const linkComponent = {
+        component: <></>,
+        href: route,
+        target: "_blank",
+        rel: "noreferrer",
+      }
+      const routeComponent = {
+        component: Link,
+        to: route,
+      }
+      const isInternal = type === "internal"
+      return isInternal ? (
         <MKBox
           key={label + index}
           mx={1}
           p={1}
           display="flex"
           alignItems="center"
+          {...(isInternal && routeComponent)}
+          {...(!isInternal && linkComponent)}
           color={light ? "white" : "dark"}
           opacity={light ? 1 : 0.6}
           sx={{ cursor: "pointer", userSelect: "none" }}
@@ -76,8 +92,6 @@ function MyHeaderNavbar({
           {isBtn ? (
             <MKButton
               key={label + index + "child"}
-              component={Link}
-              to={route}
               variant={
                 color === "white" || color === "default"
                   ? "contained"
@@ -85,6 +99,10 @@ function MyHeaderNavbar({
               }
               color={color ? color : "info"}
               size="small"
+              onClick={(event) => {
+                event.preventDefault()
+                connectBtn ? onConnectPlug() : null
+              }}
             >
               {label}
             </MKButton>
@@ -115,10 +133,6 @@ function MyHeaderNavbar({
           {isBtn ? (
             <MKButton
               key={label + index + "child"}
-              component="a"
-              href={route}
-              target="_blank"
-              rel="noreferrer"
               variant={
                 color === "white" || color === "default"
                   ? "contained"
@@ -126,6 +140,10 @@ function MyHeaderNavbar({
               }
               color={color ? color : "info"}
               size="small"
+              onClick={(event) => {
+                event.preventDefault()
+                connectBtn ? onConnectPlug() : null
+              }}
             >
               {label}
             </MKButton>
@@ -142,7 +160,8 @@ function MyHeaderNavbar({
             </MKTypography>
           )}
         </MKBox>
-      ),
+      )
+    },
   )
   const renderNavbarSubItem = subActions.map(({ label, color }) => (
     <MKBox
@@ -168,7 +187,6 @@ function MyHeaderNavbar({
       </MKTypography>
     </MKBox>
   ))
-
   const renderNavbarUser = routes.map(({ name, collapse }) => {
     return (
       <MyNavbarDropdown
@@ -185,7 +203,6 @@ function MyHeaderNavbar({
       />
     )
   })
-
   // Render the routes on the dropdown menu
   const renderRoutes = routes.map(
     ({ name, collapse, columns, rowsPerColumn }) => {
@@ -283,7 +300,6 @@ function MyHeaderNavbar({
       return template
     },
   )
-
   // Routes dropdown menu
   const dropdownMenu = (
     <Popper
@@ -320,6 +336,14 @@ function MyHeaderNavbar({
     </Popper>
   )
 
+  const onConnectPlug = async () => {
+    try {
+      const publicKey = await window.ic.plug.requestConnect()
+      console.log(`The connected user's public key is:`, publicKey)
+    } catch (e) {
+      console.log(e)
+    }
+  }
   return (
     <Container sx={sticky ? { position: "sticky", top: 0, zIndex: 10 } : null}>
       <MKBox
@@ -349,10 +373,20 @@ function MyHeaderNavbar({
           justifyContent="space-between"
           alignItems="center"
         >
-          <MKBox component={Link} to="/" lineHeight={1} pr={{ xs: 0, lg: 1 }}>
+          <MKBox
+            component={Link}
+            to="/presentation"
+            lineHeight={1}
+            pr={{ xs: 0, lg: 1 }}
+          >
             <MKAvatar src={logoDau} alt="logo-dau" size="xl" />
           </MKBox>
-          <MKBox component={Link} to="/" lineHeight={1} pr={{ xs: 0, lg: 1 }}>
+          <MKBox
+            component={Link}
+            to="/presentation"
+            lineHeight={1}
+            pr={{ xs: 0, lg: 1 }}
+          >
             <MKTypography
               variant="h2"
               color="text"
@@ -377,6 +411,7 @@ function MyHeaderNavbar({
         {renderNavbarSubItem}
       </MKBox>
       {dropdownMenu}
+      <ConnectDialog />
     </Container>
   )
 }

@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 
+import DauHeader from "components/Molecules/layouts/Header"
 import DauProgress from "components/Molecules/layouts/ProgressBar"
 import Seller from "components/Molecules/layouts/Form/CreateSeller"
 import Container from "@mui/material/Container"
@@ -20,10 +21,19 @@ function CreateSeller() {
   }
 
   return (
-    <Container>
-      <DauProgress progress={progress} />
-      <Seller onNextStep={handleNextStep} />
-    </Container>
+    <>
+      <DauHeader
+        changeColorOnScroll={{
+          height: 1,
+          color: "transparent",
+          shadow: "none",
+        }}
+      />
+      <Container>
+        <DauProgress progress={progress} />
+        <Seller onNextStep={handleNextStep} />
+      </Container>
+    </>
   )
 }
 

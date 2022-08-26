@@ -64,14 +64,27 @@ function MyHeaderNavbar({
   const [dropdownEl, setDropdownEl] = useState("")
 
   const renderNavbarItem = actions.map(
-    ({ type, color, route, label, isBtn }, index) =>
-      type === "internal" ? (
+    ({ type, color, route, label, isBtn, connectBtn }, index) => {
+      const linkComponent = {
+        component: <></>,
+        href: route,
+        target: "_blank",
+        rel: "noreferrer",
+      }
+      const routeComponent = {
+        component: Link,
+        to: route,
+      }
+      const isInternal = type === "internal"
+      return isInternal ? (
         <MKBox
           key={label + index}
           mx={1}
           p={1}
           display="flex"
           alignItems="center"
+          {...(isInternal && routeComponent)}
+          {...(!isInternal && linkComponent)}
           color={light ? "white" : "dark"}
           opacity={light ? 1 : 0.6}
           sx={{ cursor: "pointer", userSelect: "none" }}
@@ -79,8 +92,6 @@ function MyHeaderNavbar({
           {isBtn ? (
             <MKButton
               key={label + index + "child"}
-              component={Link}
-              to={route}
               variant={
                 color === "white" || color === "default"
                   ? "contained"
@@ -88,7 +99,10 @@ function MyHeaderNavbar({
               }
               color={color ? color : "info"}
               size="small"
-              onClick={label === "Sign in" ? onConnectPlug() : () => {}}
+              onClick={(event) => {
+                event.preventDefault()
+                connectBtn ? onConnectPlug() : null
+              }}
             >
               {label}
             </MKButton>
@@ -119,10 +133,6 @@ function MyHeaderNavbar({
           {isBtn ? (
             <MKButton
               key={label + index + "child"}
-              component="a"
-              href={route}
-              target="_blank"
-              rel="noreferrer"
               variant={
                 color === "white" || color === "default"
                   ? "contained"
@@ -132,7 +142,7 @@ function MyHeaderNavbar({
               size="small"
               onClick={(event) => {
                 event.preventDefault()
-                label === "Sign in" ? onConnectPlug() : null
+                connectBtn ? onConnectPlug() : null
               }}
             >
               {label}
@@ -150,7 +160,8 @@ function MyHeaderNavbar({
             </MKTypography>
           )}
         </MKBox>
-      ),
+      )
+    },
   )
   const renderNavbarSubItem = subActions.map(({ label, color }) => (
     <MKBox
@@ -362,10 +373,20 @@ function MyHeaderNavbar({
           justifyContent="space-between"
           alignItems="center"
         >
-          <MKBox component={Link} to="/" lineHeight={1} pr={{ xs: 0, lg: 1 }}>
+          <MKBox
+            component={Link}
+            to="/presentation"
+            lineHeight={1}
+            pr={{ xs: 0, lg: 1 }}
+          >
             <MKAvatar src={logoDau} alt="logo-dau" size="xl" />
           </MKBox>
-          <MKBox component={Link} to="/" lineHeight={1} pr={{ xs: 0, lg: 1 }}>
+          <MKBox
+            component={Link}
+            to="/presentation"
+            lineHeight={1}
+            pr={{ xs: 0, lg: 1 }}
+          >
             <MKTypography
               variant="h2"
               color="text"

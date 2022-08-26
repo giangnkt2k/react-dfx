@@ -21,48 +21,47 @@ import InstagramIcon from "@mui/icons-material/Instagram"
 import defaultAvatar from "assets/images/default-avatar.png"
 
 // Import Web3-Storage
-import { Web3Storage, getFilesFromPath } from "web3.storage"
+import { useCanister, useConnect } from "@connect2ic/react"
+import { Principal } from "@dfinity/principal"
+// Import const
+import { uploadToWeb3Storage, replaceString, STRING_TOKEN } from "const"
 
-import mintProduct from "../../../../../services/mintProduct"
-import { useCanister } from "@connect2ic/react"
-
-function MintProduct({ onNextStep }) {
-  const [dip721, { loadingDip, errorDip }] = useCanister("dip721")
+function MintProduct({ onNextStep, values, setValues }) {
+  const [dip721, { loadingDip, errorDip }] = useCanister("dip721", {
+    mode: "anonymous",
+  })
+  const { principal } = useConnect()
 
   const formik = useFormik({
-    initialValues: {
-      file: undefined,
-      name: "",
-      description: "",
-    },
+    initialValues: values,
     validationSchema: yup.object({
-      file: yup.mixed().required("A file is required"),
-      name: yup.string().required("dasdasdasd"),
+      file: yup.mixed().required("A file is required."),
+      name: yup.string().required("Field name is required."),
     }),
     enableReinitialize: true,
     onSubmit: async (values) => {
       onNextStep()
-      const cid = await uploadToWeb3Storage(values.file)
-      values = {
-        ...values,
-        url: replaceString(stringToken, {
-          cid: cid,
-          name: values.file.name,
-        }),
+      try {
+        const cid = await uploadToWeb3Storage([values.file])
+        const data = {
+          description: values.description,
+          name: values.name,
+          url: replaceString(STRING_TOKEN, {
+            cid: cid,
+            name: values.file.name,
+          }),
+        }
+        console.log(principal)
+        const res = await dip721.mint(Principal.fromText(principal), data)
+        console.log(res)
+      } catch (e) {
+        console.log(e)
       }
-      console.log(values)
-      console.log(await dip721.mint(values))
     },
   })
 
   const handleReset = () => {
     formik.handleReset()
-  }
-
-  const uploadToWeb3Storage = async (file) => {
-    const storage = new Web3Storage({ token })
-    const rootCid = await storage.put([file])
-    return rootCid
   }
 
   const handleChangeFile = (event) => {

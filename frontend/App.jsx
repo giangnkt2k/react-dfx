@@ -6,13 +6,17 @@ import { useEffect } from "react"
 import { createClient } from "@connect2ic/core"
 import { defaultProviders } from "@connect2ic/core/providers"
 import "@connect2ic/core/style.css"
-import { ConnectButton, ConnectDialog, Connect2ICProvider } from "@connect2ic/react"
+import {
+  ConnectButton,
+  ConnectDialog,
+  Connect2ICProvider,
+} from "@connect2ic/react"
 /*
  * Import canister definitions like this:
  */
-import * as dip20 from "../.dfx/local/canisters/dip20";
-import * as dip721 from "../.dfx/local/canisters/dip721";
-import * as marketplace_auction from "../.dfx/local/canisters/marketplace_auction";
+import * as dip20 from "../.dfx/local/canisters/dip20"
+import * as dip721 from "../.dfx/local/canisters/dip721"
+import * as marketplace_auction from "../.dfx/local/canisters/marketplace_auction"
 // import * as stake from "../.dfx/local/canisters/stake";
 // react-router components
 import {
@@ -34,13 +38,12 @@ import Test from "./test"
 
 // Material Kit 2 React routes
 import routes from "routes"
-//store 
+import routesHeader from "routes/routesHeader"
+//store
 import { StoreProvider, useStore, actions } from "./store"
 /*
  * Some examples to get you started
  */
-
-
 
 function App() {
   const { pathname } = useLocation()
@@ -49,12 +52,13 @@ function App() {
   useEffect(() => {
     document.documentElement.scrollTop = 0
     document.scrollingElement.scrollTop = 0
-    dispatch(actions.setCanisters({
-      dip_20: dip20,
-      dip_721: dip20,
-      marketplace_auction: marketplace_auction,
-    }))
-    
+    dispatch(
+      actions.setCanisters({
+        dip_20: dip20,
+        dip_721: dip20,
+        marketplace_auction: marketplace_auction,
+      }),
+    )
   }, [pathname])
   const getRoutes = (allRoutes) =>
     allRoutes.map((route) => {
@@ -81,6 +85,7 @@ function App() {
       <CssBaseline />
       <Routes>
         {getRoutes(routes)}
+        {getRoutes(routesHeader.isLogout)}
         <Route path="/" element={<Test />} />
         <Route path="/presentation" element={<Presentation />} />
         <Route path="*" element={<Navigate to="/presentation" />} />
@@ -105,8 +110,7 @@ const client = createClient({
   },
 })
 
-console.log('marketplace_auction', marketplace_auction)
-
+console.log("marketplace_auction", marketplace_auction)
 
 export default () => (
   <Connect2ICProvider client={client}>
@@ -116,6 +120,4 @@ export default () => (
       </StoreProvider>
     </Router>
   </Connect2ICProvider>
-
-
 )

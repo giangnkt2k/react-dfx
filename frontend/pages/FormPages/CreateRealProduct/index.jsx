@@ -3,6 +3,7 @@ import React, { useEffect, useState } from "react"
 // Import component MUI
 import Container from "@mui/material/Container"
 
+import DauHeader from "components/Molecules/layouts/Header"
 import DauProgress from "components/Molecules/layouts/ProgressBar"
 import {
   FormStepOne,
@@ -55,27 +56,36 @@ function CreateRealProduct() {
   }, [values, progress])
 
   return (
-    <Container>
-      <DauProgress progress={progress} />
-      <FormStepOne
-        onNextStep={handleNextStep}
-        values={values}
-        setValues={setValues}
+    <>
+      <DauHeader
+        changeColorOnScroll={{
+          height: 1,
+          color: "transparent",
+          shadow: "none",
+        }}
       />
-      <FormStepTwo
-        onNextStep={handleNextStep}
-        onPreviousStep={handlePreviousStep}
-        values={values}
-        setValues={setValues}
-      />
-      <ProcessingStep values={values} totalSteps={totalSteps} />
-      <ErrorStep values={values} totalSteps={totalSteps} error={isError} />
-      <SuccessStep
-        values={values}
-        totalSteps={totalSteps}
-        success={isSuccess}
-      />
-    </Container>
+      <Container>
+        <DauProgress progress={progress} />
+        <FormStepOne
+          onNextStep={handleNextStep}
+          values={values}
+          setValues={setValues}
+        />
+        <FormStepTwo
+          onNextStep={handleNextStep}
+          onPreviousStep={handlePreviousStep}
+          values={values}
+          setValues={setValues}
+        />
+        <ProcessingStep values={values} totalSteps={totalSteps} />
+        <ErrorStep values={values} totalSteps={totalSteps} error={isError} />
+        <SuccessStep
+          values={values}
+          totalSteps={totalSteps}
+          success={isSuccess}
+        />
+      </Container>
+    </>
   )
 }
 

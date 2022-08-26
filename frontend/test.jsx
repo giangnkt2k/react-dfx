@@ -15,11 +15,7 @@ import CreateRealProduct from "pages/FormPages/CreateRealProduct"
 import defaultRoutes from "routes/routesProcessing"
 
 function Test() {
-  return (
-    <Container>
-      <CreateRealProduct />
-    </Container>
-  )
+  return <CreateSeller />
 }
 
 export default Test

@@ -8,6 +8,11 @@ import defaultRoutes from "routes/routesProcessing"
 
 function MintPage() {
   const [progress, setProgress] = useState(defaultRoutes.createSeller)
+  const [values, setValues] = useState({
+    file: undefined,
+    name: "",
+    description: "",
+  })
 
   const handleNextStep = () => {
     const nextProgress = defaultRoutes.functions.nextStep(progress)
@@ -22,7 +27,11 @@ function MintPage() {
   return (
     <Container>
       <DauProgress progress={progress} />
-      <MintProduct onNextStep={handleNextStep} />
+      <MintProduct
+        onNextStep={handleNextStep}
+        values={values}
+        setValues={setValues}
+      />
     </Container>
   )
 }

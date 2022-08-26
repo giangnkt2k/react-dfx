@@ -1,3 +1,5 @@
+import { Web3Storage } from "web3.storage"
+
 export const TOKEN =
   "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDUyRjNmQjU5NTAwOEM5QzI0MTE3NDgyMDQzY2M0QWM0N0NBYTBGYWQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjEzNDc0Mzk2NTMsIm5hbWUiOiJmcHQtaGFja2F0aG9uLTIwMjIifQ._fFPVFAXa1vZ4qziS58ckAAxM8SVSd7Sts5dK04ShRU"
 
@@ -11,7 +13,7 @@ export const replaceString = (s, params) => {
 }
 
 export const uploadToWeb3Storage = async (file) => {
-  const storage = new Web3Storage({ TOKEN })
+  const storage = new Web3Storage({ token: TOKEN })
   const rootCid = await storage.put(file)
   return rootCid
 }

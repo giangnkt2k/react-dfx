@@ -2,8 +2,10 @@ import Array "mo:base/Array";
 import Debug "mo:base/Debug";
 import ExperimentalCycles "mo:base/ExperimentalCycles";
 import HashMap "mo:base/HashMap";
+import Int64 "mo:base/Int64";
 import Iter "mo:base/Iter";
 import Nat "mo:base/Nat";
+import Nat64 "mo:base/Nat64";
 import Option "mo:base/Option";
 import Order "mo:base/Order";
 import P "mo:base/Prelude";
@@ -211,7 +213,8 @@ shared({caller}) actor class Dip20Token() = Self {
 	
 	/// Allows spender to withdraw from your account multiple times, up to the value amount.
 	/// If this function is called again it overwrites the current allowance with value.
-	public shared(msg) func approve(caller: Principal, spender: Principal, value: Nat) : async TxReceipt {
+	public shared(msg) func approve(caller: Principal, spender: Principal, x: Nat64) : async TxReceipt {
+		let value = Nat64.toNat(x);
 		assert not Principal.isAnonymous(caller);
 		if(_balanceOf(caller) <= value) { return #Err(#InsufficientBalance); };
 		let v = value;

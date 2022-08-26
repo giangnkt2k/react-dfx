@@ -25,9 +25,9 @@ import MKSocialButton from "components/MKSocialButton"
 
 // Material Kit 2 React examples
 // import DefaultNavbar from "examples/Navbars/DefaultNavbar";
-import DefaultFooter from "examples/Footers/DefaultFooter";
-import DauHeader from "components/Molecules/layouts/Header";
-import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard";
+import DefaultFooter from "examples/Footers/DefaultFooter"
+import DauHeader from "components/Molecules/layouts/Header"
+import FilledInfoCard from "examples/Cards/InfoCards/FilledInfoCard"
 // Presentation page sections
 import Information from "pages/Presentation/sections/Information"
 import DesignBlocks from "pages/Presentation/sections/DesignBlocks"
@@ -44,11 +44,10 @@ import footerRoutes from "footer.routes"
 
 // Images
 import bgImage from "assets/images/bg-presentation.jpg"
-import bgVideo from "assets/video/top-block-bg.mp4";
+import bgVideo from "assets/video/top-block-bg.mp4"
 
 import { useCanister } from "@connect2ic/react"
 import { useEffect } from "react"
-
 
 const videoTag = {
   objectFit: "cover",
@@ -59,18 +58,20 @@ const videoTag = {
   left: "0",
 }
 function Presentation() {
-  const [marketplace_auction, { loading, error }] = useCanister("marketplace_auction")
-  const [products, setProducts] = React.useState([]);
+  const [marketplace_auction, { loading, error }] = useCanister(
+    "marketplace_auction",
+  )
+  const [products, setProducts] = React.useState([])
 
   const getProducts = async () => {
-    const res = await marketplace_auction.GetAuctions();
-    console.log('res', res);
-    setProducts(res);
-  };
+    const res = await marketplace_auction.GetAuctions()
+    console.log("res", res)
+    setProducts(res)
+  }
 
   React.useEffect(() => {
-    getProducts();
-  }, []);
+    getProducts()
+  }, [])
   return (
     <>
       <DauHeader
@@ -79,7 +80,7 @@ function Presentation() {
           color: "transparent",
           shadow: "none",
         }}
-        isLogin={true}
+        isLogin={false}
       />
       <MKBox
         minHeight="75vh"
@@ -132,8 +133,6 @@ function Presentation() {
           boxShadow: ({ boxShadows: { xxl } }) => xxl,
         }}
       >
-
-
         <DesignBlocks dataApi={products} />
         {/* <Pages /> */}
         <Container sx={{ mt: 6 }}>

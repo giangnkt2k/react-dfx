@@ -38,16 +38,9 @@ const currencyItems = [
   },
 ]
 
-function FormStepOne({ onNextStep }) {
+function FormStepOne({ onNextStep, values, setValues }) {
   const formik = useFormik({
-    initialValues: {
-      title: "",
-      description: "",
-      duration: 1,
-      startPrice: "",
-      stepBid: "",
-      currency: "BTC",
-    },
+    initialValues: values.s1,
     validationSchema: yup.object({
       title: yup.string().required("This field is required."),
       description: yup.string().required("This field is required."),
@@ -67,12 +60,15 @@ function FormStepOne({ onNextStep }) {
         .required("This field is required."),
     }),
     enableReinitialize: true,
-    onSubmit: (values) => {
-      console.log(values)
+    onSubmit: (formikValues) => {
       onNextStep()
-      setTimeout(() => {
-        onNextStep()
-      }, 5000)
+      console.log(formikValues)
+      setValues({
+        s1: {
+          ...formikValues,
+        },
+        s2: {},
+      })
     },
   })
 
@@ -80,7 +76,7 @@ function FormStepOne({ onNextStep }) {
     formik.handleReset()
   }
 
-  return (
+  return Object.keys(values).length === 1 ? (
     <MKBox
       component="section"
       bgColor="white"
@@ -235,7 +231,7 @@ function FormStepOne({ onNextStep }) {
         </Grid>
       </Container>
     </MKBox>
-  )
+  ) : null
 }
 
 export default FormStepOne

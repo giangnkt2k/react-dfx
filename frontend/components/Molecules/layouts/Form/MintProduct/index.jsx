@@ -26,18 +26,6 @@ import { Web3Storage, getFilesFromPath } from "web3.storage"
 import mintProduct from "../../../../../services/mintProduct"
 import { useCanister } from "@connect2ic/react"
 
-const token =
-  "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDUyRjNmQjU5NTAwOEM5QzI0MTE3NDgyMDQzY2M0QWM0N0NBYTBGYWQiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NjEzNDc0Mzk2NTMsIm5hbWUiOiJmcHQtaGFja2F0aG9uLTIwMjIifQ._fFPVFAXa1vZ4qziS58ckAAxM8SVSd7Sts5dK04ShRU"
-
-const stringToken = "https://{cid}.ipfs.w3s.link/{name}"
-
-const replaceString = (s, params) => {
-  for (const key in params) {
-    s = s.replace(`{${key}}`, params[key])
-  }
-  return s
-}
-
 function MintProduct({ onNextStep }) {
   const [dip721, { loadingDip, errorDip }] = useCanister("dip721")
 

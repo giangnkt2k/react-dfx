@@ -10,10 +10,10 @@ const routesDefault = {
     { label: "Success", status: "new" },
   ],
   createRealProduct: [
-    { label: "Submit new request", status: "pending" },
-    { label: "Seller make an offer", status: "new" },
-    { label: "Communicate and select offer", status: "new" },
-    { label: "Confirm the order within 15 days", status: "new" },
+    { label: "Basic Information", status: "pending" },
+    { label: "Add Images", status: "new" },
+    { label: "Processing", status: "new" },
+    { label: "Success", status: "new" },
   ],
   functions: {
     nextStep: (progress) => {
@@ -33,6 +33,17 @@ const routesDefault = {
           progress[i].status = "new"
         } else if (progress[i].status === "done") {
           progress[i].status = "pending"
+          break
+        }
+      }
+      return progress
+    },
+    nextErrorStep: (progress) => {
+      for (let i = 0; i < progress.length; i++) {
+        if (progress[i].status === "pending") {
+          progress[i].status = "done"
+        } else if (progress[i].status === "new") {
+          progress[i].status = "error"
           break
         }
       }

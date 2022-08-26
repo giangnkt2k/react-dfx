@@ -130,8 +130,8 @@ shared(msg) actor class Dip721 () = Self {
 		_transfer(from, to, tokenId);
 	};
 
-    public shared(msg) func mint(metadata: Types.metadata) : async Types.MintResult {
-      if (Principal.isAnonymous(msg.caller)) {
+    public shared(msg) func mint(caller: Principal, metadata: Types.metadata) : async Types.MintResult {
+      if (Principal.isAnonymous(caller)) {
         return #Err(#Unauthorized);
       };
       TokenCounter += 1;
@@ -292,6 +292,10 @@ shared(msg) actor class Dip721 () = Self {
 		_decrementBalance(owner);
 		
 		ignore tokenIdToOwner.remove(tokenId);
+	};
+
+    public shared query func getCanisterPrincipal() : async Principal {
+		return Principal.fromActor(Self);
 	};
 	
 	system func preupgrade() {

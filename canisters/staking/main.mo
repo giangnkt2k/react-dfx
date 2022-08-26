@@ -67,7 +67,7 @@ shared({caller}) actor class Staking(dip20: Principal) = Self {
         };
     }; 
 
-    public shared({caller}) func Stake(packageId: Nat, amount: Nat): async Types.StakeResult {
+    public shared(msg) func Stake(caller: Principal, packageId: Nat, amount: Nat): async Types.StakeResult {
         switch (idToStakingPackage.get(packageId)) {
             case null{
                 return #Err(#StakingPackageDoesNotExist);
@@ -127,7 +127,7 @@ shared({caller}) actor class Staking(dip20: Principal) = Self {
         };
     };
 
-    public shared({caller}) func Unstake(packageId: Nat): async Types.UnStakeResult {
+    public shared(msg) func Unstake(caller: Principal, packageId: Nat): async Types.UnStakeResult {
         switch (idToStakingPackage.get(packageId)) {
             case null{
                 return #Err(#StakingPackageDoesNotExist);
@@ -161,7 +161,7 @@ shared({caller}) actor class Staking(dip20: Principal) = Self {
         };
     };
 
-    public shared query({caller}) func GetMyStaking(): async [Types.StakingInfo] {
+    public shared query(msg) func GetMyStaking(caller: Principal): async [Types.StakingInfo] {
         switch (addressToStaking.get(caller)) {
             case null {
                 return [];
@@ -224,6 +224,10 @@ shared({caller}) actor class Staking(dip20: Principal) = Self {
             case null { P.unreachable() };
             case (?x_) { x_ };
     };
+
+    public shared query func getCanisterPrincipal() : async Principal {
+		return Principal.fromActor(Self);
+	};
 
 
     system func preupgrade() {

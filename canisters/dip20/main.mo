@@ -1,4 +1,5 @@
 import Array "mo:base/Array";
+import Debug "mo:base/Debug";
 import ExperimentalCycles "mo:base/ExperimentalCycles";
 import HashMap "mo:base/HashMap";
 import Iter "mo:base/Iter";
@@ -10,7 +11,7 @@ import Principal "mo:base/Principal";
 import Result "mo:base/Result";
 import Time "mo:base/Time";
 
-shared({caller}) actor class Dip20Token() {
+shared({caller}) actor class Dip20Token() = Self {
 	public shared query (doIHaveTokens__msg) func doIHaveTokens(minimum : Nat) : async Bool {
 		let caller = doIHaveTokens__msg.caller; // First input
 		_balanceOf(caller) >= minimum;
@@ -210,25 +211,25 @@ shared({caller}) actor class Dip20Token() {
 	
 	/// Allows spender to withdraw from your account multiple times, up to the value amount.
 	/// If this function is called again it overwrites the current allowance with value.
-	public shared(msg) func approve(spender: Principal, value: Nat) : async TxReceipt {
-		if(_balanceOf(msg.caller) < fee) { return #Err(#InsufficientBalance); };
-		_chargeFee(msg.caller, fee);
-		let v = value + fee;
-		if (value == 0 and Option.isSome(allowances.get(msg.caller))) {
-			let allowance_caller = _unwrap(allowances.get(msg.caller));
+	public shared(msg) func approve(caller: Principal, spender: Principal, value: Nat) : async TxReceipt {
+		assert not Principal.isAnonymous(caller);
+		if(_balanceOf(caller) <= value) { return #Err(#InsufficientBalance); };
+		let v = value;
+		if (value == 0 and Option.isSome(allowances.get(caller))) {
+			let allowance_caller = _unwrap(allowances.get(caller));
 			allowance_caller.delete(spender);
-			if (allowance_caller.size() == 0) { allowances.delete(msg.caller); }
-			else { allowances.put(msg.caller, allowance_caller); };
-		} else if (value != 0 and Option.isNull(allowances.get(msg.caller))) {
+			if (allowance_caller.size() == 0) { allowances.delete(caller); }
+			else { allowances.put(caller, allowance_caller); };
+		} else if (value != 0 and Option.isNull(allowances.get(caller))) {
 			var temp = HashMap.HashMap<Principal, Nat>(1, Principal.equal, Principal.hash);
 			temp.put(spender, v);
-			allowances.put(msg.caller, temp);
-		} else if (value != 0 and Option.isSome(allowances.get(msg.caller))) {
-			let allowance_caller = _unwrap(allowances.get(msg.caller));
+			allowances.put(caller, temp);
+		} else if (value != 0 and Option.isSome(allowances.get(caller))) {
+			let allowance_caller = _unwrap(allowances.get(caller));
 			allowance_caller.put(spender, v);
-			allowances.put(msg.caller, allowance_caller);
+			allowances.put(caller, allowance_caller);
 		};
-		let txid = addRecord(null, #approve, msg.caller, spender, v, fee, Time.now(), #succeeded);
+		let txid = addRecord(null, #approve, caller, spender, v, fee, Time.now(), #succeeded);
 		return #Ok(txid);
 	};
 	
@@ -437,6 +438,10 @@ shared({caller}) actor class Dip20Token() {
 				return [];
 			};
 		}
+	};
+
+	public shared query func getCanisterPrincipal() : async Principal {
+		return Principal.fromActor(Self);
 	};
 	
 	/*

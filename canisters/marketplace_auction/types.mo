@@ -44,7 +44,7 @@ module {
     public type IDIP20 = actor {
         transfer : (Principal,Nat) ->  async TxReceipt;
         transferFrom : (Principal,Principal,Nat) -> async TxReceipt;
-        approve: (spender: Principal, value: Nat) -> async TxReceipt;
+        approve: (caller: Principal, spender: Principal, value: Nat) -> async TxReceipt;
         getMetadata: () -> async Metadata;
         symbol: () -> async Text;
     };

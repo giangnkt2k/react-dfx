@@ -12,6 +12,7 @@ let resp = call stakingCanister.AddPackage(record {
     minStaking=100_000; 
     fee=0.1; 
 });
+resp;
 
 " - Should add package correctly 2";
 let resp = call stakingCanister.AddPackage(record {
@@ -19,6 +20,7 @@ let resp = call stakingCanister.AddPackage(record {
     minStaking=100_000; 
     fee=10.0; 
 });
+resp;
 
 " - Should add package correctly 3";
 let resp = call stakingCanister.AddPackage(record {
@@ -26,26 +28,27 @@ let resp = call stakingCanister.AddPackage(record {
     minStaking=100_000; 
     fee=5.0; 
 });
+resp;
 
 "- User Stake";
 identity account2 "../config/account2.pem";
 let amountStake = 120_000;
 " -- Should revert if package not exist";
-let resp = call stakingCanister.Stake(4, amountStake);
+let resp = call stakingCanister.Stake(account2, 4, amountStake);
 assert resp == variant { Err = variant { StakingPackageDoesNotExist } };
 " -- Should take correctly 1";
-call dip20Canister.approve(stakingCanister, amountStake);
-let resp = call stakingCanister.Stake(1, amountStake);
+call dip20Canister.approve(account2, stakingCanister, amountStake);
+let resp = call stakingCanister.Stake(account2, 1, amountStake);
 assert resp == variant { Ok = true : bool };
 
 " -- Should take correctly 2";
-call dip20Canister.approve(stakingCanister, amountStake);
-let resp = call stakingCanister.Stake(2, amountStake);
+call dip20Canister.approve(account2, stakingCanister, amountStake);
+let resp = call stakingCanister.Stake(account2, 2, amountStake);
 assert resp == variant { Ok = true : bool };
 
 " -- Should take correctly 3";
-call dip20Canister.approve(stakingCanister, amountStake);
-let resp = call stakingCanister.Stake(3, amountStake);
+call dip20Canister.approve(account2, stakingCanister, amountStake);
+let resp = call stakingCanister.Stake(account2, 3, amountStake);
 assert resp == variant { Ok = true : bool };
 
 " - Should work correctly - check isStake";

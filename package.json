@@ -68,5 +68,8 @@
     "eslint-plugin-react-hooks": "4.2.0",
     "prettier": "2.3.2",
     "vite": "^2.9.9"
+  },
+  "compilerOptions": {
+    "skipLibCheck": true
   }
 }

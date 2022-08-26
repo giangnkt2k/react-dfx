@@ -23,7 +23,6 @@ const deadLineTime = (currentTime, totalDay) => {
   return replaceTime(deadLine);
 }
 function ExampleCard({ product, seller, ...rest }) {
-  console.log('responseListProductproductproductproductproduct==>',product,seller );
 
   return (
     <MKBox position="relative">

@@ -62,8 +62,6 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 			return #Err(#AddressPaymentAllreadyExist);
 		};
 
-
-
 		paymentExist.put(address, true);
 
 		#Ok(true)
@@ -93,7 +91,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 
 	
 	//ORDER
-	public shared({caller}) func AddOrder(data: Types.AuctionCreate): async Types.AddAuctionResult {
+	public shared(msg) func AddOrder(caller: Principal, data: Types.AuctionCreate): async Types.AddAuctionResult {
 		if (not _isSeller(caller)) {
 			return #Err(#NotSeller);
 		};
@@ -187,7 +185,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared({caller}) func CancelOrder(auctionId: Nat): async Types.CancelOrderResult{
+	public shared(msg) func CancelOrder(caller: Principal, auctionId: Nat): async Types.CancelOrderResult{
 		switch(idToAuction.get(auctionId)) {
 			case null {
 				return #Err(#AuctionNotExist);
@@ -268,7 +266,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared({caller}) func SetAlreadySentProduct(idAuction: Nat): async Types.UpdateAuctionResult {
+	public shared(msg) func SetAlreadySentProduct(caller: Principal, idAuction: Nat): async Types.UpdateAuctionResult {
 		switch(idToAuction.get(idAuction)) {
 			case null {
 				return #Err(#AuctionNotExist);
@@ -315,7 +313,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared({caller}) func SetAlreadyReceiveProduct(idAuction: Nat): async  Types.UpdateAuctionResult {
+	public shared(msg) func SetAlreadyReceiveProduct(caller: Principal, idAuction: Nat): async  Types.UpdateAuctionResult {
 		switch(idToAuction.get(idAuction)) {
 			case null {
 				return #Err(#AuctionNotExist);
@@ -369,7 +367,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared query({caller}) func GetMyProduct(): async [Types.Auction] {
+	public shared query(msg) func GetMyProduct(caller: Principal): async [Types.Auction] {
 		let filters = Iter.filter(idToAuction.entries(), func ((id: Nat, auction: Types.Auction)) : Bool { 
 			caller == auction.seller;
 		});
@@ -380,7 +378,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 
 	//=============================================================================================================================================
 	//AUCTION BIDs
-	public shared({caller}) func BidAuction(data: Types.AuctionBid): async Types.AuctionBidResult {
+	public shared(msg) func BidAuction(caller: Principal, data: Types.AuctionBid): async Types.AuctionBidResult {
 		// assert not Principal.isAnonymous(caller);
 		switch(idToAuction.get(data.auctionId)) {
 			case null {
@@ -463,7 +461,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared({caller}) func ClaimNft(auctionId: Nat): async Types.ClaimAuctionResult {
+	public shared(msg) func ClaimNft(caller: Principal, auctionId: Nat): async Types.ClaimAuctionResult {
 		// assert not Principal.isAnonymous(caller);
 		switch(idToAuction.get(auctionId)) {
 			case null {
@@ -531,7 +529,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared({caller}) func RefundToken(idAuction: Nat, idBid: Nat) : async Types.ClaimAuctionResult {
+	public shared(msg) func RefundToken(caller: Principal, idAuction: Nat, idBid: Nat) : async Types.ClaimAuctionResult {
 		// assert not Principal.isAnonymous(caller);
 		switch(idToAuction.get(idAuction)) {
 			case null {
@@ -581,7 +579,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared({caller}) func ClaimToken(idAuction: Nat) : async Types.ClaimAuctionResult {
+	public shared(msg) func ClaimToken(caller: Principal, idAuction: Nat) : async Types.ClaimAuctionResult {
 		// assert not Principal.isAnonymous(caller);
 		switch(idToAuction.get(idAuction)) {
 			case null {
@@ -651,7 +649,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared({caller}) func VoteAuctionPending(data: Types.VoteMetadata) : async Types.VoteAuctionPendingResult{
+	public shared(msg) func VoteAuctionPending(caller: Principal, data: Types.VoteMetadata) : async Types.VoteAuctionPendingResult{
 		if (Principal.isAnonymous(caller)) {
 			return #Err(#Unauthorized);
 		};
@@ -728,7 +726,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared query({caller}) func IsVotedAuction(idAuctionPending: Nat): async Bool {
+	public shared query(msg) func IsVotedAuction(caller: Principal, idAuctionPending: Nat): async Bool {
 		return _isVotedAuctionPending(idAuctionPending, caller);
 	};
 
@@ -744,7 +742,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		}
 	};
 
-	public shared({caller}) func ApproveAuctionPending(idAuctionPending: Nat) : async Types.ApproveAuctionPendingResult {
+	public shared(msg) func ApproveAuctionPending(caller: Principal, idAuctionPending: Nat) : async Types.ApproveAuctionPendingResult {
 		if(not _isManager(caller)) {
 			return #Err(#NotManager);
 		};
@@ -790,7 +788,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared({caller}) func CancelAuctionPending(id: Nat) : async Types.CancelAuctionPendingResult {
+	public shared(msg) func CancelAuctionPending(caller: Principal, id: Nat) : async Types.CancelAuctionPendingResult {
 		switch(idToAuctionPending.get(id)) {
 			case null {
 				return #Err(#AuctionPendingNotExist);
@@ -821,7 +819,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared query({caller}) func GetMyPendingProduct(): async [Types.AuctionPending] {
+	public shared query(msg) func GetMyPendingProduct(caller: Principal): async [Types.AuctionPending] {
 		let filters = Iter.filter(idToAuctionPending.entries(), func ((id: Nat, auction: Types.AuctionPending)) : Bool { 
 			caller == auction.seller;
 		});
@@ -831,7 +829,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 	};
 
 	//========================================================== seller ==========================================================================
-	public shared({caller}) func BecomeTheSeller(data: Types.SellerCreate): async Types.SellerErrorResult {
+	public shared(msg) func BecomeTheSeller(caller: Principal, data: Types.SellerCreate): async Types.SellerErrorResult {
 		if (Principal.isAnonymous(caller)) {
 			return #Err(#Unauthorized);
 		};
@@ -854,7 +852,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		return #Ok(true)
 	};
 
-	public shared({caller}) func UpdateSeller(data: Types.SellerUpdate): async Types.SellerErrorResult {
+	public shared(msg) func UpdateSeller(caller: Principal, data: Types.SellerUpdate): async Types.SellerErrorResult {
 		if (Principal.isAnonymous(caller)) {
 			return #Err(#Unauthorized);
 		};
@@ -877,13 +875,13 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared({caller}) func GetSeller(): async [Types.Seller] {
+	public shared(msg) func GetSeller(): async [Types.Seller] {
 		Iter.toArray(Iter.map(idToSeller.entries(), func ((id: Principal, value: Types.Seller)): Types.Seller {
 			return value;
 		}));
 	};
 
-	public shared query({caller}) func isSeller(): async Bool {
+	public shared query(msg) func isSeller(caller: Principal): async Bool {
 		return _isSeller(caller);
 	};
 
@@ -911,7 +909,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		}));
 	};
 
-	public shared query({caller}) func isManager(): async Bool {
+	public shared query(msg) func isManager(caller: Principal): async Bool {
 		return _isManager(caller);
 	};
 

@@ -25,6 +25,7 @@ import { useCanister } from "@connect2ic/react"
 import { Route, Routes, useParams } from 'react-router-dom';
 import { useBalance, useWallet } from "@connect2ic/react";
 import { Principal } from '@dfinity/principal'
+// import { Nat } from "@dfinity/nat"
 import { useStore } from '../../../store';
 import { useConnect } from '@connect2ic/react';
 import { useEffect } from 'react';
@@ -74,22 +75,19 @@ function a11yProps(index) {
 }
 
 function ProductDetailBid() {
-  const [marketplace_auction] = useCanister("marketplace_auction")
+  const [marketplace_auction, {canisterDefinition}] = useCanister("marketplace_auction")
   const [dip20, { loading20, error20 }] = useCanister("dip20", { mode: 'anonymous' })
   const { principal } = useConnect()
   const [value, setValue] = React.useState(0);
   const [product, setProduct] = React.useState(undefined);
+  const [listBids, setlistBids] = React.useState(undefined);
   const [wallet] = useWallet()
   const [assets] = useBalance()
   const [inputNumToken, setInputNumToken] = React.useState('');
   const params = useParams();
   const [state, dispatch] = useStore()
-  const stateMarket = state.canisters.marketplace_auction;
-  console.log('marketplace_auction', stateMarket, ">>>>>>")
-  console.log(stateMarket ? stateMarket[carnisterId] : stateMarket, ">>>>");
-  useEffect(() => {
-    console.log(stateMarket ? stateMarket[carnisterId] : stateMarket, ">>>");
-  }, [stateMarket])
+  const stateMarket = canisterDefinition.canisterId;
+  console.log('marketplace_auction', canisterDefinition.canisterId, "1>>>>>>")
   const handleChangeInputBid = event => {
     setInputNumToken(event.target.value);
 
@@ -97,24 +95,35 @@ function ProductDetailBid() {
   };
 
   const getProduct = async () => {
-    const datas = await marketplace_auction.GetAuction(parseInt(params.id));
-    datas.Ok.product.dateLine = deadLineTime(datas.Ok.product.startTime, datas.Ok.product.auctionTime);
-    // lay ngay den date Line
-    const a = replaceNumber(datas.Ok.product.startTime) + replaceNumber(datas.Ok.product.auctionTime);
-    const b = new Date(a / 1000000);
-    const c = new Date();
-    const d = b.getDate() - c.getDate();
-    const aucTime = new Date(replaceNumber(datas.Ok.product.auctionTime) / 1000000);
-    datas.Ok.product.processToBid = d + ' day';
-    if (c > b) {
-      datas.Ok.product.processBar = 100
-    } else {
-      datas.Ok.product.processBar = (aucTime.getDate() - d) / (aucTime.getDate()) * 100
+    try {
+      const datas = await marketplace_auction.GetAuction(parseInt(params.id));
+      datas.Ok.product.dateLine = deadLineTime(datas.Ok.product.startTime, datas.Ok.product.auctionTime);
+      // lay ngay den date Line
+      const a = replaceNumber(datas.Ok.product.startTime) + replaceNumber(datas.Ok.product.auctionTime);
+      const b = new Date(a / 1000000);
+      const c = new Date();
+      const d = b.getDate() - c.getDate();
+      const aucTime = new Date(replaceNumber(datas.Ok.product.auctionTime) / 1000000);
+      datas.Ok.product.processToBid = d + ' day';
+      if (c > b) {
+        datas.Ok.product.processBar = 100
+      } else {
+        datas.Ok.product.processBar = (aucTime.getDate() - d) / (aucTime.getDate()) * 100
+      }
+      setProduct(datas);
+      getHistoryBid()
     }
-
-    setProduct(datas);
+    catch(e) {
+      console.log('message error', e)
+    }
+    
   };
 
+  const getHistoryBid = async () => {
+    const datas = await marketplace_auction.GetBids(parseInt(params.id));
+    console.log('datas Bids', datas);
+    setlistBids(datas)
+  };
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -136,11 +145,10 @@ function ProductDetailBid() {
     }
     else {
       try {
-        // const res123 = await marketplace_auction.getCanisterPrincipal()
-        // console.log('biding',res123);
-        console.log('-->', Principal.fromText('7bb7f-zaaaa-aaaaa-aabdq-cai'))
-        const res = await dip20.approve(Principal.fromText(principal), Principal.fromText('7bb7f-zaaaa-aaaaa-aabdq-cai'), 360000)
-        console.log('mum', res);
+
+        console.log('-->', Principal.fromText(principal))
+        const res = await dip20.approve(Principal.fromText(principal), Principal.fromText(stateMarket), BigInt.asUintN(4, 36000n))
+        console.log('mum', res);  
         const biding = await marketplace_auction.BidAuction({
           auctionId: 2,
           amount: 3600
@@ -159,6 +167,7 @@ function ProductDetailBid() {
       const publicKey = await window.ic.plug.requestConnect();
       console.log(`The connected user's public key is:`, publicKey);
       getProduct()
+      getHistoryBid()
     } catch (e) {
       console.log(e);
     }
@@ -178,7 +187,7 @@ function ProductDetailBid() {
 
   React.useEffect(() => {
     getProduct()
-    console.log('product jnc', product);
+    getHistoryBid()
   }, []);
 
   React.useEffect(() => {
@@ -378,7 +387,7 @@ function ProductDetailBid() {
               </MKBox>
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <Transaction />
+              <Transaction data={listBids} />
             </TabPanel>
           </MKBox></> : null}
     </BaseLayout>

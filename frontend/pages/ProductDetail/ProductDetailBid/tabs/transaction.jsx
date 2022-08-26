@@ -6,7 +6,9 @@ import TableCell, { tableCellClasses } from '@mui/material/TableCell';
 import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
+import PropTypes from "prop-types";
 import Paper from '@mui/material/Paper';
+import { Principal } from '@dfinity/principal'
 import '../style.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -29,41 +31,47 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(name, calories, fat, carbs, protein) {
-  return { name, calories, fat, carbs, protein };
+function createData(id, bider, amount, status) {
+  return { id, bider, amount, status };
 }
 
-const rows = [
-  createData('Frozen yoghurt', 159, 6.0, 24, 4.0),
-  createData('Ice cream sandwich', 237, 9.0, 37, 4.3),
-  createData('Eclair', 262, 16.0, 24, 6.0),
-  createData('Cupcake', 305, 3.7, 67, 4.3),
-  createData('Gingerbread', 356, 16.0, 49, 3.9),
-];
 
-export default function CustomizedTables() {
+function CustomizedTables({data}) {
+
+  const [rows, setRows] = React.useState(undefined);
+  const settingData = () => {
+    var temp = [];
+    console.log('data123123', data);
+    // data.length > 0 && data.map(e => {
+    //   temp.push(createData(e.id, e.bider, e.amount, e.status))
+    // });
+    // setRows.push(temp)
+    // console.log('setRow', rows)
+  }
+  React.useEffect(() => {
+    settingData();
+  }, [data]);
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead className='table-head'>
           <TableRow>
-            <StyledTableCell>Buyer</StyledTableCell>
-            <StyledTableCell align="right">Service</StyledTableCell>
+            <StyledTableCell>ID</StyledTableCell>
+            <StyledTableCell align="right">Bider</StyledTableCell>
             <StyledTableCell align="right">Price</StyledTableCell>
             <StyledTableCell align="right">Status</StyledTableCell>
-            <StyledTableCell align="right">Comments</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {data.map((row) => (
             <StyledTableRow key={row.name}>
               <StyledTableCell component="th" scope="row">
-                {row.name}
+                {row.id.toString()}
               </StyledTableCell>
-              <StyledTableCell align="right">{row.calories}</StyledTableCell>
-              <StyledTableCell align="right">{row.fat}</StyledTableCell>
-              <StyledTableCell align="right">{row.carbs}</StyledTableCell>
-              <StyledTableCell align="right">{row.protein}</StyledTableCell>
+              <StyledTableCell align="right">{Principal.fromUint8Array(row.bider).toString()}</StyledTableCell>
+              <StyledTableCell align="right">{row.amount.toString()}</StyledTableCell>
+              <StyledTableCell align="right">{(row.status.Withdrawn) ? 'Withdraw' : 'Deposit'}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -71,3 +79,13 @@ export default function CustomizedTables() {
     </TableContainer>
   );
 }
+
+CustomizedTables.defaultProps = {
+  data: [],
+  };
+  
+CustomizedTables.propTypes = {
+  data: PropTypes.array,
+};
+
+export default CustomizedTables;

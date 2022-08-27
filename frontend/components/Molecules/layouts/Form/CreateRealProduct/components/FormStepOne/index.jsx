@@ -12,6 +12,7 @@ import MKInput from "components/MKInput"
 import MKButton from "components/MKButton"
 import MKRadioGroup from "components/MKRadioGroup"
 import MKSelection from "../../../../../../MKSelection"
+import { useCanister } from "@connect2ic/react"
 
 const convertDaysToMiliSeconds = (days) => {
   return parseFloat(days) * 86400000
@@ -26,19 +27,15 @@ const radioItems = {
   optional: { id: 0, title: "Day(s)" },
 }
 
-const currencyItems = [
-  {
-    id: "BTC",
-    title: "Bitcoin",
-  },
-  { id: "ETH", title: "Ethereum" },
-  {
-    id: "ADA",
-    title: "Cadarno",
-  },
-]
-
 function FormStepOne({ onNextStep, values, setValues }) {
+  const [marketplace_auction, { loadingDip721, errorDip721 }] = useCanister(
+    "marketplace_auction",
+    {
+      mode: "anonymous",
+    },
+  )
+  const [symbols, setSymbols] = useState([{ id: "BTC", title: "Bitcoin" }])
+
   const formik = useFormik({
     initialValues: values.s1,
     validationSchema: yup.object({
@@ -75,6 +72,16 @@ function FormStepOne({ onNextStep, values, setValues }) {
   const handleReset = () => {
     formik.handleReset()
   }
+
+  useEffect(async () => {
+    try {
+      const dataRes = await marketplace_auction.GetSupportedPayment()
+      console.log(dataRes)
+      setSymbols(dataRes)
+    } catch (err) {
+      console.log(err)
+    }
+  }, [])
 
   return Object.keys(values).length === 1 ? (
     <MKBox
@@ -165,7 +172,7 @@ function FormStepOne({ onNextStep, values, setValues }) {
                     formik={formik}
                     label="Currency"
                     name="currency"
-                    items={currencyItems}
+                    items={symbols}
                   />
                 </Grid>
                 <Grid item xs={4}>

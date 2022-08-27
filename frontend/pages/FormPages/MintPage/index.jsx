@@ -61,7 +61,6 @@ function MintPage() {
         }),
       }
       if (principal) {
-        console.log(dip721)
         return await dip721.mint(Principal.fromText(principal), data)
       }
     } catch (error) {
@@ -70,14 +69,19 @@ function MintPage() {
   }
   useEffect(() => {
     if (dataMint) {
-      handleNextStep()
       setValues((currentValues) => {
         return {
           ...currentValues,
           s3: {},
         }
       })
-      dataMint.Ok ? setIsSuccess(true) : setIsError(true)
+      if (dataMint.Ok) {
+        handleNextStep()
+        setIsSuccess(true)
+      } else {
+        handleErrorStep()
+        setIsError(true)
+      }
     }
   }, [dataMint])
 

@@ -47,6 +47,13 @@ module {
         approve: (caller: Principal, spender: Principal, value: Nat) -> async TxReceipt;
         getMetadata: () -> async Metadata;
         symbol: () -> async Text;
+        logo:() -> async Text;
+    };
+
+    public type SupportPaymentResp = {
+        id: Principal;
+        title: Text;
+        logo: Text;
     };
 
     public type dip721Metadata = {

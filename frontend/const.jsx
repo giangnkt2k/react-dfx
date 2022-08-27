@@ -17,3 +17,13 @@ export const uploadToWeb3Storage = async (file) => {
   const rootCid = await storage.put(file)
   return rootCid
 }
+
+export const VIDEO_TAG_CSS = {
+  objectFit: "cover",
+  width: "100vw",
+  height: "100vh",
+  position: "fixed",
+  top: "0",
+  left: "0",
+  zIndex: "-1",
+}

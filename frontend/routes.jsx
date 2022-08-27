@@ -48,7 +48,6 @@ import ContactUs from "layouts/pages/landing-pages/contact-us"
 import Author from "layouts/pages/landing-pages/author"
 import SignIn from "layouts/pages/authentication/sign-in"
 import ProductDetailBid from "../frontend/pages/ProductDetail/ProductDetailBid/index"
-import AddStakeToken from "../frontend/pages/Stake/AddStakeToken/index"
 
 // Sections
 import PageHeaders from "layouts/sections/page-sections/page-headers"
@@ -249,14 +248,6 @@ const routes = [
         component: <ProductDetailBid />,
       },
     ],
-    // name: "stake",
-    // collapse: [
-    //   {
-    //     name: " Add Stake ",
-    //     route: "/pages/stake/AddStakeToken",
-    //     component: <AddStakeToken />,
-    //   },
-    // ],
   },
 
   {

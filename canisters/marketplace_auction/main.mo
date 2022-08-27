@@ -6,12 +6,16 @@ import HashMap "mo:base/HashMap";
 import Int = "mo:base/Int";
 import Iter "mo:base/Iter";
 import Nat "mo:base/Nat";
+import Nat64 "mo:base/Nat64";
 import Option "mo:base/Option";
 import P "mo:base/Prelude";
 import Principal "mo:base/Principal";
 import Time "mo:base/Time";
 
 import Types "./types";
+
+// Do frontend khi connect ví xong không thể call tới backend motoko, 
+// nên chúng em sẽ để frontend tự lấy địa chỉ ví của người dùng và truyền bằng parameter caller, thay vì lấy caller từ msg.
 
 shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: Principal) = Self {
 	public type Time = Time.Time;
@@ -1054,6 +1058,37 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
             case (?x_) { x_ };
     };
 
+	private func _automaticAcceptAuctionPending(auctionPendingData: Types.AuctionPending): async () {
+				auctionIdCount += 1;
+				let id = auctionIdCount;
+
+				let auction: Types.Auction = {
+					id = auctionIdCount;
+					tokenId = null;
+					seller = auctionPendingData.seller;
+					winner = Principal.fromText("2vxsx-fae");
+					stepBid = auctionPendingData.stepBid;
+					currentPrice = auctionPendingData.startPrice;	
+					startPrice = auctionPendingData.startPrice;
+					tokenPayment = auctionPendingData.tokenPayment;
+					startTime = Time.now();
+					auctionTime = auctionPendingData.auctionTime;
+					highestBidId = 0;
+					auctionState = #AuctionStarted;
+					metadataAuction = auctionPendingData.metadataAuction;
+					isSend= false;
+					isReceived= false;
+					typeAuction = #AuctionRealProduct;
+					picture = ?auctionPendingData.picture;
+					currencyUnit=auctionPendingData.currencyUnit;
+					title=auctionPendingData.title;
+					description=auctionPendingData.description;
+				};
+				idToAuction.put(id, auction);
+				auctionToBids.put(auctionIdCount, HashMap.fromIter<Nat, Types.Bid>(Iter.fromArray([]), 1, Nat.equal, Hash.hash));
+				idToAuctionPending.delete(auctionPendingData.id);
+	};
+
     system func preupgrade() {
 		supportedPaymentStore := Iter.toArray(paymentExist.entries());
 		auctionStore := Iter.toArray(idToAuction.entries());
@@ -1080,7 +1115,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 			sizeVotes += 1;
 		};
 		auctionToVotesStore := Array.freeze(tempVotes);
-
+		
 	};
 	
 	system func postupgrade() {
@@ -1102,4 +1137,13 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 		auctionToVotesStore := [];
 	};
+
+	system func heartbeat() : async () {
+		Iter.iterate(
+			idToAuctionPending.entries(),func ((tokenId: Nat, pendingAution: Types.AuctionPending)) {
+				if (Time.now() <= pendingAution.timeStart + pendingAution.auctionTime) {
+					await _automaticAcceptAuctionPending(pendingAution);
+				}
+		});
+	}
 }

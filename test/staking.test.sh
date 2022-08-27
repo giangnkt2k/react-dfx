@@ -6,27 +6,35 @@ identity account1 "../config/account1.pem";
 
 "Become validator";
 "Owner add package";
-" - Should add package correctly 1";
+" - Should add package correctly 3 months";
 let resp = call stakingCanister.AddPackage(record {
-    lockTime=900000000000; 
+    lockTime=46656000000000000; 
     minStaking=100_000; 
-    fee=0.1; 
+    fee=2.0; 
 });
 resp;
 
-" - Should add package correctly 2";
+" - Should add package correctly 6 months";
 let resp = call stakingCanister.AddPackage(record {
-    lockTime=900000000000; 
+    lockTime=7776000000000000; 
+    minStaking=100_000; 
+    fee=4.0; 
+});
+resp;
+
+" - Should add package correctly 9 months";
+let resp = call stakingCanister.AddPackage(record {
+    lockTime=15552000000000000; 
+    minStaking=100_000; 
+    fee=6.0; 
+});
+resp;
+
+" - Should add package correctly 12 months";
+let resp = call stakingCanister.AddPackage(record {
+    lockTime=31104000000000000; 
     minStaking=100_000; 
     fee=10.0; 
-});
-resp;
-
-" - Should add package correctly 3";
-let resp = call stakingCanister.AddPackage(record {
-    lockTime=900000000000; 
-    minStaking=100_000; 
-    fee=5.0; 
 });
 resp;
 

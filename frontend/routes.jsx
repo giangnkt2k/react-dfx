@@ -48,7 +48,6 @@ import ContactUs from "layouts/pages/landing-pages/contact-us"
 import Author from "layouts/pages/landing-pages/author"
 import SignIn from "layouts/pages/authentication/sign-in"
 import ProductDetailBid from "../frontend/pages/ProductDetail/ProductDetailBid/index"
-import AddStakeToken from "../frontend/pages/Stake/AddStakeToken/index"
 
 // Sections
 import PageHeaders from "layouts/sections/page-sections/page-headers"
@@ -69,6 +68,8 @@ import Dropdowns from "layouts/sections/elements/dropdowns"
 import ProgressBars from "layouts/sections/elements/progress-bars"
 import Toggles from "layouts/sections/elements/toggles"
 import Typography from "layouts/sections/elements/typography"
+import StakeToken from "pages/FormPages/StakeToken"
+import MyStake from "pages/TablePages/MyStake"
 
 const routes = [
   {
@@ -248,15 +249,17 @@ const routes = [
         route: "/pages/detailProduct/ProductDetailBid/:id",
         component: <ProductDetailBid />,
       },
+      {
+        name: "stake table",
+        route: "/stake",
+        component: <MyStake />,
+      },
+      {
+        name: "stake token",
+        route: "/stake/create",
+        component: <StakeToken />,
+      },
     ],
-    // name: "stake",
-    // collapse: [
-    //   {
-    //     name: " Add Stake ",
-    //     route: "/pages/stake/AddStakeToken",
-    //     component: <AddStakeToken />,
-    //   },
-    // ],
   },
 
   {

@@ -12,6 +12,9 @@ import Principal "mo:base/Principal";
 
 import Types "types";
 
+// Do frontend khi connect ví xong không thể call tới backend motoko, 
+// nên chúng em sẽ để frontend tự lấy địa chỉ ví của người dùng và truyền bằng parameter caller, thay vì lấy caller từ msg.
+
 shared(msg) actor class Dip721 () = Self {
     private stable var owner: Principal = msg.caller;
     private stable var name: Text =  "MyDIP721";
@@ -135,7 +138,7 @@ shared(msg) actor class Dip721 () = Self {
         return #Err(#Unauthorized);
       };
       TokenCounter += 1;
-      _mint(msg.caller, TokenCounter, metadata);
+      _mint(caller, TokenCounter, metadata);
 		return #Ok(TokenCounter);
 	};
 
@@ -143,7 +146,7 @@ shared(msg) actor class Dip721 () = Self {
       return Iter.toArray<(TokenId, Types.metadata)>(tokenIdToMetadata.entries());
   };
 
-  public shared query({caller}) func getMyNfts(): async [Types.NftResp] {
+  public shared query(msg) func getMyNfts(caller: Principal): async [Types.NftResp] {
     var tokenIds = Buffer.Buffer<(TokenId)>(0);
     Iter.iterate(
         tokenIdToOwner.entries(),func ((tokenId: TokenId, owner: Principal), index: Nat) {

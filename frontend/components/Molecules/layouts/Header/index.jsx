@@ -1,4 +1,5 @@
 import React, { useState } from "react"
+import { makeStyles } from "@mui/styles"
 
 // @mui material components
 import Container from "@mui/material/Container"
@@ -26,6 +27,10 @@ import routesHeader from "routes/routesHeader"
 //Styles
 import { makeStyles } from "@mui/styles"
 import { useConnect } from "@connect2ic/react"
+
+// Import Constant
+import { VIDEO_TAG_CSS } from "const"
+import bgVideo from "assets/video/top-block-bg_1.mp4"
 
 const useStyles = makeStyles({
   sticky_header: {
@@ -66,21 +71,26 @@ function DauHeader({ color, shadow, changeColorOnScroll }) {
   }
 
   return (
-    <MKBox
-      bgColor={colorHeader}
-      shadow={shadowHeader}
-      py={0.25}
-      className={classes.sticky_header}
-    >
-      <MyHeaderNavbar
-        routes={routes}
-        actions={isConnected ? routesHeader.isLogin : routesHeader.isLogout}
-        subActions={routesHeader.subHeaders}
-        isLogin={isConnected}
-        transparent
-        relative
-      />
-    </MKBox>
+    <>
+      <MKBox
+        bgColor={colorHeader}
+        shadow={shadowHeader}
+        py={0.25}
+        className={classes.sticky_header}
+      >
+        <MyHeaderNavbar
+          routes={routes}
+          actions={isConnected ? routesHeader.isLogin : routesHeader.isLogout}
+          subActions={routesHeader.subHeaders}
+          isLogin={isConnected}
+          transparent
+          relative
+        />
+      </MKBox>
+      <video style={VIDEO_TAG_CSS} autoPlay loop muted>
+        <source src={bgVideo} type="video/mp4" />
+      </video>
+    </>
   )
 }
 

@@ -9,6 +9,8 @@ import TableRow from '@mui/material/TableRow';
 import PropTypes from "prop-types";
 import Paper from '@mui/material/Paper';
 import { Principal } from '@dfinity/principal'
+import MKButton from "components/MKButton";
+import { useCanister } from "@connect2ic/react";
 import '../style.css';
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
@@ -31,23 +33,27 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(id, bider, amount, status) {
-  return { id, bider, amount, status };
-}
+function CustomizedTables({ data, principal, product }) {
+  const [marketplace_auction, {canisterDefinition}] = useCanister("marketplace_auction", { mode: 'anonymous' })
 
-
-function CustomizedTables({data}) {
-
-  const [rows, setRows] = React.useState(undefined);
   const settingData = () => {
-    var temp = [];
-    console.log('data123123', data);
-    // data.length > 0 && data.map(e => {
-    //   temp.push(createData(e.id, e.bider, e.amount, e.status))
-    // });
-    // setRows.push(temp)
-    // console.log('setRow', rows)
+    console.log('principal=>>>', principal);
+    console.log('product=>>>', product);
+    console.log('data=>>>', data, (Object.keys(data[3].status)));
+    console.log((product.highestBidId).toString())
   }
+  const handleClaim = async (IdBid) => {
+    try {
+      const res = await marketplace_auction.RefundToken(Principal.fromText(principal), parseInt(product.id), parseInt(IdBid))
+      
+      await settingData();
+      console.log('alo', res)
+    }
+    catch(e) {
+      console.log('e=>', e)
+    }
+  }
+
   React.useEffect(() => {
     settingData();
   }, [data]);
@@ -58,9 +64,10 @@ function CustomizedTables({data}) {
         <TableHead className='table-head'>
           <TableRow>
             <StyledTableCell>ID</StyledTableCell>
-            <StyledTableCell align="right">Bider</StyledTableCell>
-            <StyledTableCell align="right">Price</StyledTableCell>
-            <StyledTableCell align="right">Status</StyledTableCell>
+            <StyledTableCell >Bider</StyledTableCell>
+            <StyledTableCell >Price</StyledTableCell>
+            <StyledTableCell >Status</StyledTableCell>
+            <StyledTableCell >Option</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -69,9 +76,17 @@ function CustomizedTables({data}) {
               <StyledTableCell component="th" scope="row">
                 {row.id.toString()}
               </StyledTableCell>
-              <StyledTableCell align="right">{Principal.fromUint8Array(row.bider).toString()}</StyledTableCell>
-              <StyledTableCell align="right">{row.amount.toString()}</StyledTableCell>
-              <StyledTableCell align="right">{(row.status.Withdrawn) ? 'Withdraw' : 'Deposit'}</StyledTableCell>
+              <StyledTableCell>{row.bider.toText()}</StyledTableCell>
+              <StyledTableCell>{row.amount.toString()}</StyledTableCell>
+              <StyledTableCell>{Object.keys(row.status)[0]}</StyledTableCell>
+              <StyledTableCell>
+                {((row.bider.toText() === principal) && (parseInt(product.highestBidId) !== parseInt(row.id)) && Object.keys(row.status)[0] === 'Deposited') ?
+                  <MKButton onClick={() =>
+                    handleClaim(row.id)}>Claim</MKButton>
+                  :
+                  <><div>-</div> </>
+                }
+              </StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>
@@ -82,10 +97,14 @@ function CustomizedTables({data}) {
 
 CustomizedTables.defaultProps = {
   data: [],
-  };
-  
+  principal: '',
+  product: {}
+};
+
 CustomizedTables.propTypes = {
   data: PropTypes.array,
+  principal: PropTypes.string,
+  product: PropTypes.object
 };
 
 export default CustomizedTables;

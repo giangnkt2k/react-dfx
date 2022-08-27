@@ -140,9 +140,9 @@ function MyHeaderNavbar({
               }
               color={color ? color : "info"}
               size="small"
-              onClick={(event) => {
+              onClick={ async (event) => {
                 event.preventDefault()
-                connectBtn ? onConnectPlug() : null
+                connectBtn ? await onConnectPlug() : null
               }}
             >
               {label}
@@ -333,7 +333,7 @@ function MyHeaderNavbar({
           </MKBox>
         </Grow>
       )}
-    </Popper>
+    </Popper>      
   )
 
   const onConnectPlug = async () => {

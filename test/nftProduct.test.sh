@@ -11,28 +11,28 @@ let resp = call marketplaceCanister.AddOrder(
         stepBid=1000;
         startPrice=20000;
         tokenId=opt 1; 
-        auctionTime=86400; 
+        auctionTime=8640000000000; 
         tokenPayment=dip20Canister; 
         typeAuction=variant {AuctionNFT}; 
         metadataAuction=null;
-        title="title";
-        description="description"
+        title="Bộ sưu tập của Dương";
+        description="Đây là những ảnh mà Dương đã chụp trong thời gian du lịch"
     }
 );
 assert resp == variant { Err = variant { NotOwnerOfToken } };
 
 "- Account 1 Mint NFT token 1";
 identity account1 "../config/account1.pem";
-let resp = call dip721Canister.mint(account1, record {url="https://picsum.photos/id/237/200/300"; name="Duong"; description="Day la anh cua Duong"});
+let resp = call dip721Canister.mint(account1, record {url="https://picsum.photos/600/400"; name="Duong"; description="Day la anh cua Duong"});
 assert resp == variant { Ok = 1 : nat };
 
 "- Account 2 Mint NFT token 2";
 identity account2 "../config/account2.pem";
-let resp = call dip721Canister.mint(account2, record {url="https://picsum.photos/id/237/200/300"; name="Duong2"; description="Day la anh cua Duong2"});
+let resp = call dip721Canister.mint(account2, record {url="https://picsum.photos/600/400"; name="Duong2"; description="Day la anh cua Duong2"});
 assert resp == variant { Ok = 2 : nat };
 
 "- Account 2 mint NFT token 3";
-let resp = call dip721Canister.mint(account2, record {url="https://picsum.photos/id/237/200/300"; name="Duong3"; description="Day la anh cua Duong3"});
+let resp = call dip721Canister.mint(account2, record {url="https://picsum.photos/600/400"; name="Duong3"; description="Day la anh cua Duong3"});
 assert resp == variant { Ok = 3 : nat };
 let resp = call marketplaceCanister.AddOrder(
     account2, 
@@ -58,7 +58,7 @@ let resp = call marketplaceCanister.AddOrder(
     account3,
     record {
         stepBid=1000;
-        startPrice=20000;
+        startPrice=10000;
         tokenId=opt 1; 
         auctionTime=86400; 
         tokenPayment=dip20Canister; 
@@ -76,7 +76,7 @@ let resp = call marketplaceCanister.AddOrder(
     account1,
     record {
         stepBid=1000;
-        startPrice=20000;
+        startPrice=10000;
         tokenId=opt 2; 
         auctionTime=86400; 
         tokenPayment=dip20Canister; 

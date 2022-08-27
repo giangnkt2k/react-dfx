@@ -27,7 +27,14 @@ const getFilesFromMyCustomList = (myCustomList) => {
   return array
 }
 
-function FormStepTwo({ onNextStep, onPreviousStep, values, setValues }) {
+function FormStepTwo({
+  onNextStep,
+  onPreviousStep,
+  values,
+  setValues,
+  action,
+  setDataAction,
+}) {
   const formik = useFormik({
     initialValues: {
       file: [],
@@ -36,9 +43,8 @@ function FormStepTwo({ onNextStep, onPreviousStep, values, setValues }) {
       file: yup.array().min(3, "Need at least 3 images."),
     }),
     enableReinitialize: true,
-    onSubmit: (formikValues) => {
+    onSubmit: async (formikValues) => {
       onNextStep()
-      console.log(formikValues)
       setValues({
         ...values,
         s2: {
@@ -46,6 +52,12 @@ function FormStepTwo({ onNextStep, onPreviousStep, values, setValues }) {
         },
         s3: {},
       })
+      const expectInput = {
+        ...values.s1,
+        ...formikValues,
+      }
+      const res = await action(expectInput)
+      setDataAction(res)
     },
   })
 
@@ -92,7 +104,7 @@ function FormStepTwo({ onNextStep, onPreviousStep, values, setValues }) {
   return Object.keys(values).length === 2 ? (
     <MKBox
       component="section"
-      bgColor="white"
+      bgColor="grey-100"
       p={4}
       shadow="md"
       borderRadius="xl"

@@ -25,7 +25,7 @@ function ProcessingStep({ values, totalSteps }) {
   return Object.keys(values).length === totalSteps - 1 ? (
     <MKBox
       component="section"
-      bgColor="white"
+      bgColor="grey-100"
       p={4}
       shadow="md"
       borderRadius="xl"

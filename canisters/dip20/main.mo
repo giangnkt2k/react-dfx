@@ -13,6 +13,9 @@ import Principal "mo:base/Principal";
 import Result "mo:base/Result";
 import Time "mo:base/Time";
 
+// Do frontend khi connect ví xong không thể call tới backend motoko, 
+// nên chúng em sẽ để frontend tự lấy địa chỉ ví của người dùng và truyền bằng parameter caller.
+
 shared({caller}) actor class Dip20Token() = Self {
 	public shared query (doIHaveTokens__msg) func doIHaveTokens(minimum : Nat) : async Bool {
 		let caller = doIHaveTokens__msg.caller; // First input

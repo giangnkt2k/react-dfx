@@ -25,7 +25,7 @@ function SuccessStep({ values, totalSteps, success }) {
   return Object.keys(values).length === totalSteps && success ? (
     <MKBox
       component="section"
-      bgColor="white"
+      bgColor="grey-100"
       p={4}
       shadow="md"
       borderRadius="xl"

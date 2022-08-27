@@ -71,6 +71,15 @@ module {
         totalProfit: Nat;
     };
 
+    public type StakingInfoResp = {
+        owner: Principal;
+        startTime: Time.Time;
+        packageId: Nat;
+        timePoint: Time.Time;
+        amount: Nat;
+        totalProfit: Nat;
+    };
+
     public type ApiError = {
         #Unauthorized;
         #StakingPackageDoesNotExist;

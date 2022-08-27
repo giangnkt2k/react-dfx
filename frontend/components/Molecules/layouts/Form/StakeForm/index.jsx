@@ -11,6 +11,10 @@ import MKTypography from "components/MKTypography"
 import MKInput from "components/MKInput"
 import MKButton from "components/MKButton"
 import MKAvatar from "components/MKAvatar"
+import MKSelection from "components/MKSelection"
+
+// Import Component
+import StakePackage from "./StakePackage"
 
 // Import Icons
 import TwitterIcon from "@mui/icons-material/Twitter"
@@ -20,19 +24,28 @@ import InstagramIcon from "@mui/icons-material/Instagram"
 // Import Image
 import defaultAvatar from "assets/images/default-avatar.png"
 
-function MintProduct({ onNextStep, values, setValues, action, setDataAction }) {
+// Import Web3-Storage
+import { useCanister, useConnect } from "@connect2ic/react"
+import { Principal } from "@dfinity/principal"
+// Import const
+import { uploadToWeb3Storage, replaceString, STRING_TOKEN } from "const"
+
+function StakeForm({ dataItems, action, resAction, setResAction }) {
+  const [data, setData] = useState(dataItems[0])
   const formik = useFormik({
-    initialValues: values.s1,
+    initialValues: { amount: "", package: dataItems[0].id },
     validationSchema: yup.object({
-      file: yup.mixed().required("A file is required."),
-      name: yup.string().required("Field name is required."),
+      amount: yup
+        .number()
+        .typeError("Must be numeric.")
+        .required("Must be filled.")
+        .min(data.minStaking, `Must not be small than ${data.minStaking}`),
     }),
     enableReinitialize: true,
     onSubmit: async (values) => {
-      onNextStep()
-      setValues({ s1: values, s2: {} })
-      const res = await action(values.file, values.name, values.description)
-      setDataAction(res)
+      console.log(values)
+      const res = await action(values.package, values.amount)
+      setResAction(res)
     },
   })
 
@@ -40,29 +53,23 @@ function MintProduct({ onNextStep, values, setValues, action, setDataAction }) {
     formik.handleReset()
   }
 
-  const handleChangeFile = (event) => {
-    const files = event.target.files ? [...event.target.files] : []
-    if (files.length && files[0]) {
-      formik.setFieldValue("file", files[0], false)
-      formik.setFieldError("file", "")
-    }
-  }
+  useEffect(() => {
+    const filterData = dataItems.filter(
+      (ele) => ele.id === formik.values.package,
+    )[0]
+    setData(filterData)
+  }, [formik.values.package])
 
-  const handleOnClickFile = () => {
-    formik.setFieldValue("file", undefined, false)
-    setTimeout(() => {
-      formik.setFieldError("file", "A file is required")
-    }, 1000)
-  }
-
-  return Object.keys(values).length === 1 ? (
+  return (
     <MKBox
       component="section"
       bgColor="grey-100"
       p={4}
       shadow="md"
       borderRadius="xl"
+      m="auto"
       my={3}
+      sx={{ width: "800px !important" }}
     >
       <Container>
         <Grid
@@ -75,7 +82,7 @@ function MintProduct({ onNextStep, values, setValues, action, setDataAction }) {
           textAlign="center"
         >
           <MKTypography variant="h3" mb={1}>
-            Add to your collection
+            Stake token
           </MKTypography>
         </Grid>
         <Grid container item xs={12} lg={10} sx={{ mx: "auto" }}>
@@ -91,20 +98,17 @@ function MintProduct({ onNextStep, values, setValues, action, setDataAction }) {
               <Grid container spacing={3}>
                 <Grid item xs={12}>
                   <MKTypography variant="h6" mb={1}>
-                    File
+                    Amount Tokens
                   </MKTypography>
                   <MKInput
-                    id="file"
-                    type="file"
-                    name="file"
-                    onClick={(e) => {
-                      handleOnClickFile(e)
-                    }}
-                    onChange={(e) => {
-                      handleChangeFile(e)
-                    }}
-                    error={Boolean(formik.errors.file)}
-                    helperText={formik.errors.file}
+                    id="amount"
+                    name="amount"
+                    error={
+                      formik.touched.amount && Boolean(formik.errors.amount)
+                    }
+                    onChange={formik.handleChange}
+                    value={formik.values.amount}
+                    helperText={formik.touched.amount && formik.errors.amount}
                     variant="outlined"
                     fullWidth
                     placeholder="Type something"
@@ -112,48 +116,22 @@ function MintProduct({ onNextStep, values, setValues, action, setDataAction }) {
                 </Grid>
                 <Grid item xs={12}>
                   <MKTypography variant="h6" mb={1}>
-                    File Name
+                    Stake Package
                   </MKTypography>
-                  <MKInput
-                    id="name"
-                    name="name"
-                    error={formik.touched.name && Boolean(formik.errors.name)}
-                    onChange={formik.handleChange}
-                    value={formik.values.name}
-                    helperText={formik.touched.name && formik.errors.name}
-                    variant="outlined"
-                    fullWidth
-                    placeholder="Type something"
+                  <MKSelection
+                    items={dataItems}
+                    name="package"
+                    formik={formik}
                   />
                 </Grid>
                 <Grid item xs={12}>
-                  <MKTypography variant="h6" mb={1}>
-                    Description
+                  <MKTypography variant="subtitle1" mb={1} fontSize={"16px"}>
+                    Package Information
                   </MKTypography>
-                  <MKInput
-                    id="description"
-                    name="description"
-                    onChange={formik.handleChange}
-                    value={formik.values.description}
-                    variant="outlined"
-                    multiline
-                    fullWidth
-                    rows={6}
-                    placeholder="Type something"
-                  />
+                  <StakePackage data={data} />
                 </Grid>
               </Grid>
               <Grid container justifyContent="end" my={2}>
-                <Grid item xs={3} mr={2}>
-                  <MKButton
-                    type="reset"
-                    variant="outlined"
-                    color="dark"
-                    fullWidth
-                  >
-                    Reset
-                  </MKButton>
-                </Grid>
                 <Grid item xs={3} ml={2}>
                   <MKButton
                     type="submit"
@@ -161,7 +139,7 @@ function MintProduct({ onNextStep, values, setValues, action, setDataAction }) {
                     color="dark"
                     fullWidth
                   >
-                    Mint
+                    Stake
                   </MKButton>
                 </Grid>
               </Grid>
@@ -170,7 +148,7 @@ function MintProduct({ onNextStep, values, setValues, action, setDataAction }) {
         </Grid>
       </Container>
     </MKBox>
-  ) : null
+  )
 }
 
-export default MintProduct
+export default StakeForm

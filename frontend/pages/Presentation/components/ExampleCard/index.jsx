@@ -58,7 +58,7 @@ function ExampleCard({ product, seller, ...rest }) {
                   <p>
                     <strong>{replaceNumber(product.currentPrice)}</strong>
                     {product.currencyUnit}
-                    <span>/$37,717.8</span>
+                    {/* <span>/$37,717.8</span> */}
                   </p>
                 </div>
               </div>

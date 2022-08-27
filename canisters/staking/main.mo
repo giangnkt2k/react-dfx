@@ -67,7 +67,9 @@ shared({caller}) actor class Staking(dip20: Principal) = Self {
         };
     }; 
 
-    public shared(msg) func Stake(caller: Principal, packageId: Nat, amount: Nat): async Types.StakeResult {
+    public shared(msg) func Stake(caller: Principal, pId: Nat64, am: Nat64): async Types.StakeResult {
+        let packageId = Nat64.toNat(pId);
+        let amount = Nat64.toNat(am);
         switch (idToStakingPackage.get(packageId)) {
             case null{
                 return #Err(#StakingPackageDoesNotExist);

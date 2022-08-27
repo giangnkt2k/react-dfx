@@ -37,27 +37,31 @@ function StakeToken() {
   const [dataStake, setDataStake] = useState()
   const { principal } = useConnect()
 
-  const [staking, { loadingDip, errorDip }] = useCanister("staking", {
+  const [staking, { loadingStaking, errorStaking, canisterDefinition }] =
+    useCanister("staking", {
+      mode: "anonymous",
+    })
+  const [dip20, { loadingDip20, errorDip20 }] = useCanister("dip20", {
     mode: "anonymous",
   })
 
   useEffect(async () => {
     try {
       const dataRes = await staking.GetStakingPackage()
+      console.log(dataRes)
       setData(convertData(dataRes))
     } catch (e) {
       console.log(e)
     }
   }, [])
 
-  useEffect(() => {
-    console.log(dataStake)
-  }, [dataStake])
-
-  console.log(principal)
-
   const uploadStakingPackage = async (packageId, amount) => {
     try {
+      await dip20.approve(
+        Principal.fromText(principal),
+        Principal.fromText(canisterDefinition.canisterId),
+        BigInt(amount),
+      )
       return await staking.Stake(
         Principal.fromText(principal),
         packageId,
@@ -67,6 +71,11 @@ function StakeToken() {
       console.log(e)
     }
   }
+
+  useEffect(async () => {
+    dataStake ? console.log(dataStake) : null
+    // TODO: Handle error success response.
+  }, [dataStake])
 
   return (
     <>

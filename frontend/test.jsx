@@ -14,8 +14,11 @@ import StakeToken from "pages/FormPages/StakeToken"
 import defaultRoutes from "routes/routesProcessing"
 import { Container } from "@mui/material"
 
+import StakeTable from "./components/Molecules/layouts/Table/StakeTable"
+import MyStake from "pages/TablePages/MyStake"
+
 function Test() {
-  return <StakeToken />
+  return <MyStake />
 }
 
 export default Test

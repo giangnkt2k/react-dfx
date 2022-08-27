@@ -68,6 +68,8 @@ import Dropdowns from "layouts/sections/elements/dropdowns"
 import ProgressBars from "layouts/sections/elements/progress-bars"
 import Toggles from "layouts/sections/elements/toggles"
 import Typography from "layouts/sections/elements/typography"
+import StakeToken from "pages/FormPages/StakeToken"
+import MyStake from "pages/TablePages/MyStake"
 
 const routes = [
   {
@@ -246,6 +248,16 @@ const routes = [
         name: "detail product bid",
         route: "/pages/detailProduct/ProductDetailBid/:id",
         component: <ProductDetailBid />,
+      },
+      {
+        name: "stake table",
+        route: "/stake",
+        component: <MyStake />,
+      },
+      {
+        name: "stake token",
+        route: "/stake/create",
+        component: <StakeToken />,
       },
     ],
   },

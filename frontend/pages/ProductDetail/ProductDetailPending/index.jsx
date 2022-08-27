@@ -4,6 +4,7 @@ import Container from "@mui/material/Container";
 import Grid from "@mui/material/Grid";
 import Link from "@mui/material/Link";
 import Stack from "@mui/material/Stack";
+
 // Material Kit 2 React components
 import MKBox from "components/MKBox";
 import MKButton from "components/MKButton";
@@ -23,7 +24,7 @@ import Transaction from "./tabs/transaction.jsx";
 import { useCanister } from "@connect2ic/react"
 import { Route, Routes, useParams } from 'react-router-dom';
 import { useBalance, useWallet } from "@connect2ic/react";
-import { Principal } from '@dfinity/principal';
+import { Principal } from '@dfinity/principal'
 // import { Nat } from "@dfinity/nat"
 import { useStore } from '../../../store';
 import { useConnect } from '@connect2ic/react';
@@ -144,16 +145,15 @@ function ProductDetailBid() {
     else {
       try {
 
-        console.log('-->', typeof(principal))
-        const res = await dip20.approve(Principal.fromText(principal), Principal.fromText(stateMarket), BigInt(inputNumToken))
+        console.log('-->', Principal.fromText(principal))
+        const res = await dip20.approve(Principal.fromText(principal), Principal.fromText(stateMarket), BigInt(3600))
         console.log('mum', res);  
         const biding = await marketplace_auction.BidAuction(Principal.fromText(principal),{
           auctionId: 2,
-          amount: BigInt(inputNumToken),
+          amount: 3600,
         })
         console.log('biding', biding);
-        getProduct()
-        getHistoryBid()
+
       }
       catch (e) {
         console.log('error', e)
@@ -386,7 +386,7 @@ function ProductDetailBid() {
               </MKBox>
             </TabPanel>
             <TabPanel value={value} index={2}>
-              <Transaction data={listBids} principal={principal} product={product.Ok.product} />
+              <Transaction data={listBids} />
             </TabPanel>
           </MKBox></> : null}
     </BaseLayout>

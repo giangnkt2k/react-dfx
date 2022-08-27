@@ -58,7 +58,7 @@ let resp = call marketplaceCanister.AddOrder(
     account3,
     record {
         stepBid=1000;
-        startPrice=20000;
+        startPrice=10000;
         tokenId=opt 1; 
         auctionTime=86400; 
         tokenPayment=dip20Canister; 
@@ -76,7 +76,7 @@ let resp = call marketplaceCanister.AddOrder(
     account1,
     record {
         stepBid=1000;
-        startPrice=20000;
+        startPrice=10000;
         tokenId=opt 2; 
         auctionTime=86400; 
         tokenPayment=dip20Canister; 

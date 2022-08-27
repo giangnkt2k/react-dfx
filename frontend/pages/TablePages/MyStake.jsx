@@ -11,7 +11,7 @@ import moment from "moment"
 
 const convertData = (data, subData) => {
   return data.map((item) => {
-    const packageData = subData.filter((item) => item.id === data.packageId)
+    const packageData = subData.filter((ele) => ele.id === data.packageId)
     return {
       totalProfit: parseInt(item.totalProfit),
       amount: parseInt(item.amount),

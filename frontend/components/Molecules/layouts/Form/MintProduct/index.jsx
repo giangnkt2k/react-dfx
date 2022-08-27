@@ -20,20 +20,9 @@ import InstagramIcon from "@mui/icons-material/Instagram"
 // Import Image
 import defaultAvatar from "assets/images/default-avatar.png"
 
-// Import Web3-Storage
-import { useCanister, useConnect } from "@connect2ic/react"
-import { Principal } from "@dfinity/principal"
-// Import const
-import { uploadToWeb3Storage, replaceString, STRING_TOKEN } from "const"
-
-function MintProduct({ onNextStep, values, setValues }) {
-  const [dip721, { loadingDip, errorDip }] = useCanister("dip721", {
-    mode: "anonymous",
-  })
-  const { principal } = useConnect()
-
+function MintProduct({ onNextStep, values, setValues, action, setDataAction }) {
   const formik = useFormik({
-    initialValues: values,
+    initialValues: values.s1,
     validationSchema: yup.object({
       file: yup.mixed().required("A file is required."),
       name: yup.string().required("Field name is required."),
@@ -41,22 +30,9 @@ function MintProduct({ onNextStep, values, setValues }) {
     enableReinitialize: true,
     onSubmit: async (values) => {
       onNextStep()
-      try {
-        const cid = await uploadToWeb3Storage([values.file])
-        const data = {
-          description: values.description,
-          name: values.name,
-          url: replaceString(STRING_TOKEN, {
-            cid: cid,
-            name: values.file.name,
-          }),
-        }
-        console.log(principal)
-        const res = await dip721.mint(Principal.fromText(principal), data)
-        console.log(res)
-      } catch (e) {
-        console.log(e)
-      }
+      setValues({ s1: values, s2: {} })
+      const res = await action(values.file, values.name, values.description)
+      setDataAction(res)
     },
   })
 
@@ -79,10 +55,10 @@ function MintProduct({ onNextStep, values, setValues }) {
     }, 1000)
   }
 
-  return (
+  return Object.keys(values).length === 1 ? (
     <MKBox
       component="section"
-      bgColor="white"
+      bgColor="grey-100"
       p={4}
       shadow="md"
       borderRadius="xl"
@@ -194,7 +170,7 @@ function MintProduct({ onNextStep, values, setValues }) {
         </Grid>
       </Container>
     </MKBox>
-  )
+  ) : null
 }
 
 export default MintProduct

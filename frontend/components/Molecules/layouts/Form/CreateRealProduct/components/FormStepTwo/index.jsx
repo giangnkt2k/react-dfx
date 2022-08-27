@@ -92,7 +92,7 @@ function FormStepTwo({ onNextStep, onPreviousStep, values, setValues }) {
   return Object.keys(values).length === 2 ? (
     <MKBox
       component="section"
-      bgColor="white"
+      bgColor="grey-100"
       p={4}
       shadow="md"
       borderRadius="xl"

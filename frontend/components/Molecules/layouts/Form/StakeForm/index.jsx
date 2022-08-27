@@ -63,7 +63,7 @@ function StakeForm({ dataItems, action, resAction, setResAction }) {
   return (
     <MKBox
       component="section"
-      bgColor="white"
+      bgColor="grey-100"
       p={4}
       shadow="md"
       borderRadius="xl"

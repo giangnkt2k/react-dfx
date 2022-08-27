@@ -32,7 +32,7 @@ function DauProgress({ progress }) {
   return (
     <MKBox
       component="section"
-      bgColor="white"
+      bgColor="grey-100"
       py={4}
       px={10}
       shadow="md"

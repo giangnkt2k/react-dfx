@@ -54,12 +54,14 @@ function StakeToken() {
     console.log(dataStake)
   }, [dataStake])
 
+  console.log(principal)
+
   const uploadStakingPackage = async (packageId, amount) => {
     try {
       return await staking.Stake(
-        Principal.formText(principal),
+        Principal.fromText(principal),
         packageId,
-        amount,
+        BigInt(amount),
       )
     } catch (e) {
       console.log(e)

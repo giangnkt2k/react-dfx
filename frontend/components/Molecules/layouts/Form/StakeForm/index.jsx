@@ -44,7 +44,7 @@ function StakeForm({ dataItems, action, resAction, setResAction }) {
     enableReinitialize: true,
     onSubmit: async (values) => {
       console.log(values)
-      const res = await action(values.id, values.amount)
+      const res = await action(values.package, values.amount)
       setResAction(res)
     },
   })

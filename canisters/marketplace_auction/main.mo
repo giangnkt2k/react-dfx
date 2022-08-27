@@ -465,8 +465,9 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared(msg) func ClaimNft(caller: Principal, auctionId: Nat): async Types.ClaimAuctionResult {
+	public shared(msg) func ClaimNft(caller: Principal, id: Nat64): async Types.ClaimAuctionResult {
 		// assert not Principal.isAnonymous(caller);
+		let auctionId = Nat64.toNat(id);
 		switch(idToAuction.get(auctionId)) {
 			case null {
 				return #Err(#AuctionNotExist);
@@ -533,8 +534,10 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared(msg) func RefundToken(caller: Principal, idAuction: Nat, idBid: Nat) : async Types.ClaimAuctionResult {
+	public shared(msg) func RefundToken(caller: Principal, _idAuction: Nat64, _idBid: Nat64) : async Types.ClaimAuctionResult {
 		// assert not Principal.isAnonymous(caller);
+		let idAuction = Nat64.toNat(_idAuction);
+		let idBid = Nat64.toNat(_idBid);
 		switch(idToAuction.get(idAuction)) {
 			case null {
 				return #Err(#AuctionNotExist);
@@ -583,8 +586,9 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared(msg) func ClaimToken(caller: Principal, idAuction: Nat) : async Types.ClaimAuctionResult {
+	public shared(msg) func ClaimToken(caller: Principal, id: Nat64) : async Types.ClaimAuctionResult {
 		// assert not Principal.isAnonymous(caller);
+		let idAuction = Nat64.toNat(id);
 		switch(idToAuction.get(idAuction)) {
 			case null {
 				return #Err(#AuctionNotExist);

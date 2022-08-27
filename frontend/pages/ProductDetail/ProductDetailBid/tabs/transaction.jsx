@@ -36,17 +36,17 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 function CustomizedTables({ data, principal, product }) {
   const [marketplace_auction, {canisterDefinition}] = useCanister("marketplace_auction", { mode: 'anonymous' })
 
-  const [rows, setRows] = React.useState(undefined);
   const settingData = () => {
-    var temp = [];
     console.log('principal=>>>', principal);
     console.log('product=>>>', product);
     console.log('data=>>>', data, (Object.keys(data[3].status)));
-    console.log(((product.highestBidId).toString() === data[3].id.toString()))
+    console.log((product.highestBidId).toString())
   }
   const handleClaim = async (IdBid) => {
     try {
       const res = await marketplace_auction.RefundToken(Principal.fromText(principal), parseInt(product.id), parseInt(IdBid))
+      
+      await settingData();
       console.log('alo', res)
     }
     catch(e) {
@@ -80,7 +80,7 @@ function CustomizedTables({ data, principal, product }) {
               <StyledTableCell>{row.amount.toString()}</StyledTableCell>
               <StyledTableCell>{Object.keys(row.status)[0]}</StyledTableCell>
               <StyledTableCell>
-                {((row.bider.toText() === principal)) ?
+                {((row.bider.toText() === principal) && (parseInt(product.highestBidId) !== parseInt(row.id)) && Object.keys(row.status)[0] === 'Deposited') ?
                   <MKButton onClick={() =>
                     handleClaim(row.id)}>Claim</MKButton>
                   :

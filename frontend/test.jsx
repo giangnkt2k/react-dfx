@@ -6,7 +6,7 @@ import MintProduct from "components/Molecules/layouts/Form/MintProduct"
 import ProcessingStep from "components/Molecules/layouts/Form/PublicStep/ProcessingStep"
 // import CreateRealProduct from "components/Molecules/layouts/Form/CreateRealProduct"
 
-import Container from "@mui/material/Container"
+import Stake from "pages/Stake/AddStakeToken"
 
 import CreateSeller from "pages/FormPages/CreateSeller"
 import MintPage from "pages/FormPages/MintPage"

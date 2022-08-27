@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-import { makeStyles } from "@mui/styles"
 
 // @mui material components
 import Container from "@mui/material/Container"
@@ -13,6 +12,7 @@ import MKButton from "components/MKButton"
 import MKTypography from "components/MKTypography"
 import MKAvatar from "components/MKAvatar"
 import MKInput from "components/MKInput"
+import { makeStyles } from "@mui/styles"
 
 // Material Kit 2 React examples
 import MyHeaderNavbar from "components/Molecules/layouts/Header/MyHeaderNavbar"
@@ -27,10 +27,6 @@ import routesHeader from "routes/routesHeader"
 //Styles
 import { useConnect } from "@connect2ic/react"
 
-// Import Constant
-import { VIDEO_TAG_CSS } from "const"
-import bgVideo from "assets/video/top-block-bg_1.mp4"
-
 const useStyles = makeStyles({
   sticky_header: {
     position: "sticky",
@@ -39,10 +35,14 @@ const useStyles = makeStyles({
   },
 })
 
+// Import Constant
+import { VIDEO_TAG_CSS } from "const"
+import bgVideo from "assets/video/top-block-bg_1.mp4"
+
 function DauHeader({ color, shadow, changeColorOnScroll }) {
   const classes = useStyles()
-  const { isConnected } = useConnect()
-  // console.log(isConnected, "? ")
+  const { isConnected, principal } = useConnect()
+  console.log(isConnected, "? ", principal)
 
   const [colorHeader, setColorHeader] = useState(changeColorOnScroll.color)
   const [shadowHeader, setShadowHeader] = useState(changeColorOnScroll.shadow)

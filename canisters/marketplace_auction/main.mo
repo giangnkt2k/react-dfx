@@ -31,7 +31,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
     private stable var fee = 10;
 	private stable var timePending = 8600000000;
 
-    private stable var supportedPaymentStore: [(Principal, Bool)] = [];
+    private stable var supportedPaymentStore: [(Principal, Types.SupportPaymentResp)] = [];
     private stable var auctionStore: [(Nat, Types.Auction)] = [];
     private stable var bidStore: [(Nat, Types.Bid)] = [];
 	private stable var listSeller: [(Principal, Types.Seller)] = [];
@@ -42,7 +42,7 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 
     private var idToAuction: HashMap.HashMap<Nat, Types.Auction> = HashMap.fromIter(auctionStore.vals(), 10, Nat.equal, Hash.hash);
     private var idToBid: HashMap.HashMap<Nat, Types.Bid> = HashMap.fromIter(bidStore.vals(), 10, Nat.equal, Hash.hash);
-    private var paymentExist: HashMap.HashMap<Principal, Bool> = HashMap.fromIter(supportedPaymentStore.vals(), 10, Principal.equal, Principal.hash);
+    private var paymentExist: HashMap.HashMap<Principal, Types.SupportPaymentResp> = HashMap.fromIter(supportedPaymentStore.vals(), 10, Principal.equal, Principal.hash);
     private var auctionToBids = HashMap.HashMap<Nat, HashMap.HashMap<Nat, Types.Bid>>(1, Nat.equal, Hash.hash);
 	private var idToSeller: HashMap.HashMap<Principal, Types.Seller> = HashMap.fromIter(listSeller.vals(), 10, Principal.equal, Principal.hash);
 	private var addressManage: HashMap.HashMap<Principal, Bool> = HashMap.fromIter(managerStore.vals(), 10, Principal.equal, Principal.hash);
@@ -51,9 +51,9 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 	private var auctionPendingToVotes = HashMap.HashMap<Nat, HashMap.HashMap<Principal, Types.Vote>>(1, Nat.equal, Hash.hash);
 
 	//SupportedPayment
-	public query func GetSupportedPayment() : async [Principal] {
-		return Iter.toArray(Iter.map<(Principal, Bool), Principal>(paymentExist.entries(), func ((address: Principal, value: Bool)): Principal{
-			return address;
+	public query func GetSupportedPayment() : async [Types.SupportPaymentResp] {
+		return Iter.toArray(Iter.map(paymentExist.entries(), func ((address: Principal, value: Types.SupportPaymentResp)): Types.SupportPaymentResp{
+			return value;
 		}));
 	};
 
@@ -66,7 +66,15 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 			return #Err(#AddressPaymentAllreadyExist);
 		};
 
-		paymentExist.put(address, true);
+		let symbol = await dauTokenProvider.symbol();
+		let logo = await dauTokenProvider.logo();
+
+
+		paymentExist.put(address, {
+			id=address;
+			title=symbol;
+			logo=logo;
+		});
 
 		#Ok(true)
 	};
@@ -465,8 +473,9 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared(msg) func ClaimNft(caller: Principal, auctionId: Nat): async Types.ClaimAuctionResult {
+	public shared(msg) func ClaimNft(caller: Principal, id: Nat64): async Types.ClaimAuctionResult {
 		// assert not Principal.isAnonymous(caller);
+		let auctionId = Nat64.toNat(id);
 		switch(idToAuction.get(auctionId)) {
 			case null {
 				return #Err(#AuctionNotExist);
@@ -533,8 +542,10 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared(msg) func RefundToken(caller: Principal, idAuction: Nat, idBid: Nat) : async Types.ClaimAuctionResult {
+	public shared(msg) func RefundToken(caller: Principal, _idAuction: Nat64, _idBid: Nat64) : async Types.ClaimAuctionResult {
 		// assert not Principal.isAnonymous(caller);
+		let idAuction = Nat64.toNat(_idAuction);
+		let idBid = Nat64.toNat(_idBid);
 		switch(idToAuction.get(idAuction)) {
 			case null {
 				return #Err(#AuctionNotExist);
@@ -583,8 +594,9 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		};
 	};
 
-	public shared(msg) func ClaimToken(caller: Principal, idAuction: Nat) : async Types.ClaimAuctionResult {
+	public shared(msg) func ClaimToken(caller: Principal, id: Nat64) : async Types.ClaimAuctionResult {
 		// assert not Principal.isAnonymous(caller);
+		let idAuction = Nat64.toNat(id);
 		switch(idToAuction.get(idAuction)) {
 			case null {
 				return #Err(#AuctionNotExist);

@@ -37,8 +37,8 @@ const useStyles = makeStyles({
 
 function DauHeader({ color, shadow, changeColorOnScroll }) {
   const classes = useStyles()
-  const { isConnected } = useConnect()
-  console.log(isConnected, "? ")
+  const { isConnected, principal } = useConnect()
+  console.log(isConnected, "? ", principal)
 
   const [colorHeader, setColorHeader] = useState(changeColorOnScroll.color)
   const [shadowHeader, setShadowHeader] = useState(changeColorOnScroll.shadow)

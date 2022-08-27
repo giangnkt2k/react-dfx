@@ -33,13 +33,6 @@ import { useEffect } from 'react';
 const replaceNumber = (num) => {
   return parseInt(num);
 }
-const replaceTime = (time) => {
-  return moment(time / 1000000).format("DD MMM YYYY hh:mm a");
-}
-const deadLineTime = (currentTime, totalDay) => {
-  const deadLine = replaceNumber(currentTime) + replaceNumber(totalDay);
-  return moment(deadLine / 1000000).format("DD MMM YYYY hh:mm a");
-}
 // Images
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -87,6 +80,7 @@ function ProductDetailBid() {
   const params = useParams();
   const [state, dispatch] = useStore()
   const stateMarket = canisterDefinition.canisterId;
+  console.log('stateMarket',stateMarket)
   const handleChangeInputBid = event => {
     setInputNumToken(event.target.value);
 
@@ -108,7 +102,6 @@ function ProductDetailBid() {
       const durTime = parseInt(datas.Ok.product.auctionTime) / Math.pow(10, 6)
       const r = (curTime - strTime) / durTime
 
-      console.log('--->', curTime, strTime, durTime, r)
       if (parseInt(dateLine.diff(currentTime, 'seconds')) > 0) {
         datas.Ok.product.processToBid = parseInt(dateLine.diff(currentTime, 'seconds')) + 'seconds';
       } else {
@@ -155,8 +148,8 @@ function ProductDetailBid() {
     }
     else {
       try {
-        console.log('-->', typeof (principal))
-        const res = await dip20.approve(Principal.fromText(principal), Principal.fromText(stateMarket), BigInt(inputNumToken))
+        // console.log('-->', typeof (principal))
+        const res = await dip20.approve(Principal.fromText("hujs2-qmric-qgft4-ts5qp-anato-nrfh3-w42u6-y5zl6-kh2iv-yfer7-fae"), Principal.fromText(stateMarket), BigInt(inputNumToken))
         console.log('mum', res);
         const biding = await marketplace_auction.BidAuction(Principal.fromText(principal), {
           auctionId: 2,
@@ -175,8 +168,9 @@ function ProductDetailBid() {
   const onConnectPlug = async () => {
     try {
       const publicKey = await window.ic.plug.requestConnect();
+      console.log('wallet-->', wallet);
       console.log(`The connected user's public key is:`, publicKey);
-      console.log('wallet-->', wallet)
+
     } catch (e) {
       console.log(e);
     }
@@ -195,13 +189,13 @@ function ProductDetailBid() {
 
   const handleClaimToken = async () => {
     console.log('wallet-->', wallet)
-    if (!wallet) {
+    if (!wallet || !principal) {
       await onConnectPlug()
     } else {
       try {
-        console.log('-->', typeof (principal), Principal.fromText(principal))
+        console.log('-->', typeof (principal), Principal.fromText(principal),BigInt(product.Ok.product.id))
 
-        const res = await marketplace_auction.ClaimNft(Principal.fromText(principal), parseInt(product.Ok.product.id))
+        const res = await marketplace_auction.ClaimNft(Principal.fromText(principal), BigInt(3))
         console.log('res--<>', res)
       }
       catch (e) {

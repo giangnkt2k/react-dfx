@@ -13,6 +13,9 @@ import Time "mo:base/Time";
 
 import Types "./types";
 
+// Do frontend khi connect ví xong không thể call tới backend motoko, 
+// nên chúng em sẽ để frontend tự lấy địa chỉ ví của người dùng và truyền bằng parameter caller, thay vì lấy caller từ msg.
+
 shared({caller}) actor class Staking(dip20: Principal) = Self {
     private var owner = caller;
     private stable var idCounter: Nat = 1;
@@ -163,13 +166,22 @@ shared({caller}) actor class Staking(dip20: Principal) = Self {
         };
     };
 
-    public shared query(msg) func GetMyStaking(caller: Principal): async [Types.StakingInfo] {
+    public shared query(msg) func GetMyStaking(caller: Principal): async [Types.StakingInfoResp] {
         switch (addressToStaking.get(caller)) {
             case null {
                 return [];
             };
             case (?listStaking) {
-                return Iter.toArray(listStaking.vals());
+                return Iter.toArray(Iter.map(listStaking.entries(), func ((id: Nat, auction: Types.StakingInfo)) : Types.StakingInfoResp {
+                    return {
+                        owner = auction.owner;
+                        startTime = auction.startTime;
+                        amount = auction.amount;
+                        timePoint = auction.timePoint;
+                        totalProfit = auction.totalProfit;
+                        packageId = id;
+                    };
+                }))
             };
         };
     };
@@ -255,4 +267,8 @@ shared({caller}) actor class Staking(dip20: Principal) = Self {
 		};
         stakingInfo := [];
 	};
+
+    system func heartbeat() : async () {
+
+    }
 }

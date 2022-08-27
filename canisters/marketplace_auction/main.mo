@@ -1138,12 +1138,12 @@ shared(msg) actor class Dacution(dip20: Principal, dip721: Principal, staking: P
 		auctionToVotesStore := [];
 	};
 
-	system func heartbeat() : async () {
-		Iter.iterate(
-			idToAuctionPending.entries(),func ((tokenId: Nat, pendingAution: Types.AuctionPending)) {
-				if (Time.now() <= pendingAution.timeStart + pendingAution.auctionTime) {
-					await _automaticAcceptAuctionPending(pendingAution);
-				}
-		});
-	}
+	// system func heartbeat() : async () {
+	// 	Iter.iterate(
+	// 		idToAuctionPending.entries(),func ((tokenId: Nat, pendingAution: Types.AuctionPending)) {
+	// 			if (Time.now() <= pendingAution.timeStart + pendingAution.auctionTime) {
+	// 				await _automaticAcceptAuctionPending(pendingAution);
+	// 			}
+	// 	});
+	// }
 }

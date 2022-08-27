@@ -21,9 +21,11 @@ import logoDAU from "assets/images/logo-dau.png"
 
 // Routes
 import routes from "routes/routesUser"
+import routesHeader from "routes/routesHeader"
 
 //Styles
 import { makeStyles } from "@mui/styles"
+import { useConnect } from "@connect2ic/react"
 
 const useStyles = makeStyles({
   sticky_header: {
@@ -33,8 +35,10 @@ const useStyles = makeStyles({
   },
 })
 
-function DauHeader({ color, shadow, changeColorOnScroll, isLogin }) {
+function DauHeader({ color, shadow, changeColorOnScroll }) {
   const classes = useStyles()
+  const { isConnected } = useConnect()
+  console.log(isConnected, "? ")
 
   const [colorHeader, setColorHeader] = useState(changeColorOnScroll.color)
   const [shadowHeader, setShadowHeader] = useState(changeColorOnScroll.shadow)
@@ -70,66 +74,9 @@ function DauHeader({ color, shadow, changeColorOnScroll, isLogin }) {
     >
       <MyHeaderNavbar
         routes={routes}
-        actions={
-          isLogin
-            ? [
-                {
-                  type: "internal",
-                  route: "/",
-                  label: "Become a seller",
-                  color: "info",
-                  isBtn: false,
-                },
-                {
-                  type: "internal",
-                  route: "/",
-                  label: "New request",
-                  color: "info",
-                  isBtn: false,
-                },
-              ]
-            : [
-                {
-                  type: "internal",
-                  route: "/",
-                  label: "Become a seller",
-                  color: "info",
-                  isBtn: false,
-                },
-                {
-                  type: "internal",
-                  route: "/",
-                  label: "New request",
-                  color: "info",
-                  isBtn: false,
-                },
-                {
-                  type: "internal",
-                  route: "/",
-                  label: "Sign up",
-                  color: "info",
-                  isBtn: false,
-                },
-                {
-                  type: "external",
-                  route: "/",
-                  label: "Sign in",
-                  color: "info",
-                  isBtn: true,
-                },
-              ]
-        }
-        subActions={[
-          {
-            label: "All products",
-            color: "info",
-          },
-          {
-            label: "Pending products",
-            color: "info",
-          },
-        ]}
-        isLogin={isLogin}
+        actions={isConnected ? routesHeader.isLogin : routesHeader.isLogout}
+        subActions={routesHeader.subHeaders}
+        isLogin={isConnected}
         transparent
         relative
       />

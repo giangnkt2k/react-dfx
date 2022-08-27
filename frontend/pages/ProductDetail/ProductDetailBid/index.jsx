@@ -87,7 +87,6 @@ function ProductDetailBid() {
   const params = useParams();
   const [state, dispatch] = useStore()
   const stateMarket = canisterDefinition.canisterId;
-  console.log('marketplace_auction', canisterDefinition.canisterId, "1>>>>>>")
   const handleChangeInputBid = event => {
     setInputNumToken(event.target.value);
 

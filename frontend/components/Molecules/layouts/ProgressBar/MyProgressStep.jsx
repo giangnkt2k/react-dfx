@@ -110,11 +110,17 @@ const MyProgressStep = ({
   const backgroundColor = firstItem
     ? status === "new"
       ? "secondary"
+      : status === "error"
+      ? "error"
       : color
     : "transparent"
 
   const colorStep =
-    status === "done" ? color : status === "pending" ? "light" : "secondary"
+    status === "done"
+      ? color
+      : ["pending", "error"].includes(status)
+      ? "light"
+      : "secondary"
 
   if (placement === "left") {
     placementValue = "flex-start"

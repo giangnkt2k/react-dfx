@@ -25,7 +25,6 @@ import routes from "routes/routesUser"
 import routesHeader from "routes/routesHeader"
 
 //Styles
-import { makeStyles } from "@mui/styles"
 import { useConnect } from "@connect2ic/react"
 
 const useStyles = makeStyles({
@@ -39,7 +38,7 @@ const useStyles = makeStyles({
 function DauHeader({ color, shadow, changeColorOnScroll }) {
   const classes = useStyles()
   const { isConnected } = useConnect()
-  console.log(isConnected, "? ")
+  // console.log(isConnected, "? ")
 
   const [colorHeader, setColorHeader] = useState(changeColorOnScroll.color)
   const [shadowHeader, setShadowHeader] = useState(changeColorOnScroll.shadow)
